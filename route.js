@@ -6,12 +6,20 @@ const dotenv = require('dotenv').config();
 
 router.use(bodyParser.urlencoded({ extended: false }));
 
-router.get("/", (req, res) => {
+// INSERT
+router.get("/insert", (req, res) => {
     const test_code = "GA001"
     const test_name = "쿼리테스트다"
 
     con.query('insert into TEST values (?,?)', [test_code, test_name], () => {
         console.log("insert 완료");
+    })
+})
+
+// SELECT
+router.get("/select", (req, res) => {
+    con.query('select * from TEST', (err, result) => {
+        res.send(result);
     })
 })
 
