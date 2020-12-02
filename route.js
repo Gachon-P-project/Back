@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require('mysql');
-const bodyParser = require('body-parser');
 const dotenv = require('dotenv').config();
-const sequelize = require('sequelize');
 
 // DB 연결
 const mysqlConObj = require('./config/mysql');
@@ -18,25 +15,34 @@ router.post("/insert", (req, res) => {
         wrt_date: new Date(),
         view_cnt: 1,
         reply_yn: "Y",
-        major_name: "컴퓨터공학과",
-        subject_name: "피프로젝트",
-        professor_name: "황희정",
+        major_name: "소프트웨어과",
+        subject_name: "소프트웨어개론",
+        professor_name: "홍길동",
         user_id: "jy11290"
     };
-
+    console.log(req.body.post_title);
     const sql = "INSERT INTO BOARD SET ? "
 
-    db.query(sql, dataObj, (err, result) => {
-        if(err) console.log("insert err : ", err);
-        else console.log("insert result : ", result);
-    })
+    // db.query(sql, dataObj, (err, result) => {
+    //     if(err) console.log("insert err : ", err);
+    //     else console.log("insert result : ", result);
+    // })
 });
 
 // BOARD SELECT
-router.get("/select", (req, res) => {
-    const sql = "SELECT * FROM BOARD;"
-    db.query(sql, (err, results) => {
-        console.log("results: ", results);
+router.get("/select/:subject/:professor", (req, res) => {
+    console.log("select");
+    console.log(req.params);
+    
+    const sql = "SELECT * FROM BOARD WHERE subject_name=? AND professor_name=?";
+    db.query(sql, [req.params.subject, req.params.professor], (err, results) => {
+        if (err) {
+            console.log("select err : ", err)
+        }
+        else {
+            console.log("select completed")
+            res.send(results)
+        }
     })
 })
 
