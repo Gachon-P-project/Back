@@ -13,6 +13,7 @@ router.post("/insert", (req, res) => {
     const dataObj = {
         post_title: req.body.post_title,
         post_contents: req.body.post_contents,
+        post_like: 0,
         wrt_date: new Date(),
         view_cnt: 1,
         reply_yn: req.body.reply_yn,
@@ -21,7 +22,7 @@ router.post("/insert", (req, res) => {
         professor_name: req.body.professor_name,
         user_id: req.body.user_id
     };
-    console.log(req.body.post_title);
+
     const sql = "INSERT INTO BOARD SET ? "
 
     db.query(sql, dataObj, (err, result) => {
