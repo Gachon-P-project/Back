@@ -7,6 +7,56 @@ const mysqlConObj = require('./config/mysql');
 const db = mysqlConObj.init();
 mysqlConObj.open(db);
 
+// USER CREATE - 새 유저 등록
+// user_id가 기본키로 등록되어 이미 등록된 사용자는 중복 등록되지 않는다.
+router.post("/user/insert", (req, res) => {
+    const dataObj = {
+        user_id: req.body.user_id,
+        user_major: req.body.user_major,
+        auth_level: req.body.auth_level
+    };
+
+    const sql = "INSERT INTO USER SET ? "
+
+    db.query(sql, dataObj, (err, result) => {
+        if(err) {
+            console.log("insert err : ", err);
+            res.send("유저 등록 실패")
+        }
+        else {
+            console.log("insert result : ", result);
+            res.send("유저 등록 성공")
+        }
+    })
+})
+
+// REPLY CREATE - 새 댓글 작성
+// 클라이언트에서 post_no과 user_id를 파라미터로 전달한다.
+// 작성할 댓글 내용은 body를 통해 전달된다.
+// post_no과 user_id는 외래키로 지정되어 유효하지 않은 값이 전달되면 에러가 발생한다.
+router.post("/reply/insert/:user/:post", (req, res) => {
+    const dataObj = {
+        reply_contents: req.body.reply_contents,
+        wrt_date: new Date(),
+        user_id: req.params.user,
+        post_no: req.params.post,
+        reply_like: 0
+    };
+
+    const sql = "INSERT INTO REPLY SET ? "
+
+    db.query(sql, dataObj, (err, result) => {
+        if(err) {
+            console.log("insert err : ", err);
+            res.send("댓글 작성 실패")
+        }
+        else {
+            console.log("insert result : ", result);
+            res.send("댓글 작성 성공")
+        }
+    })
+})
+
 // BOARD CREATE - 과목게시판 새 글 작성
 // 클라이언트는 body에 post_title, post_contents, reply_yn, major_name, subject_name, professor_name, user_id를 전달
 router.post("/insert", (req, res) => {
