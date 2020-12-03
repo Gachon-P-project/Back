@@ -7,29 +7,37 @@ const mysqlConObj = require('./config/mysql');
 const db = mysqlConObj.init();
 mysqlConObj.open(db);
 
-// BOARD INSERT
+// BOARD INSERT - 과목게시판 새 글 작성
+// 클라이언트는 body에 post_title, post_contents, reply_yn, major_name, subject_name, professor_name, user_id를 전달
 router.post("/insert", (req, res) => {
     const dataObj = {
-        post_title: "글 작성 테스트",
-        post_contents: "글 작성 테스트 글 내용",
+        post_title: req.body.post_title,
+        post_contents: req.body.post_contents,
         wrt_date: new Date(),
         view_cnt: 1,
-        reply_yn: "Y",
-        major_name: "소프트웨어과",
-        subject_name: "소프트웨어개론",
-        professor_name: "홍길동",
-        user_id: "jy11290"
+        reply_yn: req.body.reply_yn,
+        major_name: req.body.major_name,
+        subject_name: req.body.subject_name,
+        professor_name: req.body.professor_name,
+        user_id: req.body.user_id
     };
     console.log(req.body.post_title);
     const sql = "INSERT INTO BOARD SET ? "
 
-    // db.query(sql, dataObj, (err, result) => {
-    //     if(err) console.log("insert err : ", err);
-    //     else console.log("insert result : ", result);
-    // })
+    db.query(sql, dataObj, (err, result) => {
+        if(err) {
+            console.log("insert err : ", err);
+            res.send("글 작성 실패")
+        }
+        else {
+            console.log("insert result : ", result);
+            res.send("글 작성 성공")
+        }
+    })
 });
 
-// BOARD SELECT
+// BOARD SELECT - 과목게시판 전체 글 조회
+// 클라이언트에서 과목명/교수명을 파라미터로 전달하면 해당하는 튜플을 전송
 router.get("/select/:subject/:professor", (req, res) => {
     console.log("select");
     console.log(req.params);
@@ -38,6 +46,7 @@ router.get("/select/:subject/:professor", (req, res) => {
     db.query(sql, [req.params.subject, req.params.professor], (err, results) => {
         if (err) {
             console.log("select err : ", err)
+            res.send("글 조회 실패")
         }
         else {
             console.log("select completed")
@@ -45,6 +54,37 @@ router.get("/select/:subject/:professor", (req, res) => {
         }
     })
 })
+
+// BOARD DELETE - 과목게시판 내 선택한 글 삭제
+// 클라이언트에서 post_no을 전달하면 해당 튜플을 삭제한다.
+router.get("/delete/:id", (req, res) => {
+    const sql = "DELETE FROM BOARD WHERE post_no = ?";
+    db.query(sql, req.params.id, (err) => {
+        if (err) {
+            console.log("delete err : ", err);
+        }
+        else {
+            console.log("글 삭제 성공");
+            res.send("글 삭제 성공")
+        }
+    })
+})
+
+// BOARD SELECT - BOARD 테이블 전체 조회(테스트용)
+router.get("/select", (req, res) => {
+    const sql = "SELECT * FROM BOARD"
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.log("select err : ", err)
+            res.send("글 조회 실패")
+        }
+        else {
+            console.log("select completed")
+            res.send(results)
+        }
+    })
+})
+
 
 
 module.exports = router;
