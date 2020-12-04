@@ -106,7 +106,7 @@ router.get("/select/:subject/:professor", (req, res) => {
     })
 })
 
-// BOARD UPDATE - 과목게시판 내 석택한 글 수정
+// BOARD UPDATE - 과목게시판 내 선택한 글 수정
 // 클라이언트에서 post_no을 파라미터로 전달하면 해당 튜블의 post_title, post_contents를 수정한다.
 // 수정할 글 제목과 글 내용은 body를 통해 전달된다.
 router.post("/edit/:id", (req, res) => {
