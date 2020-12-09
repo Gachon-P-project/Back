@@ -155,6 +155,7 @@ router.get("/select", (req, res) => {
 })
 
 
+<<<<<<< HEAD
 // BOARD READ - 과목게시판 특정 단어로 글 조회
 // 클라이언트에서 과목명/특정값을 파라미터로 전달하면 해당하는 튜플을 전송한다.
 router.get("/select/:subject/search/:word", (req, res) => {
@@ -213,5 +214,7 @@ router.get("/delete/:id", (req, res) => {
     })
 })
 
+=======
+>>>>>>> 7c3497512cdad9644607582aa89409be68a5646e
 
 module.exports = router;

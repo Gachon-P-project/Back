@@ -1,7 +1,14 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
+<<<<<<< HEAD
 const url = "https://www.gachon.ac.kr/major/bbs.jsp?pageNum=0&pageSize=10&boardType_seq=159&approve=&secret=&answer=&branch=&searchopt=&searchword="
+=======
+const pageNum = 0; // 몇번째 페이지
+const pageSize = 10; // 한 페이지에 몇개씩 받을 것인지([공지] 태그 글은 제외)
+const boardType_seq = 159;
+const url = "https://www.gachon.ac.kr/major/bbs.jsp?pageNum="+pageNum+"&pageSize="+pageSize+"&boardType_seq="+boardType_seq+"&approve=&secret=&answer=&branch=&searchopt=&searchword="
+>>>>>>> 7c3497512cdad9644607582aa89409be68a5646e
 
 const crawler = async() => {
     const res = await axios.get(url);
@@ -46,7 +53,11 @@ const crawler = async() => {
                     const start_num = tag_a.indexOf('board_no')+9
                     const end_num = tag_a.indexOf('approve')-1
                     board_no = tag_a.substring(start_num, end_num)
+<<<<<<< HEAD
                     console.log(tag_a.substring(start_num, end_num));
+=======
+                    //console.log(tag_a.substring(start_num, end_num));
+>>>>>>> 7c3497512cdad9644607582aa89409be68a5646e
                 }
 
                 if(i == 3) {
@@ -81,4 +92,9 @@ const crawler = async() => {
         console.log(e);
     }
 }
+<<<<<<< HEAD
 crawler();
+=======
+crawler();
+
+>>>>>>> 7c3497512cdad9644607582aa89409be68a5646e
