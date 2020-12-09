@@ -14,6 +14,7 @@ const crawler = async() => {
 
     // 페이지 데이터 저장 객체 생성
     let num = '';
+    let board_no = '';
     let title = '';
     let file = '';
     let date = '';
@@ -42,6 +43,13 @@ const crawler = async() => {
 
                 if(i == 1) {
                     title = $(element).text().trim()
+
+                    // 실제 board_no 추출
+                    const tag_a = $(element).children().attr("href")
+                    const start_num = tag_a.indexOf('board_no')+9
+                    const end_num = tag_a.indexOf('approve')-1
+                    board_no = tag_a.substring(start_num, end_num)
+                    //console.log(tag_a.substring(start_num, end_num));
                 }
 
                 if(i == 3) {
@@ -60,6 +68,7 @@ const crawler = async() => {
                     view = $(element).text().trim();
                     const dataObj = {
                         "num" : num,
+                        "board_no" : board_no,
                         "title" : title,
                         "file" : file,
                         "date" : date,
@@ -67,9 +76,6 @@ const crawler = async() => {
                     }
                     page.push(dataObj)
                 }
-
-                // console.log($(element).text().trim());
-                // console.log($(element).children().length);
             })
         })
 

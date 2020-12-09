@@ -1,3 +1,5 @@
 node_modules/
 config/
 .env
+db_insert.js
+test.js
