@@ -2,8 +2,15 @@ const express = require('express');
 const router = express.Router();
 const dotenv = require('dotenv').config();
 
+const boardRoutes = require('./board')
+
+
+router.use('/board', boardRoutes)
+
+
+/*
 // DB 연결
-const mysqlConObj = require('./config/mysql');
+const mysqlConObj = require('../config/mysql');
 const db = mysqlConObj.init();
 mysqlConObj.open(db);
 
@@ -153,6 +160,7 @@ router.get("/select", (req, res) => {
         }
     })
 })
+*/
 
 
 

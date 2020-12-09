@@ -1,21 +1,22 @@
 // 테이블 생성
 /*
-    CREATE TABLE `PROFESSOR` (
-    `professor_no` int NOT NULL AUTO_INCREMENT,
-    `professor_code` varchar(30) NOT NULL,
-    `professor_name` varchar(30) NOT NULL,
+    CREATE TABLE `SUBJECT` (
+    `subject_no` int NOT NULL AUTO_INCREMENT,
+    `subject_code` varchar(30) NOT NULL,
+    `subject_name` varchar(70) NOT NULL,
     `major_names` varchar(100) NOT NULL,
-    PRIMARY KEY (`professor_no`),
-    UNIQUE KEY `professor_code` (`professor_code`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=26879 DEFAULT CHARSET=utf8;
+    PRIMARY KEY (`subject_no`),
+    UNIQUE KEY `subject_code_UNIQUE` (`subject_code`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=7128 DEFAULT CHARSET=utf8;
 */
 
 const axios = require('axios');
 const mysql = require('mysql');
+connection.escape()
 const dotenv = require('dotenv').config();
 
 // DB 연결
-const mysqlConObj = require('./config/mysql');
+const mysqlConObj = require('../config/mysql');
 const db = mysqlConObj.init();
 mysqlConObj.open(db);
 
@@ -188,13 +189,13 @@ for(i=0; i<=12; i++) {
         .then(result => {
             result.data.rows.map(data => {
                 dataObject.push({
-                    "professor_code": data.member_no,
-                    "professor_name": data.prof_nm,
+                    "subject_code": data.subject_cd,
+                    "subject_name": data.subject_nm_kor,
                     "major_names": major_names
                 })
             })
 
-            const sql = "INSERT INTO PROFESSOR SET ?"
+            const sql = "INSERT INTO SUBJECT SET ?"
             dataObject.map(data => {
                 db.query(sql, data, (err, result) => {
                     if(err) console.log("insert err : ", err);
