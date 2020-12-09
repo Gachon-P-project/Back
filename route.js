@@ -155,5 +155,63 @@ router.get("/select", (req, res) => {
 })
 
 
+// BOARD READ - 과목게시판 특정 단어로 글 조회
+// 클라이언트에서 과목명/특정값을 파라미터로 전달하면 해당하는 튜플을 전송한다.
+router.get("/select/:subject/search/:word", (req, res) => {
+    console.log("select");
+    // console.log(req.params);
+    const sql = "SELECT * FROM BOARD WHERE subject_name=? AND (post_contents OR post_title LIKE "+ db.escape('%'+req.params.word+'%')+")";
+    db.query(sql, req.params.subject, (err, results) => {
+        if (err) {
+            console.log("select err : ", err)
+            res.send("글 조회 실패")
+        }
+        else {
+            console.log("select completed")
+            console.log(results)
+            res.send(results)
+        }
+    })
+})
+
+// BOARD READ - 과목게시판 내 선택한 글 상세보기
+// 클라이언트에서 post_no을 전달하면 해당 튜플을 전송한다.
+router.get("/select/:id", (req, res) => {
+    const sql = "SELECT * FROM BOARD WHERE post_no = ?";
+    db.query(sql, req.params.id, (err, results) => {
+        if (err) {
+            console.log("select err : ", err)
+            res.send("상세글 조회 실패")
+        }
+        else {
+            console.log("상세글 조회 성공")
+            console.log(results)
+            res.send(results)
+        }
+    })
+})
+
+// REPLY CREATE - 새 댓글 작성
+// 클라이언트에서 post_no과 user_id를 파라미터로 전달한다.
+// 작성할 댓글 내용은 body를 통해 전달된다.
+// post_no과 user_id는 외래키로 지정되어 유효하지 않은 값이 전달되면 에러가 발생한다.
+router.post("/reply/insert/:user/:post", (req, res) => {
+    const dataObj = {
+
+// BOARD REPLY DELETE - 과목게시판 내 선택한 글 삭제
+// 클라이언트에서 post_no과  전달하면 해당 튜플을 삭제한다.
+router.get("/delete/:id", (req, res) => {
+    const sql = "DELETE FROM BOARD WHERE post_no = ?";
+    db.query(sql, req.params.id, (err) => {
+        if (err) {
+            console.log("delete err : ", err);
+        }
+        else {
+            console.log("글 삭제 성공");
+            res.send("글 삭제 성공")
+        }
+    })
+})
+
 
 module.exports = router;

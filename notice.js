@@ -46,7 +46,7 @@ const crawler = async() => {
                     const start_num = tag_a.indexOf('board_no')+9
                     const end_num = tag_a.indexOf('approve')-1
                     board_no = tag_a.substring(start_num, end_num)
-                    //console.log(tag_a.substring(start_num, end_num));
+                    console.log(tag_a.substring(start_num, end_num));
                 }
 
                 if(i == 3) {
