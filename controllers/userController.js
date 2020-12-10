@@ -1,0 +1,1 @@
+const boardModel = require('../models/userModel');
