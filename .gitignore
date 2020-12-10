@@ -1,5 +1,8 @@
 node_modules/
 config/
+<<<<<<< HEAD
 .env
-db_insert.js
-test.js
+=======
+.env
+security/
+>>>>>>> 061f63701640ca247c49455ffffa4a187e864371
