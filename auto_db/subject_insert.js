@@ -12,8 +12,7 @@
 
 const axios = require('axios');
 const mysql = require('mysql');
-connection.escape()
-const dotenv = require('dotenv').config();
+const dotenv = require('dotenv').config({ path: './../.env' });
 
 // DB 연결
 const mysqlConObj = require('../config/mysql');

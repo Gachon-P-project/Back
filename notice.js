@@ -1,7 +1,10 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-const url = "https://www.gachon.ac.kr/major/bbs.jsp?pageNum=0&pageSize=10&boardType_seq=159&approve=&secret=&answer=&branch=&searchopt=&searchword="
+const pageNum = 0; // 몇번째 페이지
+const pageSize = 10; // 한 페이지에 몇개씩 받을 것인지([공지] 태그 글은 제외)
+const boardType_seq = 159;
+const url = "https://www.gachon.ac.kr/major/bbs.jsp?pageNum="+pageNum+"&pageSize="+pageSize+"&boardType_seq="+boardType_seq+"&approve=&secret=&answer=&branch=&searchopt=&searchword="
 
 const crawler = async() => {
     const res = await axios.get(url);
@@ -82,3 +85,4 @@ const crawler = async() => {
     }
 }
 crawler();
+

@@ -12,7 +12,7 @@
 
 const axios = require('axios');
 const mysql = require('mysql');
-const dotenv = require('dotenv').config();
+const dotenv = require('dotenv').config({ path: './../.env' });
 
 // DB 연결
 const mysqlConObj = require('../config/mysql');
