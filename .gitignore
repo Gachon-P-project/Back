@@ -1,4 +1,13 @@
 node_modules/
 config/
+<<<<<<< HEAD
+<<<<<<< HEAD
+.env
+=======
 .env
 security/
+>>>>>>> 061f63701640ca247c49455ffffa4a187e864371
+=======
+.env
+security/
+>>>>>>> 37f5401c130f2e5a52ce767a5e584bd6e1c185c9
