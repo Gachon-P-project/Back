@@ -20,3 +20,60 @@ exports.createReply = (req, res) => {
         }
     })
 }
+
+
+// REPLY UPDATE - 댓글 수정   
+// 클라이언트에서 reply_no을 파라미터로 전달하면 해당 튜블의 reply_contents를 수정한다.
+// 수정할 댓글 내용은 body를 통해 전달된다.
+exports.updateReply = (req, res) => {
+    let reply_no = req.params.id;
+    let reply_contents = req.body.reply_contents;
+    
+    replyModel.updateReply(reply_no, reply_contents, (result) => {
+        if (result) {
+            console.log("reply update completed")
+            res.send(result)
+        }
+    })
+}
+
+
+// REPLY DELETE - 댓글 삭제
+// 클라이언트에서 reply_no를 파라미터로 전달하면 해당 튜블을 삭제한다.
+exports.deleteReply = (req, res) => {
+    let reply_no = req.params.id;
+    
+    replyModel.deleteReply(reply_no, (result) => {
+        if (result) {
+            console.log("reply delete completed")
+            res.send(result)
+        }
+    })
+}
+
+// REPLY READ - 해당 게시글의 댓글 보기
+// 클라이언트에서 post_no을 파라미터로 전달하면 해당하는 튜플을 전송한다.
+exports.readReply = (req, res) => {
+    let post_no = req.params.post;
+    
+    replyModel.readReply(post_no, (result) => {
+        if (result) {
+            console.log("reply select completed")
+            res.send(result)
+        }
+    })
+}
+
+
+// REPLY COUNT READ - 해당 게시글의 댓글 개수
+// 클라이언트에서 post_no을 파라미터로 전달하면 해당하는 튜플의 개수 전송한다.
+exports.readCountReply = (req, res) => {
+    let post_no = req.params.post;
+    
+    replyModel.readCountReply(post_no, (result) => {
+        if (result) {
+            console.log("reply select completed")
+            res.send(result)
+        }
+    })
+}

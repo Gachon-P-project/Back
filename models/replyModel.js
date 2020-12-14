@@ -19,3 +19,66 @@ exports.createReply = (dataObj, cb) => {
         }
     })
 }
+
+// REPLY UPDATE - 댓글 수정
+// 클라이언트에서 reply_no를 파라미터로 전달하면 해당 튜블의 reply_contents를 수정한다.
+// 수정할 댓글 내용은 body를 통해 전달된다.
+exports.updateReply = (reply_contents, reply_no, cb) => {
+    const sql = "UPDATE REPLY SET reply_contents = ? where reply_no = ?";
+
+    db.query(sql, [reply_no, reply_contents], (err, results) => {
+        if (err) {
+            console.log("update err : ", err);
+        }
+        else {
+            cb(JSON.parse(JSON.stringify(results)));
+        }
+    })
+}
+
+
+// REPLY DELETE - 댓글 삭제
+// 클라이언트에서 reply_no를 파라미터로 전달하면 해당 튜블을 삭제한다.
+exports.deleteReply = (reply_no, cb) => {
+    const sql = "DELETE FROM REPLY WHERE reply_no = ?";
+
+    db.query(sql, reply_no, (err, results) => {
+        if (err) {
+            console.log("delete err : ", err);
+        }
+        else {
+            cb(JSON.parse(JSON.stringify(results)));
+        }
+    })
+}
+
+
+// REPLY READ - 해당 게시글의 댓글 보기
+// 클라이언트에서 post_no을 파라미터로 전달하면 해당하는 튜플을 전송한다.
+exports.readReply = (post_no, cb) => {
+    const sql = "SELECT * FROM REPLY WHERE post_no = ? ";
+
+    db.query(sql, post_no, (err, results) => {
+        if (err) {
+            console.log("read err : ", err);
+        }
+        else {
+            cb(JSON.parse(JSON.stringify(results)));
+        }
+    })
+}
+
+// REPLY READ - 해당 게시글의 댓글 개수 보기
+// 클라이언트에서 post_no을 파라미터로 전달하면 해당하는 튜플의 개수를 전송한다.
+exports.readCountReply = (post_no, cb) => {
+    const sql = "SELECT COUNT(*) as cnt FROM REPLY WHERE post_no = ? ";
+
+    db.query(sql, post_no, (err, results) => {
+        if (err) {
+            console.log("read err : ", err);
+        }
+        else {
+            cb(JSON.parse(JSON.stringify(results)));
+        }
+    })
+}

@@ -5,4 +5,16 @@ const replyController = require('./../controllers/replyController')
 // REPLY CREATE - 새 댓글 작성
 router.post("/insert/:user/:post", replyController.createReply)
 
+// REPLY UPDATE - 댓글 수정
+router.post("/update/:id", replyController.updateReply)
+
+// REPLY DELETE - 댓글 삭제
+router.get("/delete/:id", replyController.deleteReply)
+
+// REPLY READ - 댓글 보기
+router.get("/read/:post", replyController.readReply)
+
+// REPLY READ COUNT - 댓글 수 카운트
+router.get("/read/count/:post", replyController.readCountReply)
+
 module.exports = router;
