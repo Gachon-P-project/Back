@@ -13,7 +13,6 @@ exports.readList = (req, res) => {
         }
     })
 }
-}
 
 // BOARD CREATE - 과목게시판 새 글 작성
 // 클라이언트는 body에 post_title, post_contents, reply_yn, major_name, subject_name, professor_name, user_id를 전달
