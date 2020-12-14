@@ -71,9 +71,10 @@ exports.deleteBoard = (req, res) => {
 // 클라이언트에서 과목명/특정값을 파라미터로 전달하면 해당하는 튜플을 전송한다.
 exports.readSomeList = (req, res) => {
     let subject_name = req.params.subject;
+    let professor_name = req.params.professor;
     let post_word = req.params.word;
     
-    boardModel.readSomeList(subject_name, post_word, (result) => {
+    boardModel.readSomeList(subject_name, professor_name, post_word, (result) => {
         if (result) {
             console.log("board select completed")
             res.send(result)

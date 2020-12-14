@@ -6,7 +6,7 @@ const boardController = require('./../controllers/boardController');
 router.get("/select/:subject/:professor", boardController.readList)
 
 // BOARD READ - 과목게시판 특정 단어로 글 조회
-router.get("/select/:subject/search/:word", boardController.readSomeList)
+router.get("/select/:subject/:professor/search/:word", boardController.readSomeList)
 
 // BOARD READ - 과목게시판 내 선택한 글 상세보기
 router.get("/select/:id", boardController.readDetailBoard)

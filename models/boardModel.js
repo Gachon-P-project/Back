@@ -66,11 +66,11 @@ exports.deleteBoard = (post_no, cb) => {
 
 // BOARD READ - 과목게시판 특정 단어로 글 조회
 // 클라이언트에서 과목명/특정값을 파라미터로 전달하면 해당하는 튜플을 전송한다.
-exports.readSomeList = (subject_name, post_word, cb) => {
-    const sql = "SELECT * FROM BOARD WHERE subject_name=? AND (post_contents OR post_title LIKE "+ db.escape('%'+post_word+'%')+")";
-    // const sql = "SELECT * FROM BOARD WHERE subject_name=? AND (post_contents OR post_title LIKE %post_word%";
+exports.readSomeList = (subject_name, professor_name, post_word, cb) => {
+    const sql = "SELECT * FROM BOARD WHERE subject_name = ? AND professor_name = ? AND (post_contents OR post_title LIKE "+ db.escape('%'+post_word+'%')+")";
+    // const sql = "SELECT * FROM BOARD WHERE subject_name=?, professor_name = ? AND (post_contents OR post_title LIKE %post_word%";
 
-    db.query(sql, subject_name, (err, results) => {
+    db.query(sql, [subject_name, professor_name], (err, results) => {
         if (err) {
             console.log("read err : ", err);
         }
