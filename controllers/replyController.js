@@ -67,13 +67,13 @@ exports.readReply = (req, res) => {
 
 // REPLY COUNT READ - 해당 게시글의 댓글 개수
 // 클라이언트에서 post_no을 파라미터로 전달하면 해당하는 튜플의 개수 전송한다.
-exports.readCountReply = (req, res) => {
-    let post_no = req.params.post;
+// exports.readCountReply = (req, res) => {
+//     let post_no = req.params.post;
     
-    replyModel.readCountReply(post_no, (result) => {
-        if (result) {
-            console.log("reply select completed")
-            res.send(result)
-        }
-    })
-}
+//     replyModel.readCountReply(post_no, (result) => {
+//         if (result) {
+//             console.log("reply select completed")
+//             res.send(result)
+//         }
+//     })
+// }

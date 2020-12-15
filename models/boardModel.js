@@ -6,7 +6,10 @@ const db = mysqlConObj.init();
 // 과목게시판 전체 글 조회
 // 클라이언트에서 과목명/교수명을 파라미터로 전달하면 해당하는 튜플을 전송
 exports.readList = (subject_name, professor_name, cb) => {
-    const sql = "SELECT * FROM BOARD WHERE subject_name=? AND professor_name=?";
+    // const sql = "SELECT * FROM BOARD WHERE subject_name=? AND professor_name=?";
+    
+    // 게시글 목록에 댓글 개수 출력 
+    const sql = "select b.*, (select count(*) from REPLY where post_no=b.post_no) as reply_cnt from BOARD b where b.subject_name=? and b.professor_name=?";
 
     db.query(sql, [subject_name, professor_name], (err, results) => {
         if (err) {

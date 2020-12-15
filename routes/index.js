@@ -11,7 +11,7 @@ const noticeRoutes = require('./notice')
 router.use('/board', boardRoutes)
 router.use('/user', userRoutes)
 router.use('/reply', replyRoutes)
+router.use('/notice', noticeRoutes)
 // router.use('/timeTable', timeTableRoutes)
-// router.use('/notice', noticeRoutes)
 
 module.exports = router;

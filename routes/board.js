@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const boardController = require('./../controllers/boardController');
 
-// SELECT SUBJECT BOARD - 과목게시판 전체 글 조회
+// SELECT SUBJECT BOARD - 과목게시판 전체 글 조회 (목록에 댓글 수 출력)
 router.get("/select/:subject/:professor", boardController.readList)
 
 // BOARD READ - 과목게시판 특정 단어로 글 조회

@@ -15,6 +15,6 @@ router.get("/delete/:id", replyController.deleteReply)
 router.get("/read/:post", replyController.readReply)
 
 // REPLY READ COUNT - 댓글 수 카운트
-router.get("/read/count/:post", replyController.readCountReply)
+// router.get("/read/count/:post", replyController.readCountReply)
 
 module.exports = router;

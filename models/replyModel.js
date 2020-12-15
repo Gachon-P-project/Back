@@ -70,15 +70,15 @@ exports.readReply = (post_no, cb) => {
 
 // REPLY READ - 해당 게시글의 댓글 개수 보기
 // 클라이언트에서 post_no을 파라미터로 전달하면 해당하는 튜플의 개수를 전송한다.
-exports.readCountReply = (post_no, cb) => {
-    const sql = "SELECT COUNT(*) as cnt FROM REPLY WHERE post_no = ? ";
+// exports.readCountReply = (post_no, cb) => {
+//     const sql = "SELECT COUNT(*) as cnt FROM REPLY WHERE post_no = ? ";
 
-    db.query(sql, post_no, (err, results) => {
-        if (err) {
-            console.log("read err : ", err);
-        }
-        else {
-            cb(JSON.parse(JSON.stringify(results)));
-        }
-    })
-}
+//     db.query(sql, post_no, (err, results) => {
+//         if (err) {
+//             console.log("read err : ", err);
+//         }
+//         else {
+//             cb(JSON.parse(JSON.stringify(results)));
+//         }
+//     })
+// }
