@@ -4,7 +4,7 @@ const dotenv = require('dotenv').config();
 
 const boardRoutes = require('./board')
 const userRoutes = require('./user')
-const timeTableRoutes = require('./timeTable')
+// const timeTableRoutes = require('./timeTable')
 const replyRoutes = require('./reply')
 const noticeRoutes = require('./notice')
 
