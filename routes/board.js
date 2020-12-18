@@ -20,6 +20,4 @@ router.post("/update/:id", boardController.updateBoard)
 // BOARD DELETE - 과목게시판 내 선택한 글 삭제
 router.get("/delete/:id", boardController.deleteBoard)
 
-
-
 module.exports = router;

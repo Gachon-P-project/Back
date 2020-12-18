@@ -45,7 +45,6 @@ router.get("/read/:pageNum/:major/:search", (req, res) => {
             const boardType_seq = result[0].major_code;
             const url = "https://www.gachon.ac.kr/major/bbs.jsp?pageNum="+pageNum+"&pageSize=10&boardType_seq="+String(boardType_seq)+"&approve=&secret=&answer=&branch=&searchopt=title&searchword="+encodeURI(search)
             
-            console.log(url);
             noticeController(url).then(result => {
                 res.send(result);
             })

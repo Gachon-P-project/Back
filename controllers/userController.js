@@ -6,8 +6,9 @@ exports.createUser = (req, res) => {
     let user_id = req.body.user_id;
     let user_major = req.body.user_major;
     let auth_level = req.body.auth_level;
-    
-    userModel.createUser(user_id, user_major, auth_level, (result) => {
+    let nickname = req.body.nickname;
+
+    userModel.createUser(user_id, user_major, auth_level, nickname, (result) => {
         if (result) {
             console.log("user insert completed")
             res.send(result)
