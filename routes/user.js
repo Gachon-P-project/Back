@@ -4,6 +4,15 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const mysqlConObj = require('../config/mysql');
 const db = mysqlConObj.init();
+const userController = require('./../controllers/userController')
+
+const getTimetable = async (url) => {
+    const res = await axios.post(url);
+    return res.data
+} 
+
+// USER CREATE - 새 유저 등록
+router.post("/add", userController.createUser)
 
 // 클라이언트에서 로그인한 id / pwd 가 가천대학교 학생으로 등록되어있는지 확인 후
 // DB에 등록된 사용자인지 확인한다.
@@ -100,9 +109,6 @@ router.get('/timetable/:user_no/:year/:sem', (req, res) => {
     
 })
 
-const getTimetable = async (url) => {
-    const res = await axios.post(url);
-    return res.data
-} 
+
 
 module.exports = router;
