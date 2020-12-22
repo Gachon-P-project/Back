@@ -8,8 +8,8 @@ const replyModel = require('../models/replyModel');
 exports.createReply = (req, res) => {
     const dataObj = {
         reply_contents: req.body.reply_contents,
-        wrt_date: new Date(),
-        user_id: req.params.user,
+        wrt_date: new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}),
+        user_no: req.params.user,
         post_no: req.params.post,
         reply_like: 0
     };

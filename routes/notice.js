@@ -5,7 +5,7 @@ const db = mysqlConObj.init();
 
 const noticeController = require('../controllers/noticeController')
 
-// NOTICE READ - 댓글 보기
+// NOTICE READ
 router.get("/read/:pageNum/:major", (req, res) => {
     const pageNum = req.params.pageNum; // 몇번째 페이지
     const major = req.params.major;
@@ -19,9 +19,9 @@ router.get("/read/:pageNum/:major", (req, res) => {
         else {
             console.log("notice selected");
             const boardType_seq = result[0].major_code;
-            const url = "https://www.gachon.ac.kr/major/bbs.jsp?pageNum="+pageNum+"&pageSize=10&boardType_seq="+String(boardType_seq)+"&approve=&secret=&answer=&branch=&searchopt=&searchword="
+            const url = process.env.notice_link+"pageNum="+pageNum+"&pageSize=10&boardType_seq="+String(boardType_seq)+"&approve=&secret=&answer=&branch=&searchopt=&searchword="
             
-            noticeController(url).then(result => {
+            noticeController(url, pageNum).then(result => {
                 res.send(result);
             })
             
@@ -43,9 +43,9 @@ router.get("/read/:pageNum/:major/:search", (req, res) => {
         else {
             console.log("notice selected");
             const boardType_seq = result[0].major_code;
-            const url = "https://www.gachon.ac.kr/major/bbs.jsp?pageNum="+pageNum+"&pageSize=10&boardType_seq="+String(boardType_seq)+"&approve=&secret=&answer=&branch=&searchopt=title&searchword="+encodeURI(search)
+            const url = process.env.notice_link+"pageNum="+pageNum+"&pageSize=10&boardType_seq="+String(boardType_seq)+"&approve=&secret=&answer=&branch=&searchopt=title&searchword="+encodeURI(search)
             
-            noticeController(url).then(result => {
+            noticeController(url, pageNum).then(result => {
                 res.send(result);
             })
             

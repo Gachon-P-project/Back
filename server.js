@@ -3,12 +3,14 @@ const app = express();
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
+const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
 const PORT = 17394;
 
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
+app.use(methodOverride('_mothod'));
 app.use(routes);
 
 http.createServer(app).listen(PORT, () =>{

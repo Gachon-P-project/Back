@@ -15,9 +15,9 @@ router.get("/select/:id", boardController.readDetailBoard)
 router.post("/insert", boardController.createBoard)
 
 // BOARD UPDATE - 과목게시판 내 선택한 글 수정
-router.post("/update/:id", boardController.updateBoard)
+router.put("/update/:id", boardController.updateBoard)
 
 // BOARD DELETE - 과목게시판 내 선택한 글 삭제
-router.get("/delete/:id", boardController.deleteBoard)
+router.delete("/delete/:id", boardController.deleteBoard)
 
 module.exports = router;
