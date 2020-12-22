@@ -68,7 +68,7 @@ exports.deleteReply = (req, res) => {
 
 
 
-// REREPLY CREATE - 대댓글 작성
+// REREPLY CREATE - 대댓글 작성 (수정중)
 // router.get("/rereply/insert/:user/:post", replyController.createReReply)
 
 // 클라이언트에서 post_no과 user_no를 파라미터로 전달한다.
