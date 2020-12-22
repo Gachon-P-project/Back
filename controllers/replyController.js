@@ -8,7 +8,7 @@ exports.createReply = (req, res) => {
     const dataObj = {
         reply_contents: req.body.reply_contents,
         wrt_date: new Date(),
-        user_id: req.params.user,
+        user_no: req.params.user,
         post_no: req.params.post,
         reply_like: 0
     };
