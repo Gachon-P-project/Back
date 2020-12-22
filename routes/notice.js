@@ -21,7 +21,7 @@ router.get("/read/:pageNum/:major", (req, res) => {
             const boardType_seq = result[0].major_code;
             const url = process.env.notice_link+"pageNum="+pageNum+"&pageSize=10&boardType_seq="+String(boardType_seq)+"&approve=&secret=&answer=&branch=&searchopt=&searchword="
             
-            noticeController(url).then(result => {
+            noticeController(url, pageNum).then(result => {
                 res.send(result);
             })
             
@@ -45,7 +45,7 @@ router.get("/read/:pageNum/:major/:search", (req, res) => {
             const boardType_seq = result[0].major_code;
             const url = process.env.notice_link+"pageNum="+pageNum+"&pageSize=10&boardType_seq="+String(boardType_seq)+"&approve=&secret=&answer=&branch=&searchopt=title&searchword="+encodeURI(search)
             
-            noticeController(url).then(result => {
+            noticeController(url, pageNum).then(result => {
                 res.send(result);
             })
             

@@ -1,7 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-const crawler = async (url) =>  {
+const crawler = async (url, pageNum) =>  {
     const res = await axios.get(url);
     const html = res.data;
     
@@ -28,49 +28,101 @@ const crawler = async (url) =>  {
                     4 : 작성일
                     5 : 조회수
                 */
-                if(i == 0) {
-                    if($(element).children().length == 1) {
-                        num = 0000; // [공지] 태그가 붙어있으면 0000으로 저장
-                    } else {
-                        num = $(element).text().trim()
+                if(pageNum == 0){
+                    if(i == 0) {
+                        if($(element).children().length == 1 ) {
+                            num = 0; // [공지] 태그가 붙어있으면 0으로 저장
+                        } else {
+                            num = $(element).text().trim()
+                        }
+                    }
+    
+                    if(i == 1) {
+                        title = $(element).text().trim()
+    
+                        // 실제 board_no 추출
+                        const tag_a = $(element).children().attr("href")
+                        const start_num = tag_a.indexOf('board_no')+9
+                        const end_num = tag_a.indexOf('approve')-1
+                        board_no = tag_a.substring(start_num, end_num)
+                        //console.log(tag_a.substring(start_num, end_num));
+                    }
+    
+                    if(i == 3) {
+                        if($(element).children().length == 1) {
+                            file = 1;
+                        } else {
+                            file = 0;
+                        }
+                    }
+    
+                    if(i == 4) {
+                        date = $(element).text().trim();
+                    }
+    
+                    if(i == 5) {
+                        view = $(element).text().trim();
+                        const dataObj = {
+                            "num" : num,
+                            "board_no" : board_no,
+                            "title" : title,
+                            "file" : file,
+                            "date" : date,
+                            "view" : view
+                        }
+                        page.push(dataObj)
+                    }
+                } else {
+                    if(i == 0) {
+                        if($(element).children().length == 1 ) {
+                            num = 0; // [공지] 태그가 붙어있으면 0으로 저장
+                        } else {
+                            num = $(element).text().trim()
+                        }
+                    }
+    
+                    if(i == 1) {
+                        title = $(element).text().trim()
+    
+                        // 실제 board_no 추출
+                        const tag_a = $(element).children().attr("href")
+                        const start_num = tag_a.indexOf('board_no')+9
+                        const end_num = tag_a.indexOf('approve')-1
+                        board_no = tag_a.substring(start_num, end_num)
+                        //console.log(tag_a.substring(start_num, end_num));
+                    }
+    
+                    if(i == 3) {
+                        if($(element).children().length == 1) {
+                            file = 1;
+                        } else {
+                            file = 0;
+                        }
+                    }
+    
+                    if(i == 4) {
+                        date = $(element).text().trim();
+                    }
+    
+                    if(i == 5) {
+                        view = $(element).text().trim();
+                        const dataObj = {
+                            "num" : num,
+                            "board_no" : board_no,
+                            "title" : title,
+                            "file" : file,
+                            "date" : date,
+                            "view" : view
+                        }
+                        if(num == 0){
+                            // 첫 페이지 다음부터는 [공지] 태그의 글은 response하지 않는다.
+                        } else {
+                            page.push(dataObj)
+                        }
+                        
                     }
                 }
-
-                if(i == 1) {
-                    title = $(element).text().trim()
-
-                    // 실제 board_no 추출
-                    const tag_a = $(element).children().attr("href")
-                    const start_num = tag_a.indexOf('board_no')+9
-                    const end_num = tag_a.indexOf('approve')-1
-                    board_no = tag_a.substring(start_num, end_num)
-                    //console.log(tag_a.substring(start_num, end_num));
-                }
-
-                if(i == 3) {
-                    if($(element).children().length == 1) {
-                        file = 1;
-                    } else {
-                        file = 0;
-                    }
-                }
-
-                if(i == 4) {
-                    date = $(element).text().trim();
-                }
-
-                if(i == 5) {
-                    view = $(element).text().trim();
-                    const dataObj = {
-                        "num" : num,
-                        "board_no" : board_no,
-                        "title" : title,
-                        "file" : file,
-                        "date" : date,
-                        "view" : view
-                    }
-                    page.push(dataObj)
-                }
+                
             })
         })
         return page;
