@@ -6,10 +6,10 @@ const replyController = require('./../controllers/replyController')
 router.post("/insert/:user/:post", replyController.createReply)
 
 // REPLY UPDATE - 댓글 수정
-router.post("/update/:id", replyController.updateReply)
+router.put("/update/:id", replyController.updateReply)
 
 // REPLY DELETE - 댓글 삭제
-router.get("/delete/:id", replyController.deleteReply)
+router.delete("/delete/:id", replyController.deleteReply)
 
 // REPLY READ - 댓글 보기
 router.get("/read/:post", replyController.readReply)

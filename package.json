@@ -16,6 +16,7 @@
     "fcm-node": "1.5.2",
     "firebase-admin": "9.4.2",
     "https-localhost": "4.6.3",
+    "method-override": "3.0.0",
     "mysql": "2.18.1",
     "sequelize": "6.3.5"
   }
