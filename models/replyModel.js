@@ -3,14 +3,16 @@ const mysqlConObj = require('../config/mysql');
 const db = mysqlConObj.init();
 // mysqlConObj.open(db); // 정상 연결 확인
 
+
+
 // REPLY CREATE - 새 댓글 작성
 // 클라이언트에서 post_no과 user_id를 파라미터로 전달한다.
 // 작성할 댓글 내용은 body를 통해 전달된다.
 // post_no과 user_id는 외래키로 지정되어 유효하지 않은 값이 전달되면 에러가 발생한다.
-exports.createReply = (dataObj, cb) => {
-    const sql = "INSERT INTO REPLY SET ? ";
+exports.createReply = (reply_contents, user_no, post_no, wrt_date, cb) => {
+    const sql = "INSERT INTO REPLY (reply_contents, user_no, post_no, wrt_date, bundle_id) VALUES (?, ?, ?, ?, LAST_INSERT_ID()+1)";
 
-    db.query(sql, dataObj, (err, results) => {
+    db.query(sql, [reply_contents, user_no, post_no, wrt_date], (err, results) => {
         if (err) {
             console.log("insert err : ", err);
         }
@@ -56,7 +58,7 @@ exports.deleteReply = (reply_no, cb) => {
 // REPLY READ - 해당 게시글의 댓글 보기
 // 클라이언트에서 post_no을 파라미터로 전달하면 해당하는 튜플을 전송한다.
 exports.readReply = (post_no, cb) => {
-    const sql = "SELECT * FROM REPLY WHERE post_no = ? ";
+    const sql = "SELECT * FROM REPLY WHERE post_no = ? ORDER BY bundle_id, reply_id";
 
     db.query(sql, post_no, (err, results) => {
         if (err) {
@@ -82,3 +84,4 @@ exports.readReply = (post_no, cb) => {
 //         }
 //     })
 // }
+

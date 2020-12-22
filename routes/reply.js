@@ -5,8 +5,8 @@ const replyController = require('./../controllers/replyController')
 // REPLY CREATE - 새 댓글 작성
 router.post("/insert/:user/:post", replyController.createReply)
 
-// REPLY UPDATE - 댓글 수정
-router.post("/update/:id", replyController.updateReply)
+// REPLY UPDATE - 댓글 수정 (불가)
+// router.post("/update/:id", replyController.updateReply)
 
 // REPLY DELETE - 댓글 삭제
 router.get("/delete/:id", replyController.deleteReply)
@@ -19,17 +19,11 @@ router.get("/read/:post", replyController.readReply)
 
 
 
+
 // REREPLY CREATE - 대댓글 작성
 router.get("/rereply/insert/:user/:post", replyController.createReReply)
 
-// REREPLY UPDATE - 대댓글 수정
-router.get("/rereply/update/:user/:post", replyController.updateReReply)
-
-// REREPLY DELETE - 대댓글 삭제
-router.get("/rereply/delete/:user/:post", replyController.deleteReReply)
-
-// REREPLY READ - 대댓글 보기
-router.get("/rereply/read/:user/:post", replyController.readReReply)
-
+// REREPLY UPDATE - 대댓글 수정 (불가)
+//router.get("/rereply/update/:user/:post", replyController.updateReReply)
 
 module.exports = router;
