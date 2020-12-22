@@ -18,14 +18,14 @@ router.post("/add", userController.createUser)
 // DB에 등록된 사용자인지 확인한다.
 router.post("/info", async (req, res) => {
     try {
-        const getUser = await axios.post("http://smart.gachon.ac.kr:8080//WebJSON", { 
+        const getUser = await axios.post(process.env.smart_login_link, { 
             fsp_cmd : "login", 
-            DVIC_ID : "dwFraM1pVhl6mMn4npgL2dtZw7pZxw2lo2uqpm1yuMs=",
+            DVIC_ID : process.env.smart_dvic,
             fsp_action : "UserAction",
             LOGIN_ID : req.body.id,
             USER_ID : req.body.id,
             PWD : req.body.pwd,
-            APPS_ID : "com.sz.Atwee.gachon" 
+            APPS_ID : process.env.smart_apps 
         });
 
         const userInfo = {
@@ -69,7 +69,7 @@ router.post("/info", async (req, res) => {
 
 router.get('/timetable/:user_no/:year/:sem', (req, res) => {
     
-    const url = "http://smart.gachon.ac.kr:8080/WebMain?YEAR="+req.params.year+"&TERM_CD="+req.params.sem+"&STUDENT_NO="+req.params.user_no+"&GROUP_CD=CS&SQL_ID=mobile%2Faffairs%3ACLASS_TIME_TABLE_STUDENT_SQL_S01&fsp_action=AffairsAction&fsp_cmd=executeMapList&callback_page=%2Fmobile%2Fgachon%2Faffairs%2FAffClassTimeTableList.jsp"
+    const url = process.env.smart_main_link+"YEAR="+req.params.year+"&TERM_CD="+req.params.sem+"&STUDENT_NO="+req.params.user_no+"&GROUP_CD=CS&SQL_ID=mobile%2Faffairs%3ACLASS_TIME_TABLE_STUDENT_SQL_S01&fsp_action=AffairsAction&fsp_cmd=executeMapList&callback_page=%2Fmobile%2Fgachon%2Faffairs%2FAffClassTimeTableList.jsp"
     getTimetable(url).then(html => {
         let $ = cheerio.load(html);
         let day_data = [];
