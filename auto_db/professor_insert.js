@@ -9,7 +9,7 @@
     UNIQUE KEY `professor_code` (`professor_code`)
     ) ENGINE=InnoDB AUTO_INCREMENT=26879 DEFAULT CHARSET=utf8;
 */
-// push test
+
 const axios = require('axios');
 const mysql = require('mysql');
 const dotenv = require('dotenv').config({ path: './../.env' });

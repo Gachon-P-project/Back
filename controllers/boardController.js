@@ -21,7 +21,7 @@ exports.createBoard = (req, res) => {
         post_title: req.body.post_title,
         post_contents: req.body.post_contents,
         post_like: 0,
-        wrt_date: new Date(),
+        wrt_date: new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}),
         reply_yn: req.body.reply_yn,
         major_name: req.body.major_name,
         subject_name: req.body.subject_name,
