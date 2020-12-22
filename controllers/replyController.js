@@ -1,5 +1,6 @@
 const replyModel = require('../models/replyModel');
 
+/*
 // REPLY CREATE - 새 댓글 작성
 // 클라이언트에서 post_no과 user_id를 파라미터로 전달한다.
 // 작성할 댓글 내용은 body를 통해 전달된다.
@@ -20,6 +21,7 @@ exports.createReply = (req, res) => {
         }
     })
 }
+*/
 
 
 // REPLY UPDATE - 댓글 수정   
@@ -77,3 +79,79 @@ exports.readReply = (req, res) => {
 //         }
 //     })
 // }
+
+
+// REPLY CREATE - 새 댓글 작성 (수정)
+// 클라이언트에서 post_no과 user_no를 파라미터로 전달한다.
+// 작성할 댓글 내용은 body를 통해 전달된다.
+// post_no과 user_id는 외래키로 지정되어 유효하지 않은 값이 전달되면 에러가 발생한다.
+exports.createReply = (req, res) => {
+    const dataObj = {
+        reply_contents: req.body.reply_contents,
+        user_no: req.params.user,
+        post_no: req.params.post,
+        wrt_date: new Date(),
+        // depth: 0             0:default, 1:대댓
+        // is_deleted: 0        0:default, 1:삭제됨
+    };
+    
+    replyModel.createReply(dataObj, (result) => {
+        if (result) {
+            console.log("reply insert completed")
+            res.send(result)
+        }
+    })
+}
+
+
+
+
+
+
+
+
+// REREPLY CREATE - 대댓글 작성
+// router.get("/rereply/insert/:user/:post", replyController.createReReply)
+
+// 클라이언트에서 post_no과 user_no를 파라미터로 전달한다.
+// 작성할 대댓글 내용은 body를 통해 전달된다.
+// post_no과 user_id는 외래키로 지정되어 유효하지 않은 값이 전달되면 에러가 발생한다.
+exports.createReReply = (req, res) => {
+    const dataObj = {
+        reply_contents: req.body.reply_contents,
+        user_id: req.params.user,
+        post_no: req.params.post,
+        wrt_date: new Date(),
+        
+    };
+    
+    replyModel.createReply(dataObj, (result) => {
+        if (result) {
+            console.log("reply insert completed")
+            res.send(result)
+        }
+    })
+}
+
+
+
+// REREPLY UPDATE - 대댓글 수정
+// router.get("/rereply/update/:user/:post", replyController.updateReReply)
+exports.updateReReply = (req, res) => {
+    let reply_no = req.params.id;
+    let reply_contents = req.body.reply_contents;
+    
+    replyModel.updateReReply(reply_no, reply_contents, (result) => {
+        if (result) {
+            console.log("reply update completed")
+            res.send(result)
+        }
+    })
+}
+
+
+// REREPLY DELETE - 대댓글 삭제
+// router.get("/rereply/delete/:user/:post", replyController.deleteReReply)
+
+// REREPLY READ - 대댓글 보기
+// router.get("/rereply/read/:user/:post", replyController.readReReply)
