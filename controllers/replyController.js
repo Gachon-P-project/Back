@@ -69,23 +69,24 @@ exports.deleteReply = (req, res) => {
 
 
 // REREPLY CREATE - 대댓글 작성 (수정중)
-// router.get("/rereply/insert/:user/:post", replyController.createReReply)
+// router.get("/rereply/insert/:userNo/:postNo/:replyNo", replyController.createReReply)
 
-// 클라이언트에서 post_no과 user_no를 파라미터로 전달한다.
+// 클라이언트에서 user_no, post_no과 부모 댓글의 reply_no를 파라미터로 전달한다.
 // 작성할 대댓글 내용은 body를 통해 전달된다.
 // post_no과 user_id는 외래키로 지정되어 유효하지 않은 값이 전달되면 에러가 발생한다.
 exports.createReReply = (req, res) => {
     const dataObj = {
         reply_contents: req.body.reply_contents,
-        user_id: req.params.user,
-        post_no: req.params.post,
+        user_no: req.params.userNo,
+        post_no: req.params.postNo,
         wrt_date: new Date(),
-        
-    };
+        depth: 1,
+        bundle_id: req.params.replyNo 
+    }
     
-    replyModel.createReply(dataObj, (result) => {
+    replyModel.createReReply(dataObj, (result) => {
         if (result) {
-            console.log("reply insert completed")
+            console.log("rereply insert completed")
             res.send(result)
         }
     })

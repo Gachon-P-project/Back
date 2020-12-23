@@ -18,10 +18,8 @@ router.get("/read/:post", replyController.readReply)
 // router.get("/read/count/:post", replyController.readCountReply)
 
 
-
-
 // REREPLY CREATE - 대댓글 작성 (수정중)
-router.get("/rereply/insert/:user/:post", replyController.createReReply)
+router.get("/rereply/insert/:userNo/:postNo/:replyNo", replyController.createReReply)
 
 // REREPLY UPDATE - 대댓글 수정 (불가)
 //router.get("/rereply/update/:user/:post", replyController.updateReReply)
