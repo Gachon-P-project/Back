@@ -25,11 +25,11 @@ router.get("/rereply/insert/:user/:post", replyController.createReReply)
 // REREPLY UPDATE - 대댓글 수정
 router.get("/rereply/update/:user/:post", replyController.updateReReply)
 
-// REREPLY DELETE - 대댓글 삭제
-router.get("/rereply/delete/:user/:post", replyController.deleteReReply)
+// // REREPLY DELETE - 대댓글 삭제
+// router.delete("/rereply/delete/:user/:post", replyController.deleteReReply)
 
-// REREPLY READ - 대댓글 보기
-router.get("/rereply/read/:user/:post", replyController.readReReply)
+// // REREPLY READ - 대댓글 보기
+// router.get("/rereply/read/:user/:post", replyController.readReReply)
 
 
 module.exports = router;
