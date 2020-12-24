@@ -104,11 +104,33 @@ router.get('/timetable/:user_no/:year/:sem', (req, res) => {
         } catch(e) {
             res.send(e)
         }
-    })
-
-    
+    }) 
 })
 
+router.get('/nickname_chk/:nickname', (req, res) => {
+    const sql = "SELECT nickname FROM USER where nickname = ?;";
+    try{
+        try {
+            db.query(sql, req.params.nickname, (err, results) => {
+                if (err) {
+                    res.send(err);
+                } else {
+                    if (results.length == 0){
+                        // 등록되지 않은 사용자 - nickname 없음
+                        res.send("사용가능한 닉네임 입니다.")
+                    } else {
+                        // 등록된 사용자 - nickname 추가하여 전송
+                        res.send("이미 등록된 닉네임 입니다.")
+                    }
+                }
+            })
+        } catch (e) {
+            res.send("DB 연결 오류")
+        }
+    } catch (e) {
+        res.send("닉네임 값 오류")
+    }
+})
 
 
 module.exports = router;
