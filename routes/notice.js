@@ -21,7 +21,7 @@ router.get("/read/:pageNum/:major", (req, res) => {
             const boardType_seq = result[0].major_code;
             const url = process.env.notice_link+"pageNum="+pageNum+"&pageSize=10&boardType_seq="+String(boardType_seq)+"&approve=&secret=&answer=&branch=&searchopt=&searchword="
             
-            noticeController(url, pageNum).then(result => {
+            noticeController.getNoticeList(url, pageNum).then(result => {
                 res.send(result);
             })
             
@@ -46,7 +46,31 @@ router.get("/read/:pageNum/:major/:search", (req, res) => {
                 const boardType_seq = result[0].major_code;
                 const url = process.env.notice_link+"pageNum="+pageNum+"&pageSize=10&boardType_seq="+String(boardType_seq)+"&approve=&secret=&answer=&branch=&searchopt=&searchword="
                 
-                noticeController(url, pageNum).then(result => {
+                noticeController.getNoticeList(url, pageNum).then(result => {
+                    res.send(result);
+                })
+            } catch (e) {
+                res.send("잘못된 입력값");
+            } 
+        }
+    })
+})
+
+router.get("/posting/:major/:board_no", (req, res) => {
+    const sql = "SELECT major_code FROM MAJOR WHERE major_name = ?"
+    const major = req.params.major;
+    
+    db.query(sql, major, (err, result) => {
+        if(err) {
+            console.log("select err : ", err);
+        }
+        else {
+            console.log("notice clicked post");
+            try {
+                const boardType_seq = result[0].major_code;
+                const url = process.env.notice_link+"mode=view&boardType_seq="+String(boardType_seq)+"&board_no="+req.params.board_no+"&approve=&secret=&answer=&branch=&searchopt=&searchword=&pageSize=10&pageNum=0"
+                
+                noticeController.getClickedPosting(url).then(result => {
                     res.send(result);
                 })
             } catch (e) {

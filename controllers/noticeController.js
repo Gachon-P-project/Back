@@ -1,7 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-const crawler = async (url, pageNum) =>  {
+const getNoticeList = async (url, pageNum) =>  {
     const res = await axios.get(url);
     const html = res.data;
     
@@ -132,4 +132,19 @@ const crawler = async (url, pageNum) =>  {
     }
 }
 
-module.exports = crawler;
+const getClickedPosting = async (url) => {
+    const res = await axios.get(url);
+    const html = res.data;
+
+    let $ = cheerio.load(html);
+    
+    try {
+        const data = $('.boardview').html()
+        return data;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+module.exports.getNoticeList = getNoticeList;
+module.exports.getClickedPosting = getClickedPosting;
