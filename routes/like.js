@@ -3,7 +3,7 @@ const router = express.Router();
 const mysqlConObj = require('../config/mysql');
 const db = mysqlConObj.init();
 
-const likeController = require('../controllers/likeController')
+// const likeController = require('../controllers/likeController')
 
 // mode : 좋아요 상태를 바꿀 것이 게시글인지 댓글인지 대댓글인지 표기
 // 게시글 : post, 댓글 : upment, 대댓글 : downment
