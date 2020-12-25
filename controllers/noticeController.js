@@ -225,7 +225,7 @@ const getClickedPosting = async (url) => {
     let $ = cheerio.load(html);
     
     try {
-        const data = sanitizeHtml($('.boardview').html(), {
+        const data = sanitizeHtml($('.boardview > table').html(), {
             parser: {
                 decodeEntities: true
             }
