@@ -72,12 +72,12 @@ router.get('/timetable/:user_no/:year/:sem', (req, res) => {
     const url = process.env.smart_main_link+"YEAR="+req.params.year+"&TERM_CD="+req.params.sem+"&STUDENT_NO="+req.params.user_no+"&GROUP_CD=CS&SQL_ID=mobile%2Faffairs%3ACLASS_TIME_TABLE_STUDENT_SQL_S01&fsp_action=AffairsAction&fsp_cmd=executeMapList&callback_page=%2Fmobile%2Fgachon%2Faffairs%2FAffClassTimeTableList.jsp"
     getTimetable(url).then(html => {
         let $ = cheerio.load(html);
-        let day_data = [];
         let last = [];
         try {        
             $('body > li').each((i, data) => {
                 let time = [];
                 let sub = [];
+                let day_data = [];
 
                 $(data).find('ul > li > p').each((i, data) =>{
                     if((i % 2) == 0){
