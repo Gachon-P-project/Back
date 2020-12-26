@@ -9,7 +9,7 @@ router.post("/insert/:user/:post", replyController.createReply)
 // router.post("/update/:id", replyController.updateReply)
 
 // REPLY DELETE - 댓글 삭제
-router.delete("/delete/:id", replyController.deleteReply)
+router.delete("/delete/:replyNo/:depth", replyController.deleteReply)
 
 // REPLY READ - 댓글 보기
 router.get("/read/:post", replyController.readReply)
@@ -19,7 +19,7 @@ router.get("/read/:post", replyController.readReply)
 
 
 // REREPLY CREATE - 대댓글 작성 (수정중)
-router.get("/rereply/insert/:userNo/:postNo/:replyNo", replyController.createReReply)
+router.post("/rereply/insert/:userNo/:postNo/:replyNo", replyController.createReReply)
 
 // REREPLY UPDATE - 대댓글 수정 (불가)
 //router.get("/rereply/update/:user/:post", replyController.updateReReply)
