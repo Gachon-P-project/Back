@@ -9,7 +9,10 @@ router.post("/insert/:user/:post", replyController.createReply)
 // router.post("/update/:id", replyController.updateReply)
 
 // REPLY DELETE - 댓글 삭제
-router.delete("/delete/:replyNo/:depth", replyController.deleteReply)
+router.get("/delete/:bundleId", replyController.countBundle)
+
+// REREPLY DELETE - 대댓글 삭제
+router.delete("/delete/rereply/:replyNo", replyController.deleteRereply)
 
 // REPLY READ - 댓글 보기
 router.get("/read/:post", replyController.readReply)
@@ -17,13 +20,8 @@ router.get("/read/:post", replyController.readReply)
 // REPLY READ COUNT - 댓글 수 카운트
 // router.get("/read/count/:post", replyController.readCountReply)
 
-// bundle 개수 count
-router.get("/rereply/read/count/:depth/:bundleId", replyController.countBundle)
-
-
-
-// REREPLY CREATE - 대댓글 작성 (수정중)
-router.post("/rereply/insert/:userNo/:postNo/:replyNo", replyController.createReReply)
+// REREPLY CREATE - 대댓글 작성
+router.post("/insert/rereply/:userNo/:postNo/:replyNo", replyController.createReReply)
 
 // REREPLY UPDATE - 대댓글 수정 (불가)
 //router.get("/rereply/update/:user/:post", replyController.updateReReply)

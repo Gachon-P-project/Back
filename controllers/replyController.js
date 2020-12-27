@@ -52,31 +52,14 @@ exports.updateReply = (req, res) => {
 }
 */
 
-// COUNT REPLY_NO
-// bundle 개수 count
-//router.get("/rereply/read/count/:depth/:bundleId", replyController.countBundle)
-exports.countBundle = (req, res) => {
-    let depth = req.params.depth;
+
+// REPLY DELETE - 댓글 삭제
+// 클라이언트에서 bundleId를 파라미터로 전달하면 해당 튜플의 을 삭제한다.
+//router.get("/delete/:bundleId", replyController.countBundle)
+exports.deleteReply = (req, res) => {
     let bundleId = req.params.bundleId
     
-    replyModel.countBundle(bundleId, (result) => {
-        if (result) {
-            console.log("bundle select completed")
-            res.send(result)
-        }
-    })
-}
-
-
-
-
-// REREPLY DELETE - 대댓글 삭제
-// 클라이언트에서 reply_no를 파라미터로 전달하면 해당 튜플의 을 삭제한다.
-exports.deleteReply = (req, res) => {
-
-    let reply_no = req.params.replyNo;
-
-    replyModel.deleteReply(reply_no, (result) => {
+    replyModel.deleteReply(bundleId, (result) => {
         if (result) {
             console.log("reply delete completed")
             res.send(result)
@@ -85,8 +68,22 @@ exports.deleteReply = (req, res) => {
 }
 
 
-// REREPLY CREATE - 대댓글 작성 (수정 중)
-// router.get("/rereply/insert/:userNo/:postNo/:replyNo", replyController.createReReply)
+// REREPLY DELETE - 대댓글 삭제
+// 클라이언트에서 reply_no를 파라미터로 전달하면 해당 튜플의 을 삭제한다.
+exports.deleteRereply = (req, res) => {
+    let reply_no = req.params.replyNo;
+
+    replyModel.deleteRereply(reply_no, (result) => {
+        if (result) {
+            console.log("rereply delete completed")
+            res.send(result)
+        }
+    })
+}
+
+
+// REREPLY CREATE - 대댓글 작성
+// router.get("/insert/rereply/:userNo/:postNo/:replyNo", replyController.createReReply)
 // 클라이언트에서 user_no, post_no과 부모 댓글의 reply_no를 파라미터로 전달한다.
 // 작성할 대댓글 내용은 body를 통해 전달된다.
 // post_no과 user_id는 외래키로 지정되어 유효하지 않은 값이 전달되면 에러가 발생한다.
