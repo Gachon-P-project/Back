@@ -5,7 +5,7 @@ const db = mysqlConObj.init();
 
 const noticeController = require('../controllers/noticeController')
 
-// NOTICE READ
+// NOTICE LIST
 router.get("/read/:pageNum/:major", (req, res) => {
     const pageNum = req.params.pageNum; // 몇번째 페이지
     const major = req.params.major;
