@@ -15,6 +15,7 @@ exports.readCountReply = (req, res) => {
 }
 */
 
+// router.post("/insert/:user/:post", replyController.createReply)
 // REPLY CREATE - 새 댓글 작성
 // 클라이언트에서 post_no과 user_no를 파라미터로 전달한다.
 // 작성할 댓글 내용은 body를 통해 전달된다.
@@ -52,15 +53,29 @@ exports.updateReply = (req, res) => {
 */
 
 
-// REPLY DELETE - 댓글 삭제
+// REREPLY DELETE - 대댓글 삭제
 // 클라이언트에서 reply_no를 파라미터로 전달하면 해당 튜플의 을 삭제한다.
 exports.deleteReply = (req, res) => {
 
-    let reply_no = req.params.id;
-    
+    let reply_no = req.params.replyNo;
+
     replyModel.deleteReply(reply_no, (result) => {
         if (result) {
             console.log("reply delete completed")
+            res.send(result)
+        }
+    })
+}
+
+// REPLY DELETE - 댓글 삭제 (대댓글 있는 경우 '댓글 삭제됨'으로 전환)
+// 클라이언트에서 reply_no를 파라미터로 전달하면 해당 튜플을 전환
+exports.changeReply= (req, res) => {
+
+    let reply_no = req.params.replyNo;
+
+    replyModel.deleteReply(reply_no, (result) => {
+        if (result) {
+            console.log("reply change completed")
             res.send(result)
         }
     })
@@ -109,7 +124,7 @@ exports.updateReReply = (req, res) => {
 */
 
 
-
+// router.get("/read/:post", replyController.readReply)
 // REPLY READ - 해당 게시글의 댓글 보기
 // 클라이언트에서 post_no을 파라미터로 전달하면 해당하는 튜플을 전송한다.
 exports.readReply = (req, res) => {

@@ -38,29 +38,27 @@ exports.updateReply = (reply_contents, reply_no, cb) => {
     })
 }
 
-
-// REPLY DELETE - 댓글 삭제 (대댓글 있는 경우 '댓글 삭제됨'으로 전환)
-// 클라이언트에서 reply_no를 파라미터로 전달하면 해당 튜플을 전환
-exports.changeReply = (reply_no, cb) => {
-    const sql = "UPDATE REPLY SET reply_contents = '삭제된 댓글입니다.' WHERE reply_no = ?";
+// COUNT REPLY_NO
+exports.countBundle = (reply_no, cb) => {
+    const sql = "SELECT COUNT(*) AS depth FROM REPLY WHERE depth = 0";
 
     db.query(sql, reply_no, (err, results) => {
         if (err) {
             console.log("update err : ", err);
         }
         else {
-            cb(JSON.parse(JSON.stringify(results)));
+            return JSON.parse(JSON.stringify(results));
         }
     })
 
 }
 
 
-// REPLY DELETE - 댓글 삭제
+// REPLY DELETE - 대댓글 삭제
 // 클라이언트에서 reply_no를 파라미터로 전달하면 해당 튜블을 삭제한다.
 exports.deleteReply = (reply_no, cb) => {
     const sql = "DELETE FROM REPLY WHERE reply_no = ?";
-
+    
     db.query(sql, reply_no, (err, results) => {
         if (err) {
             console.log("delete err : ", err);
@@ -72,6 +70,21 @@ exports.deleteReply = (reply_no, cb) => {
 }
 
 
+// REPLY DELETE - 댓글 삭제 (대댓글 있는 경우 '댓글 삭제됨'으로 전환)
+// 클라이언트에서 reply_no를 파라미터로 전달하면 해당 튜플을 전환
+exports.changeReply = (reply_no, cb) => {
+    const sqlD = "SELECT COUNT(*) FROM REPLY WHERE depth = 1 AND bundle_id = ?"
+    const sql = "UPDATE REPLY SET reply_contents = '삭제된 댓글입니다.' WHERE reply_no = ?";
+
+    db.query(sqlD, reply_no, (err, results) => {
+        if (err) {
+            console.log("update err : ", err);
+        }
+        else {
+            cb(JSON.parse(JSON.stringify(results)));
+        }
+    })
+}
 
 // REPLY READ - 해당 게시글의 댓글 보기
 // 클라이언트에서 post_no을 파라미터로 전달하면 해당하는 튜플을 전송한다.
