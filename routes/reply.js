@@ -9,7 +9,7 @@ router.post("/insert/:user/:post", replyController.createReply)
 // router.post("/update/:id", replyController.updateReply)
 
 // REPLY DELETE - 댓글 삭제
-router.get("/delete/:bundleId", replyController.countBundle)
+router.delete("/delete/:bundleId", replyController.deleteReply)
 
 // REREPLY DELETE - 대댓글 삭제
 router.delete("/delete/rereply/:replyNo", replyController.deleteRereply)
