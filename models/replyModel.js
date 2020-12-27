@@ -39,15 +39,36 @@ exports.updateReply = (reply_contents, reply_no, cb) => {
 }
 
 // COUNT REPLY_NO
-exports.countBundle = (reply_no, cb) => {
-    const sql = "SELECT COUNT(*) AS depth FROM REPLY WHERE depth = 0";
-
-    db.query(sql, reply_no, (err, results) => {
+exports.countBundle = (bundleId, cb) => {
+    const sql = "SELECT COUNT(*) AS bundle FROM REPLY WHERE bundle_id=?";
+    const sqlDelete = "DELETE FROM REPLY WHERE reply_no = ?";
+    const sqlChange = "UPDATE REPLY SET reply_contents = '삭제된 댓글입니다.' WHERE reply_no = ?"
+    db.query(sql, bundleId, (err, results) => {
         if (err) {
             console.log("update err : ", err);
         }
         else {
-            return JSON.parse(JSON.stringify(results));
+            const bundle = JSON.parse(JSON.stringify(results));
+            console.log(bundle[0].bundle);
+            if (bundle[0].bundle == 1) {
+                db.query(sqlDelete, bundleId, (err, results) => {
+                    if (err) {
+                        console.log("delete err : ", err);
+                    }
+                    else {
+                        cb(JSON.parse(JSON.stringify(results)));
+                    }
+                })
+            } else {
+                db.query(sqlChange, bundleId, (err, results) => {
+                    if (err) {
+                        console.log("change err : ", err);
+                    }
+                    else {
+                        cb(JSON.parse(JSON.stringify(results)));
+                    }
+                })
+            }
         }
     })
 
@@ -59,6 +80,12 @@ exports.countBundle = (reply_no, cb) => {
 exports.deleteReply = (reply_no, cb) => {
     const sql = "DELETE FROM REPLY WHERE reply_no = ?";
     
+    const countBundle = db.query(sql, reply_no, (err, results) => {
+    })
+
+    console.log(countBundle.sql);
+
+
     db.query(sql, reply_no, (err, results) => {
         if (err) {
             console.log("delete err : ", err);
@@ -81,6 +108,7 @@ exports.changeReply = (reply_no, cb) => {
             console.log("update err : ", err);
         }
         else {
+            
             cb(JSON.parse(JSON.stringify(results)));
         }
     })

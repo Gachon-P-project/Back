@@ -17,6 +17,10 @@ router.get("/read/:post", replyController.readReply)
 // REPLY READ COUNT - 댓글 수 카운트
 // router.get("/read/count/:post", replyController.readCountReply)
 
+// bundle 개수 count
+router.get("/rereply/read/count/:depth/:bundleId", replyController.countBundle)
+
+
 
 // REREPLY CREATE - 대댓글 작성 (수정중)
 router.post("/rereply/insert/:userNo/:postNo/:replyNo", replyController.createReReply)

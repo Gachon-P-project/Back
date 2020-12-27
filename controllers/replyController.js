@@ -52,6 +52,23 @@ exports.updateReply = (req, res) => {
 }
 */
 
+// COUNT REPLY_NO
+// bundle 개수 count
+//router.get("/rereply/read/count/:depth/:bundleId", replyController.countBundle)
+exports.countBundle = (req, res) => {
+    let depth = req.params.depth;
+    let bundleId = req.params.bundleId
+    
+    replyModel.countBundle(bundleId, (result) => {
+        if (result) {
+            console.log("bundle select completed")
+            res.send(result)
+        }
+    })
+}
+
+
+
 
 // REREPLY DELETE - 대댓글 삭제
 // 클라이언트에서 reply_no를 파라미터로 전달하면 해당 튜플의 을 삭제한다.
@@ -66,21 +83,6 @@ exports.deleteReply = (req, res) => {
         }
     })
 }
-
-// REPLY DELETE - 댓글 삭제 (대댓글 있는 경우 '댓글 삭제됨'으로 전환)
-// 클라이언트에서 reply_no를 파라미터로 전달하면 해당 튜플을 전환
-exports.changeReply= (req, res) => {
-
-    let reply_no = req.params.replyNo;
-
-    replyModel.deleteReply(reply_no, (result) => {
-        if (result) {
-            console.log("reply change completed")
-            res.send(result)
-        }
-    })
-}
-
 
 
 // REREPLY CREATE - 대댓글 작성 (수정 중)
