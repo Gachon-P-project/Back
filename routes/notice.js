@@ -5,7 +5,7 @@ const db = mysqlConObj.init();
 
 const noticeController = require('../controllers/noticeController')
 
-// NOTICE LIST
+// 공지사항 조회
 router.get("/read/:pageNum/:major", (req, res) => {
     const pageNum = req.params.pageNum; // 몇번째 페이지
     const major = req.params.major;
@@ -29,7 +29,7 @@ router.get("/read/:pageNum/:major", (req, res) => {
     })
 })
 
-// NOTICE LIST - SEARCH
+// 공지사항 검색
 router.get("/read/:pageNum/:major/:search", (req, res) => {
     const pageNum = req.params.pageNum; // 몇번째 페이지
     const major = req.params.major;
@@ -57,6 +57,7 @@ router.get("/read/:pageNum/:major/:search", (req, res) => {
     })
 })
 
+// 공지사항 게시글 선택
 router.get("/posting/:major/:board_no", (req, res) => {
     const sql = "SELECT major_code FROM MAJOR WHERE major_name = ?"
     const major = req.params.major;
@@ -81,5 +82,27 @@ router.get("/posting/:major/:board_no", (req, res) => {
     })
 })
 
+// 공지사항 게시글 선택_URL
+router.get("/url/:major/:board_no", (req, res) => {
+    const sql = "SELECT major_code FROM MAJOR WHERE major_name = ?"
+    const major = req.params.major;
+
+    db.query(sql, major, (err, result) => {
+        if(err) {
+            console.log("select err : ", err);
+        }
+        else {
+            console.log("notice clicked post - url");
+            try {
+                const boardType_seq = result[0].major_code;
+                const url = process.env.notice_link+"mode=view&boardType_seq="+String(boardType_seq)+"&board_no="+req.params.board_no+"&approve=&secret=&answer=&branch=&searchopt=&searchword=&pageSize=10&pageNum=0"
+                
+                res.send(url);
+            } catch (e) {
+                res.send("잘못된 입력값");
+            } 
+        }
+    })
+})
 module.exports = router;
 
