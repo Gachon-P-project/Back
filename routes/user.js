@@ -14,6 +14,9 @@ const getTimetable = async (url) => {
 // USER CREATE - 새 유저 등록
 router.post("/add", userController.createUser)
 
+// 닉네임 수정
+router.put("/nickname/update/", userController.nicknameUpdateUser)
+
 // 클라이언트에서 로그인한 id / pwd 가 가천대학교 학생으로 등록되어있는지 확인 후
 // DB에 등록된 사용자인지 확인한다.
 router.post("/info", async (req, res) => {
