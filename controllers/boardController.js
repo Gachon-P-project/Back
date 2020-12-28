@@ -93,3 +93,17 @@ exports.readDetailBoard = (req, res) => {
         }
     })
 }
+
+// MY BOARD READ - 과목게시판 내가 쓴 글 조회
+// router.get("/select/myBoard/:userNo", boardController.readMyBoardList)
+// 클라이언트에서 user_id을 파라미터로 전달하면 해당하는 튜플을 전송한다.
+exports.readMyBoardList = (req, res) => {
+    let user_no = req.params.userNo;
+    
+    boardModel.readMyBoardList(user_no, (result) => {
+        if (result) {
+            console.log("my board select completed")
+            res.send(result)
+        }
+    })
+}

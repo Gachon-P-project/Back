@@ -97,3 +97,19 @@ exports.readDetailBoard = (post_no, cb) => {
         }
     })
 }
+
+// MY BOARD READ - 과목게시판 내가 쓴 글 조회
+// router.get("/select/myBoard/:userNo", boardController.readMyBoardList)
+// 클라이언트에서 user_no을 파라미터로 전달하면 해당하는 튜플을 전송한다.
+exports.readMyBoardList = (user_no, cb) => {
+    const sql = "SELECT * FROM BOARD WHERE user_no = ?";
+
+    db.query(sql, user_no, (err, results) => {
+        if (err) {
+            console.log("read err : ", err);
+        }
+        else {
+            cb(JSON.parse(JSON.stringify(results)));
+        }
+    })
+}
