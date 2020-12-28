@@ -9,7 +9,9 @@ exports.readList = (subject_name, professor_name, cb) => {
     // const sql = "SELECT * FROM BOARD WHERE subject_name=? AND professor_name=?";
     
     // 게시글 목록에 댓글 개수 출력 
-    const sql = "select b.*, (select count(*) from REPLY where post_no=b.post_no) as reply_cnt from BOARD b where b.subject_name=? and b.professor_name=?";
+//    const sql = "select b.*, (select count(*) from REPLY where post_no=b.post_no) as reply_cnt from BOARD b where b.subject_name=? and b.professor_name=?";
+
+    const sql = "select b.*, (select count(*) from REPLY where post_no=b.post_no) as reply_cnt, (select count(*) from LIKE where post_no=b.post_no ) as like_cnt from BOARD b where b.subject_name=? and b.professor_name=?";
 
     db.query(sql, [subject_name, professor_name], (err, results) => {
         if (err) {
