@@ -102,7 +102,9 @@ exports.readDetailBoard = (post_no, cb) => {
 // router.get("/select/myBoard/:userNo", boardController.readMyBoardList)
 // 클라이언트에서 user_no을 파라미터로 전달하면 해당하는 튜플을 전송한다.
 exports.readMyBoardList = (user_no, cb) => {
-    const sql = "SELECT * FROM BOARD WHERE user_no = ?";
+
+    // 쿼리문 수정 예정 user_id -> user_no
+    const sql = "SELECT * FROM BOARD WHERE user_id = ?";
 
     db.query(sql, user_no, (err, results) => {
         if (err) {
