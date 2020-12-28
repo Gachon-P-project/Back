@@ -17,3 +17,17 @@ exports.createUser = (user_no, user_id, user_name, nickname, user_major, auth_le
         }
     })
 }
+
+// 닉네임 수정
+exports.nicknameUpdateUser = (nickname, user_no, cb) => {
+    const sql = "UPDATE USER SET nickname = ? where user_no = ?;"
+
+    db.query(sql, [nickname, user_no], (err, results) => {
+        if (err) {
+            console.log("update err : ", err);
+        }
+        else {
+            cb(JSON.parse(JSON.stringify(results)));
+        }
+    })
+}

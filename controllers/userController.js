@@ -17,3 +17,16 @@ exports.createUser = (req, res) => {
         }
     })
 }
+
+// 닉네임 수정
+exports.nicknameUpdateUser = (req, res) => {
+    let nickname = req.body.nickname;
+    let user_no = req.body.user_no;
+
+    userModel.nicknameUpdateUser(nickname, user_no, (result) => {
+        if (result) {
+            console.log("user nickname update completed")
+            res.send(result)
+        }
+    })
+}
