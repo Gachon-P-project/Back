@@ -7,7 +7,7 @@ exports.readList = (req, res) => {
     let professor_name = req.params.professor;
     let user_no = req.params.userNo;
     
-    boardModel.readList(subject_name, professor_name, user_no, (result) => {
+    boardModel.readList(user_no, subject_name, professor_name, (result) => {
         if (result) {
             console.log("board select completed")
             res.send(result)
@@ -67,33 +67,18 @@ exports.deleteBoard = (req, res) => {
     })
 }
 
-// BOARD READ - 과목게시판 특정 단어로 글 조회
-// 클라이언트에서 과목명/특정값을 파라미터로 전달하면 해당하는 튜플을 전송한다.
-exports.readSomeList = (req, res) => {
-    let subject_name = req.params.subject;
-    let professor_name = req.params.professor;
-    let post_word = req.params.word;
-    
-    boardModel.readSomeList(subject_name, professor_name, post_word, (result) => {
-        if (result) {
-            console.log("board select completed")
-            res.send(result)
-        }
-    })
-}
-
 // BOARD READ - 과목게시판 내 선택한 글 상세보기
 // 클라이언트에서 post_no을 전달하면 해당 튜플을 전송한다.
-exports.readDetailBoard = (req, res) => {
-    let post_no = req.params.id
+// exports.readDetailBoard = (req, res) => {
+//     let post_no = req.params.id
     
-    boardModel.readDetailBoard(post_no, (result) => {
-        if (result) {
-            console.log("board select completed")
-            res.send(result)
-        }
-    })
-}
+//     boardModel.readDetailBoard(post_no, (result) => {
+//         if (result) {
+//             console.log("board select completed")
+//             res.send(result)
+//         }
+//     })
+// }
 
 // MY BOARD READ - 과목게시판 내가 쓴 글 조회
 // router.get("/select/myBoard/:userNo", boardController.readMyBoardList)

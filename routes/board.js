@@ -9,7 +9,7 @@ router.get("/select/:subject/:professor/:userNo", boardController.readList)
 router.get("/select/:subject/:professor/:userNo/search/:word", boardController.readSomeList)
 
 // BOARD READ - 과목게시판 내 선택한 글 상세보기
-router.get("/select/:id", boardController.readDetailBoard)
+// router.get("/select/:id", boardController.readDetailBoard)
 
 // BOARD CREATE - 과목게시판 새 글 작성
 router.post("/insert", boardController.createBoard)
@@ -24,7 +24,7 @@ router.delete("/delete/:id", boardController.deleteBoard)
 router.get("/myBoard/select/list/:userNo", boardController.readMyBoardList)
 
 // MY REPLY READ - 내가 댓글쓴 글 조회
-router.get("/myBoard/select/list/:userNo", boardController.readMyBoardList)
+// router.get("/myBoard/select/list/:userNo", boardController.readMyBoardList)
 
 
 
