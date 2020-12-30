@@ -23,7 +23,6 @@ router.delete("/delete/:bundleId", replyController.deleteReply)
 // REREPLY DELETE - 대댓글 삭제
 router.delete("/delete/rereply/:replyNo", replyController.deleteRereply)
 
-
 // REPLY READ COUNT - 댓글 수 카운트
 // router.get("/read/count/:post", replyController.readCountReply)
 
