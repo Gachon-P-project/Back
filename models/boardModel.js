@@ -3,15 +3,14 @@ const mysqlConObj = require('../config/mysql');
 const db = mysqlConObj.init();
 // mysqlConObj.open(db); // 정상 연결 확인
 
-// 과목게시판 전체 글 조회
-// 클라이언트에서 과목명/교수명을 파라미터로 전달하면 해당하는 튜플을 전송
-exports.readList = (subject_name, professor_name, cb) => {
-    // const sql = "SELECT * FROM BOARD WHERE subject_name=? AND professor_name=?";
-    // 게시글 목록에 댓글 개수, 좋아요 개수 출력 
-    // const sql = "select b.*, (select count(*) from REPLY where post_no=b.post_no) as reply_cnt from BOARD b where b.subject_name=? and b.professor_name=?";
-    const sql = "select b.*, (select count(*) from REPLY where post_no=b.post_no) as reply_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no) as like_cnt from BOARD b where b.subject_name=? and b.professor_name=?";
+// 과목게시판 전체 글 조회\
 
-    db.query(sql, [subject_name, professor_name], (err, results) => {
+
+// 클라이언트에서 과목명/교수명을 파라미터로 전달하면 해당하는 튜플을 전송
+exports.readList = (user_no, subject_name, professor_name, cb) => {
+    // 게시글 목록에 댓글 개수, 좋아요 개수 출력 
+    const sql = "select b.*, (select count(*) from REPLY where post_no=b.post_no) as reply_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no) as like_cnt, (select count(*) from LIKEBOARD where user_no=?) as like_user from BOARD b where b.subject_name=? and b.professor_name=?";
+    db.query(sql, [user_no, subject_name, professor_name], (err, results) => {
         if (err) {
             console.log("select err : ", err);
         }
@@ -70,8 +69,7 @@ exports.deleteBoard = (post_no, cb) => {
 // BOARD READ - 과목게시판 특정 단어로 글 조회
 // 클라이언트에서 과목명/특정값을 파라미터로 전달하면 해당하는 튜플을 전송한다.
 exports.readSomeList = (subject_name, professor_name, post_word, cb) => {
-    const sql = "SELECT * FROM BOARD WHERE subject_name = ? AND professor_name = ? AND (post_contents OR post_title LIKE "+ db.escape('%'+post_word+'%')+")";
-    // const sql = "SELECT * FROM BOARD WHERE subject_name=?, professor_name = ? AND (post_contents OR post_title LIKE %post_word%";
+    const sql = "SELECT * FROM BOARD WHERE subject_name = ? AND professor_name = ? AND (post_contents LIKE "+ db.escape('%'+post_word+'%')+"RO post_title LIKE "+ db.escape('%'+post_word+'%')+")";
 
     db.query(sql, [subject_name, professor_name], (err, results) => {
         if (err) {
@@ -92,17 +90,7 @@ exports.readDetailBoard = (post_no, cb) => {
         if (err) {
             console.log("read err : ", err);
         }
-        else {
-
-
-
-            // 좋아요 여부 확인해서 여기서 is_liked = 1로
-
-
-
-
-
-            
+        else {          
             cb(JSON.parse(JSON.stringify(results)));
         }
     })

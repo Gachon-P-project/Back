@@ -3,10 +3,10 @@ const router = express.Router();
 const boardController = require('./../controllers/boardController');
 
 // SELECT SUBJECT BOARD - 과목게시판 전체 글 조회 (목록에 댓글 수 출력)
-router.get("/select/:subject/:professor", boardController.readList)
+router.get("/select/:subject/:professor/:userNo", boardController.readList)
 
 // BOARD READ - 과목게시판 특정 단어로 글 조회
-router.get("/select/:subject/:professor/search/:word", boardController.readSomeList)
+router.get("/select/:subject/:professor/:userNo/search/:word", boardController.readSomeList)
 
 // BOARD READ - 과목게시판 내 선택한 글 상세보기
 router.get("/select/:id", boardController.readDetailBoard)
@@ -21,10 +21,10 @@ router.put("/update/:id", boardController.updateBoard)
 router.delete("/delete/:id", boardController.deleteBoard)
 
 // MY BOARD READ - 내가 쓴 글 조회
-router.get("/select/myBoard/list/:userNo", boardController.readMyBoardList)
+router.get("/myBoard/select/list/:userNo", boardController.readMyBoardList)
 
 // MY REPLY READ - 내가 댓글쓴 글 조회
-router.get("/select/myBoard/list/:userNo", boardController.readMyBoardList)
+router.get("/myBoard/select/list/:userNo", boardController.readMyBoardList)
 
 
 
