@@ -25,7 +25,7 @@ exports.createReply = (req, res) => {
     let reply_contents = req.body.reply_contents;
     let user_no = req.params.user;
     let post_no = req.params.post;
-    let wrt_date = new Date();
+    let wrt_date = new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"});
     
     replyModel.createReply(reply_contents, user_no, post_no, wrt_date, (result) => {
         if (result) {
