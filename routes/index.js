@@ -7,13 +7,14 @@ const userRoutes = require('./user')
 const replyRoutes = require('./reply')
 const noticeRoutes = require('./notice')
 const likeRoutes = require('./like')
+const tokenRoutes = require('./token')
 
 router.use('/board', boardRoutes)
 router.use('/user', userRoutes)
 router.use('/reply', replyRoutes)
 router.use('/notice', noticeRoutes)
 router.use('/like', likeRoutes)
-// router.use('/timeTable', timeTableRoutes)
+router.use('/token', tokenRoutes)
 
 
 module.exports = router;

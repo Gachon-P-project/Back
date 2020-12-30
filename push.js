@@ -92,11 +92,11 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
-const registrationToken = process.env.token;
+const registrationToken = process.env.token3;
 const payload = {
     notification: {
-        title: "컴퓨터공학과 새 글 알림",
-        body: "공학교육혁신센터 AI자율주행차 체험 온라인 캠프 참가자 모집"
+        title: "[컴퓨터공학과]",
+        body: "[엠티콤] AI 학습용 데이터 가공작업을 위한 재택 아르바이트 모집의 건"
     }
 }
 
