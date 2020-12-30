@@ -20,4 +20,14 @@ router.put("/update/:id", boardController.updateBoard)
 // BOARD DELETE - 과목게시판 내 선택한 글 삭제
 router.delete("/delete/:id", boardController.deleteBoard)
 
+// MY BOARD READ - 내가 쓴 글 조회
+router.get("/select/myBoard/list/:userNo", boardController.readMyBoardList)
+
+// MY REPLY READ - 내가 댓글쓴 글 조회
+router.get("/select/myBoard/list/:userNo", boardController.readMyBoardList)
+
+
+
 module.exports = router;
+
+
