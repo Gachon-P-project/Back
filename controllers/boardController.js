@@ -12,7 +12,7 @@ exports.createBoard = (req, res) => {
         major_name: req.body.major_name,
         subject_name: req.body.subject_name,
         professor_name: req.body.professor_name,
-        user_id: req.body.user_id
+        user_no: req.body.user_no
     };
     
     boardModel.createBoard(dataObj, (result) => {
@@ -30,7 +30,7 @@ exports.readList = (req, res) => {
     let professor_name = req.params.professor;
     let user_no = req.params.userNo;
     
-    boardModel.readList(subject_name, professor_name, user_no, (result) => {
+    boardModel.readList(user_no, subject_name, professor_name, (result) => {
         if (result) {
             console.log("board select completed")
             res.send(result)
@@ -43,9 +43,10 @@ exports.readList = (req, res) => {
 exports.readSomeList = (req, res) => {
     let subject_name = req.params.subject;
     let professor_name = req.params.professor;
+    let user_no = req.params.userNo;
     let post_word = req.params.word;
     
-    boardModel.readSomeList(subject_name, professor_name, post_word, (result) => {
+    boardModel.readSomeList(user_no, subject_name, professor_name, post_word, (result) => {
         if (result) {
             console.log("board select completed")
             res.send(result)
