@@ -28,7 +28,7 @@ exports.createReReply = (req, res) => {
         reply_contents: req.body.reply_contents,
         user_no: req.params.userNo,
         post_no: req.params.postNo,
-        wrt_date: new Date(),
+        wrt_date: new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}),
         depth: 1,
         bundle_id: req.params.replyNo 
     }

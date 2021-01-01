@@ -1,7 +1,7 @@
 const boardModel = require('../models/boardModel');
 
 // BOARD CREATE - 과목게시판 새 글 작성
-// 클라이언트는 body에 post_title, post_contents, reply_yn, major_name, subject_name, professor_name, user_id를 전달
+// 클라이언트는 body에 post_title, post_contents, reply_yn, major_name, subject_name, professor_name, user_no를 전달
 exports.createBoard = (req, res) => {
     const dataObj = {
         post_title: req.body.post_title,
@@ -42,6 +42,8 @@ exports.readList = (req, res) => {
 // 클라이언트에서 과목명/특정값을 파라미터로 전달하면 해당하는 튜플을 전송한다.
 exports.readSomeList = (req, res) => {
     let subject_name = req.params.subject;
+
+    
     let professor_name = req.params.professor;
     let user_no = req.params.userNo;
     let post_word = req.params.word;
@@ -86,7 +88,7 @@ exports.deleteBoard = (req, res) => {
 
 // MY BOARD READ - 과목게시판 내가 쓴 글 조회
 // router.get("/select/myBoard/:userNo", boardController.readMyBoardList)
-// 클라이언트에서 user_id을 파라미터로 전달하면 해당하는 튜플을 전송한다.
+// 클라이언트에서 userNo을 파라미터로 전달하면 해당하는 튜플을 전송한다.
 exports.readMyBoardList = (req, res) => {
     let user_no = req.params.userNo;
     
