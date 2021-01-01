@@ -1,109 +1,111 @@
-// const dotenv = require('dotenv').config();
-// const mysqlConObj = require('./config/mysql');
-// const db = mysqlConObj.init();
-// const axios = require('axios');
-// const cheerio = require('cheerio');
-
-// let start = new Date();
-
-// const getFirstNo = async (url) => {
-//   try{
-//   const res = await axios.get(url);
-//   const html = res.data;
-//   let num = [];
-
-//   let $ = cheerio.load(html);
-
-//   try {
-//     $('.boardlist table tbody tr').each((index, data) => {
-//       const td = $(data).find('td');
-//       td.each((i, element) => {
-//         if(i == 0) {
-//           if($(element).children().length == 1) {
-            
-//           } else {
-//             num.push($(element).text().trim())
-//           }
-//         }
-//       })
-//     })
-//     return Math.max.apply(null, num)
-//   } catch (e) {
-//     console.log("e");
-//   }
-// }
-// catch (e) {
-//   console.log("Aa");
-// }}
-
-// const sql = "SELECT distinct major_code FROM MAJOR ORDER BY major_code;"
-
-// db.query(sql, async (err, results) => {
-//     if (err) {
-//         console.log("학과 코드 조회 실패")
-//     }
-//     else {
-//       for (const element of results) {
-//         let boardType_seq = element.major_code;
-
-//         const url = "https://www.gachon.ac.kr/major/bbs.jsp?boardType_seq="+boardType_seq
-//         try{
-//           await getFirstNo(url).then(result => {
-//             // console.log(boardType_seq, result);
-//             const cur_recent_no = result
-//             const sql2 = "SELECT recent_no FROM RECENT where major_code=?"
-//             db.query(sql2, boardType_seq, (err, res) => {
-//               const pre_recent_no = res[0].recent_no;
-
-//               // console.log(cur_recent_no, pre_recent_no);
-//               if(err){
-//                 console.log(err);
-//               }
-//               else {
-//                 if(cur_recent_no == pre_recent_no){
-//                   console.log(pre_recent_no, "동일한 최신글");
-//                 }
-//               }
-//             })
-//           })
-//         } catch (e) {
-//           console.log("ERROR", boardType_seq);
-//         }
-//       }
-
-//       // 시간 복잡도 계산 - 8~9초
-//       let end = new Date();
-//       console.log(end-start);
-
-//     }
-// })
-
-
-
-
-
 const dotenv = require('dotenv').config();
+const mysqlConObj = require('./config/mysql');
+const db = mysqlConObj.init();
+const axios = require('axios');
+const cheerio = require('cheerio');
 
-const admin = require("firebase-admin");
+let start = new Date();
 
-const serviceAccount = require("./service_key.json");
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
-
-const registrationToken = process.env.token3;
-const payload = {
-    notification: {
-        title: "[컴퓨터공학과]",
-        body: "[엠티콤] AI 학습용 데이터 가공작업을 위한 재택 아르바이트 모집의 건"
+const postPush = async (major_code, cur_recent_title) => {
+  try {
+    console.log("postPush", major_code);
+    const dataObj = {
+      major_code: major_code,
+      title: cur_recent_title
     }
+
+    const res = await axios.post("http://localhost:17394/user/push/", dataObj);
+    return res.data
+  } catch (e) {
+    console.log("postPush error", e);
+  }
 }
 
-admin.messaging().sendToDevice(registrationToken, payload)
-  .then(function(response) {
-    console.log("Successfully sent with response: ", response); 
-  })
-  .catch(function(error) {
-      console.log("Error sending message: ", error);
-  })
+const getFirstTitle = async (url) => {
+  try{
+  const res = await axios.get(url);
+  const html = res.data;
+  let dataObj;
+  let dataList = [];
+
+  let $ = cheerio.load(html);
+
+  try {
+    $('.boardlist table tbody tr').each((index, data) => {
+      const td = $(data).find('td');
+      dataObj = {
+        num : '',
+        title : '',
+      }
+        td.each((i, element) => {
+          if(i == 0) {
+            dataObj.num = $(element).text().trim()
+          }
+          if(i == 1) {
+            dataObj.title = $(element).text().trim();
+          }
+          
+        })
+        dataList.push(dataObj)
+    })
+    const first_title = dataList.find(element => element.num != '').title;  // [공지] 태그가 없는 게시글 중 가장 첫 번째 게시글
+    return first_title;
+  } catch (e) {
+    console.log("e");
+  }
+}
+catch (e) {
+  console.log("Aa");
+}}
+
+
+const sql = "SELECT distinct major_code FROM MAJOR ORDER BY major_code;"
+
+db.query(sql, async (err, results) => {
+    if (err) {
+        console.log("학과 코드 조회 실패")
+    }
+    else {
+      for (const element of results) {
+        let boardType_seq = element.major_code;
+
+        const url = process.env.notice_link+"boardType_seq="+boardType_seq
+        try{
+          await getFirstTitle(url).then(result => {
+            const cur_recent_title = result  // 새로 크롤링한 학과 공지사항의 최근 게시글
+
+            const sql2 = "SELECT recent_title FROM RECENT where major_code=?"
+            db.query(sql2, boardType_seq, async (err, res) => {
+              const pre_recent_title = res[0].recent_title;
+
+              if(err){
+                console.log(err);
+              }
+              else {
+                if(cur_recent_title != pre_recent_title){
+                  console.log("새 글 탐지", boardType_seq);
+                  await postPush(boardType_seq, cur_recent_title)
+                  
+                  // const sql3 = "UPDATE RECENT SET recent_title=? WHERE major_code=?;"
+                  // db.query(sql3, [cur_recent_title, boardType_seq], (err, res) => {
+                  //   if(err) {
+                  //     console.log(e);
+                  //   }
+                  // })
+                }
+              }
+            })
+          })
+        } catch (e) {
+          console.log("ERROR", boardType_seq);
+        }
+      }
+
+      // 시간 복잡도 계산 - 8~9초
+      let end = new Date();
+      console.log(end-start);
+
+      db.destroy();
+      process.exit();
+    }
+})
