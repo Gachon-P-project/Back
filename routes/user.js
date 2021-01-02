@@ -176,10 +176,21 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
 
+const options = {
+    priority: 'high',
+    timeToLive: 60 * 60 * 24
+}
+
 
 const pushMessage = (token, payload) => {
     try {
-        admin.messaging().sendToDevice(token, payload)
+        admin.messaging().send({
+            data: {
+                title: payload.notification.title,
+                body: payload.notification.body
+            },
+            token: token
+        })
           .then(res => {
               console.log("Successfully sent with response: ", res, token);
           })
@@ -187,6 +198,16 @@ const pushMessage = (token, payload) => {
         console.log("pushMessage error", e);
     }
 }
+// const pushMessage = (token, payload) => {
+//     try {
+//         admin.messaging().sendToDevice(token, payload, options)
+//           .then(res => {
+//               console.log("Successfully sent with response: ", res, token);
+//           })
+//     } catch (e) {
+//         console.log("pushMessage error", e);
+//     }
+// }
 
 
 
