@@ -169,24 +169,24 @@ router.post('/push', (req, res) => {
     
 })
 
-const admin = require("firebase-admin");
-const serviceAccount = require("./../service_key.json");
+// const admin = require("firebase-admin");
+// const serviceAccount = require("./../service_key.json");
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-});
+// admin.initializeApp({
+//     credential: admin.credential.cert(serviceAccount)
+// });
 
 
-const pushMessage = (token, payload) => {
-    try {
-        admin.messaging().sendToDevice(token, payload)
-          .then(res => {
-              console.log("Successfully sent with response: ", res, token);
-          })
-    } catch (e) {
-        console.log("pushMessage error", e);
-    }
-}
+// const pushMessage = (token, payload) => {
+//     try {
+//         admin.messaging().sendToDevice(token, payload)
+//           .then(res => {
+//               console.log("Successfully sent with response: ", res, token);
+//           })
+//     } catch (e) {
+//         console.log("pushMessage error", e);
+//     }
+// }
 
 
 
