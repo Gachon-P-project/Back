@@ -1,0 +1,1 @@
+const replyModel = require('../models/scrapModel');
