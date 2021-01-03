@@ -24,6 +24,7 @@ exports.createBoard = (dataObj, cb) => {
 exports.readList = (user_no, subject_name, professor_name, cb) => {
     // 게시글 목록에 댓글 개수, 좋아요 개수 출력 
     const sql = "select b.*, (select count(*) from REPLY where post_no=b.post_no) as reply_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no) as like_cnt, (select count(*) from LIKEBOARD where user_no=? and post_no=b.post_no) as like_user from BOARD b where b.subject_name=? and b.professor_name=? order by post_no desc";
+
     db.query(sql, [user_no, subject_name, professor_name], (err, results) => {
         if (err) {
             console.log("select err : ", err);
