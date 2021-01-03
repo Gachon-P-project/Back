@@ -55,6 +55,7 @@ catch (e) {
   console.log("Aa");
 }}
 
+let start = new Date()
 console.log("공지사항 새 글을 탐지합니다", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
 
 const sql = "SELECT distinct major_code FROM MAJOR ORDER BY major_code;"
@@ -100,6 +101,8 @@ db.query(sql, async (err, results) => {
           console.log("ERROR", boardType_seq);
         }
       }
+      let end = new Date()
+      console.log("소요 시간 : ", end-start);
       db.destroy();
       process.exit();
     }
