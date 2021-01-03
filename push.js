@@ -4,8 +4,6 @@ const db = mysqlConObj.init();
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-let start = new Date();
-
 const postPush = async (major_code, cur_recent_title) => {
   try {
     console.log("postPush", major_code);
@@ -14,8 +12,7 @@ const postPush = async (major_code, cur_recent_title) => {
       title: cur_recent_title
     }
 
-    const res = await axios.post("http://localhost:17394/user/push/", dataObj);
-    return res.data
+    const res = await axios.post(process.env.push_url+"/user/push/", dataObj);
   } catch (e) {
     console.log("postPush error", e);
   }
@@ -58,6 +55,7 @@ catch (e) {
   console.log("Aa");
 }}
 
+console.log("공지사항 새 글을 탐지합니다", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
 
 const sql = "SELECT distinct major_code FROM MAJOR ORDER BY major_code;"
 
@@ -86,12 +84,14 @@ db.query(sql, async (err, results) => {
                   console.log("새 글 탐지", boardType_seq);
                   await postPush(boardType_seq, cur_recent_title)
                   
-                  // const sql3 = "UPDATE RECENT SET recent_title=? WHERE major_code=?;"
-                  // db.query(sql3, [cur_recent_title, boardType_seq], (err, res) => {
-                  //   if(err) {
-                  //     console.log(e);
-                  //   }
-                  // })
+                  const sql3 = "UPDATE RECENT SET recent_title=? WHERE major_code=?;"
+                  db.query(sql3, [cur_recent_title, boardType_seq], (err, res) => {
+                    if(err) {
+                      console.log(e);
+                    } else {
+                      console.log("UPDATE RECENT", boardType_seq);
+                    }
+                  })
                 }
               }
             })
@@ -100,11 +100,6 @@ db.query(sql, async (err, results) => {
           console.log("ERROR", boardType_seq);
         }
       }
-
-      // 시간 복잡도 계산 - 8~9초
-      let end = new Date();
-      console.log(end-start);
-
       db.destroy();
       process.exit();
     }

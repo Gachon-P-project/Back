@@ -137,35 +137,43 @@ router.get('/nickname_chk/:nickname', (req, res) => {
 
 // push
 router.post('/push', (req, res) => {
-    const major_code = req.body.major_code
-    const title = req.body.title
+    try{
+        const major_code = req.body.major_code
+        const title = req.body.title
 
-    // console.log(major_code, title);
+        // console.log(major_code, title);
 
-    const major_select_sql = "SELECT major_name FROM MAJOR where major_code=?;"
-    db.query(major_select_sql, major_code, (err, results) => {
-        for (const result of results) {
-            // console.log(result.major_name);
-            const major_name = result.major_name
+        const major_select_sql = "SELECT major_name FROM MAJOR where major_code=?;"
+        db.query(major_select_sql, major_code, (err, results) => {
+            for (const result of results) {
+                // console.log(result.major_name);
+                const major_name = result.major_name
 
-            const payload = {
-                notification: {
-                    title: "["+major_name+"]",
-                    body: title
-                }
-            }
-
-            const token_select_sql = "SELECT token FROM TOKEN where user_major = ?;"
-            db.query(token_select_sql, major_name, (err, results) => {
-                if (results.length > 0) {  // 조회된 값이 있는 경우
-                    for(const result of results) {
-                        // console.log(result.token);
-                        pushMessage(result.token, payload)
+                const payload = {
+                    notification: {
+                        title: "["+major_name+"]",
+                        body: title
                     }
                 }
-            })
-        }
-    })
+
+                const token_select_sql = "SELECT token FROM TOKEN where user_major = ?;"
+                db.query(token_select_sql, major_name, (err, results) => {
+                    if (results.length > 0) {  // 조회된 값이 있는 경우
+                        for(const result of results) {
+                            // console.log(result.token);
+                            pushMessage(result.token, payload)
+                        }
+                    }
+                })
+            }
+        })
+
+        res.send("push OK")
+    } catch (e) {
+        console.log("push error: ", e);
+        res.send("push error: ", e);
+    }
+    
     
 })
 
