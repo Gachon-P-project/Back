@@ -6,6 +6,6 @@ const scrapController = require('./../controllers/scrapController')
 router.post("/insert/:post/:userNo", scrapController.createScrap)
 
 // SCRAP CREATE - 스크랩 게시물 리스트
-router.post("/select/:userNo", scrapController.readScrap)
+router.get("/select/:userNo", scrapController.readScrap)
 
 module.exports = router;

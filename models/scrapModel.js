@@ -41,12 +41,8 @@ exports.createScrap = (post_no, user_no, cb) => {
 
 // SCRAP READ - 스크랩한 게시글 조회
 // 클라이언트에서 사용자 학번을 파라미터로 전달
-exports.readSomeList = (user_no, cb) => {
-    // const sqlSelectPostNo = "select post_no from SCRAP where user_no = ?"
-    // const sqlSelect = "selet "
-    // const sql ="select b.*, (select count(*) from REPLY where post_no=b.post_no) as reply_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no) as like_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no and user_no=?) as like_user from BOARD b WHERE subject_name = ? AND professor_name = ? AND (post_contents LIKE "+ db.escape('%'+post_word+'%')+" OR post_title LIKE "+ db.escape('%'+post_word+'%')+")";
-    // const sql ="select b.*, (select count(*) from REPLY where post_no=b.post_no) as reply_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no) as like_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no and user_no=?) as like_user from BOARD b WHERE subject_name = ? AND professor_name = ? AND (post_contents LIKE "+ db.escape('%'+post_word+'%')+" OR post_title LIKE "+ db.escape('%'+post_word+'%')+")";
-    const sql = "select b.* (select count(*) from REPLY where post_no=b.post_no) as reply_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no) as like_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no and user_no=?) from BOARD b inner join SCRAP s on b.post_no = s.post_no and s.user_no = "+ db.escape(user_no);
+exports.readScrap = (user_no, cb) => {
+    const sql = "select b.*, s.scrap_no, (select count(*) from REPLY where post_no=b.post_no) as reply_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no) as like_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no and user_no=?)  as is_liked from BOARD b inner join SCRAP s on b.post_no = s.post_no and s.user_no=" + db.escape(user_no) + " order by s.scrap_no desc";
 
     db.query(sql, user_no, (err, results) => {
         if (err) {
