@@ -22,7 +22,6 @@ exports.createLike = (post_no, user_no, cb) => {
                         console.log("insert err : ", err);
                     }
                     else {
-                        console.log(JSON.parse(JSON.stringify(results)));
                         cb(JSON.parse(JSON.stringify(results)));
                     }
                 })
