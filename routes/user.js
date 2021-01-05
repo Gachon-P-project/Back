@@ -176,12 +176,6 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
 
-const options = {
-    priority: 'high',
-    timeToLive: 60 * 60 * 24
-}
-
-
 const pushMessage = (token, title, body) => {
     try {
         admin.messaging().send({
