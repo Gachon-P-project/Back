@@ -40,20 +40,6 @@ exports.createLike = (post_no, user_no, cb) => {
 }
 
 
-// LIKE CREATE - 좋아요
-// exports.createLike = (post_no, user_no, cb) => {
-//     const sqlLikeCnt = "SELECT count(*) AS like_cnt FROM LIKEBOARD WHERE post_no = ?"
-//     const sql = "INSERT INTO LIKEBOARD SET ?";
-
-//     db.query(sqlLikeCnt, [post_no, user_no], (err, results) => {
-//         if (err) {
-//             console.log("insert err : ", err);
-//         }
-//         else {
-//             cb(JSON.parse(JSON.stringify(results)));
-//         }
-//     })
-// }
 
 // LIKE CREATE - 좋아요 개수 조회
 exports.readLike = (post_no, cb) => {

@@ -139,29 +139,21 @@ router.get('/nickname_chk/:nickname', (req, res) => {
 router.post('/push', (req, res) => {
     try{
         const major_code = req.body.major_code
-        const title = req.body.title
-
-        // console.log(major_code, title);
+        const req_title = req.body.title
 
         const major_select_sql = "SELECT major_name FROM MAJOR where major_code=?;"
         db.query(major_select_sql, major_code, (err, results) => {
             for (const result of results) {
-                // console.log(result.major_name);
                 const major_name = result.major_name
 
-                const payload = {
-                    notification: {
-                        title: "["+major_name+"]",
-                        body: title
-                    }
-                }
+                const title = "["+major_name+"]",
+                const body = req_title
 
                 const token_select_sql = "SELECT token FROM TOKEN where user_major = ?;"
                 db.query(token_select_sql, major_name, (err, results) => {
                     if (results.length > 0) {  // 조회된 값이 있는 경우
                         for(const result of results) {
-                            // console.log(result.token);
-                            pushMessage(result.token, payload)
+                            pushMessage(result.token, title, body)
                         }
                     }
                 })
@@ -190,12 +182,12 @@ const options = {
 }
 
 
-const pushMessage = (token, payload) => {
+const pushMessage = (token, title, body) => {
     try {
         admin.messaging().send({
             data: {
-                title: payload.notification.title,
-                body: payload.notification.body
+                title: title,
+                body: body
             },
             token: token
         })
@@ -206,7 +198,5 @@ const pushMessage = (token, payload) => {
         console.log("pushMessage error", e);
     }
 }
-
-
 
 module.exports = router;
