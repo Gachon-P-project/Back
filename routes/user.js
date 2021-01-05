@@ -206,16 +206,6 @@ const pushMessage = (token, payload) => {
         console.log("pushMessage error", e);
     }
 }
-// const pushMessage = (token, payload) => {
-//     try {
-//         admin.messaging().sendToDevice(token, payload, options)
-//           .then(res => {
-//               console.log("Successfully sent with response: ", res, token);
-//           })
-//     } catch (e) {
-//         console.log("pushMessage error", e);
-//     }
-// }
 
 
 
