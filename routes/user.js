@@ -146,8 +146,8 @@ router.post('/push', (req, res) => {
             for (const result of results) {
                 const major_name = result.major_name
 
-                const title = "["+major_name+"]",
-                const body = req_title
+                let title = "["+major_name+"]"
+                let body = req_title
 
                 const token_select_sql = "SELECT token FROM TOKEN where user_major = ?;"
                 db.query(token_select_sql, major_name, (err, results) => {
@@ -165,8 +165,6 @@ router.post('/push', (req, res) => {
         console.log("push error: ", e);
         res.send("push error: ", e);
     }
-    
-    
 })
 
 // const admin = require("firebase-admin");
