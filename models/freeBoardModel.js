@@ -18,7 +18,20 @@ exports.createBoard = (dataObj, cb) => {
     })
 }
 
+// FREE BOARD READ - 자유게시판 글 조회
+exports.readList = (user_no, board_flag, cb) => {
+    // 게시글 목록에 댓글 개수, 좋아요 개수 출력 
+    const sql = "select b.*, (select count(*) from REPLY where post_no=b.post_no) as reply_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no) as like_cnt, (select count(*) from LIKEBOARD where user_no=? and post_no=b.post_no) as like_user from FREEBOARD b where b.board_flag= ? order by post_no desc";
 
+    db.query(sql, [user_no, board_flag], (err, results) => {
+        if (err) {
+            console.log("select err : ", err);
+        }
+        else {
+            cb(JSON.parse(JSON.stringify(results)));
+        }
+    })
+}
 
 
 
