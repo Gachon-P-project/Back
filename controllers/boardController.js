@@ -6,7 +6,6 @@ exports.createBoard = (req, res) => {
     const dataObj = {
         post_title: req.body.post_title,
         post_contents: req.body.post_contents,
-        post_like: 0,
         wrt_date: new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}),
         reply_yn: req.body.reply_yn,
         major_name: req.body.major_name,
@@ -42,8 +41,6 @@ exports.readList = (req, res) => {
 // 클라이언트에서 과목명/특정값을 파라미터로 전달하면 해당하는 튜플을 전송한다.
 exports.readSomeList = (req, res) => {
     let subject_name = req.params.subject;
-
-    
     let professor_name = req.params.professor;
     let user_no = req.params.userNo;
     let post_word = req.params.word;
