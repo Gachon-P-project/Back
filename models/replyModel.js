@@ -87,7 +87,7 @@ exports.deleteRereply = (reply_no, cb) => {
 
 // REPLY READ - 해당 게시글의 댓글 보기
 exports.readReply = (post_no, cb) => {
-    const sql = "SELECT * FROM REPLY WHERE post_no = ? ORDER BY bundle_id, reply_no";
+    const sql = "SELECT R.*, U.nickname FROM REPLY R LEFT OUTER JOIN USER U ON R.user_no = U.user_no WHERE post_no = ? ORDER BY bundle_id, reply_no;";
 
     db.query(sql, post_no, (err, results) => {
         if (err) {
