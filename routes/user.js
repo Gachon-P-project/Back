@@ -140,6 +140,7 @@ router.post('/push', (req, res) => {
     try{
         const major_code = req.body.major_code
         const req_title = req.body.title
+        const req_num = req.body.num
 
         const major_select_sql = "SELECT major_name FROM MAJOR where major_code=?;"
         db.query(major_select_sql, major_code, (err, results) => {
@@ -148,12 +149,13 @@ router.post('/push', (req, res) => {
 
                 let title = "["+major_name+"]"
                 let body = req_title
+                let num = req_num
 
                 const token_select_sql = "SELECT token FROM TOKEN where user_major = ?;"
                 db.query(token_select_sql, major_name, (err, results) => {
                     if (results.length > 0) {  // 조회된 값이 있는 경우
                         for(const result of results) {
-                            pushMessage(result.token, title, body)
+                            pushMessage(result.token, title, body, num)
                         }
                     }
                 })
@@ -167,28 +169,29 @@ router.post('/push', (req, res) => {
     }
 })
 
-// const admin = require("firebase-admin");
-// const serviceAccount = require("./../service_key.json");
+const admin = require("firebase-admin");
+const serviceAccount = require("./../service_key.json");
 
-// admin.initializeApp({
-//     credential: admin.credential.cert(serviceAccount)
-// });
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+});
 
-// const pushMessage = (token, title, body) => {
-//     try {
-//         admin.messaging().send({
-//             data: {
-//                 title: title,
-//                 body: body
-//             },
-//             token: token
-//         })
-//           .then(res => {
-//               console.log("Successfully sent with response: ", res, token);
-//           })
-//     } catch (e) {
-//         console.log("pushMessage error", e);
-//     }
-// }
+const pushMessage = (token, title, body, num) => {
+    try {
+        admin.messaging().send({
+            data: {
+                title: title,
+                body: body,
+                num: num
+            },
+            token: token
+        })
+          .then(res => {
+              console.log("Successfully sent with response: ", res, token);
+          })
+    } catch (e) {
+        console.log("pushMessage error", e);
+    }
+}
 
 module.exports = router;
