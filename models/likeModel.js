@@ -7,7 +7,7 @@ const db = mysqlConObj.init();
 exports.createLike = (post_no, user_no, cb) => {
     const sqlLikeCnt = "SELECT count(*) AS like_cnt FROM LIKEBOARD WHERE post_no = ?"
     const sqlInsert = "INSERT INTO LIKEBOARD (post_no, user_no) VALUES (?, ?)";
-    const sqlDelete = "DELETE FROM LIKEBOARD WHERE post_no = ?"
+    const sqlDelete = "DELETE FROM LIKEBOARD WHERE post_no = ? AND user_no = ?;";
 
     db.query(sqlLikeCnt, [post_no, user_no], (err, results) => {
         if (err) {
@@ -26,7 +26,7 @@ exports.createLike = (post_no, user_no, cb) => {
                     }
                 })
             } else {
-                db.query(sqlDelete, post_no, (err, results) => {
+                db.query(sqlDelete, [post_no, user_no], (err, results) => {
                     if (err) {
                         console.log("delete err : ", err);
                     }
