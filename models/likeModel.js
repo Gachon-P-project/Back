@@ -5,7 +5,7 @@ const db = mysqlConObj.init();
 
 // LIKE CREATE - 좋아요, 좋아요 취소
 exports.createLike = (post_no, user_no, cb) => {
-    const sqlLikeCnt = "SELECT count(*) AS like_cnt FROM LIKEBOARD WHERE post_no = ?"
+    const sqlLikeCnt = "SELECT count(*) AS like_cnt FROM LIKEBOARD WHERE post_no = ? and user_no = ?"
     const sqlInsert = "INSERT INTO LIKEBOARD (post_no, user_no) VALUES (?, ?)";
     const sqlDelete = "DELETE FROM LIKEBOARD WHERE post_no = ? AND user_no = ?;";
 

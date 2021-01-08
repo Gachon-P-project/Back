@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const replyController = require('./../controllers/replyController')
+const freeBoardReplyController = require('./../controllers/freeBoardReplyController')
+// const majorBoardReplyController = require('./../controllers/majorBoardReplyController')
 
 // REPLY CREATE - 새 댓글 작성
 router.post("/insert/:user/:post", replyController.createReply)
@@ -25,5 +27,40 @@ router.delete("/delete/rereply/:replyNo", replyController.deleteRereply)
 
 // REPLY READ COUNT - 댓글 수 카운트
 // router.get("/read/count/:post", replyController.readCountReply)
+
+
+
+// FREEBOARD REPLY CREATE - 자유게시판 새 댓글 작성
+router.post("/free/insert/:user/:post", freeBoardReplyController.createReply)
+
+// FREEBOARD REREPLY CREATE - 자유게시판 대댓글 작성
+router.post("/free/insert/rereply/:userNo/:postNo/:replyNo", freeBoardReplyController.createReReply)
+
+// FREEBOARD REPLY READ - 자유게시판 댓글 보기
+router.get("/free/read/:post", freeBoardReplyController.readReply)
+
+// FREEBOARD REPLY DELETE - 자유게시판 댓글 삭제
+router.delete("/free/delete/:bundleId", freeBoardReplyController.deleteReply)
+
+// FREEBOARD REREPLY DELETE - 자유게시판 대댓글 삭제
+router.delete("/free/delete/rereply/:replyNo", freeBoardReplyController.deleteRereply)
+
+
+/*
+// MAJORBOARD REPLY CREATE - 과목게시판 새 댓글 작성
+router.post("/major/insert/:user/:post", majorBoardReplyController.createReply)
+
+// MAJORBOARD REREPLY CREATE - 과목게시판 대댓글 작성
+router.post("/major/insert/rereply/:userNo/:postNo/:replyNo", majorBoardReplyController.createReReply)
+
+// MAJORBOARD REPLY READ - 과목게시판 댓글 보기
+router.get("/major/read/:post", majorBoardReplyController.readReply)
+
+// MAJORBOARD REPLY DELETE - 과목게시판 댓글 삭제
+router.delete("/major/delete/:bundleId", majorBoardReplyController.deleteReply)
+
+// MAJORBOARD REREPLY DELETE - 과목게시판 대댓글 삭제
+router.delete("/major/delete/rereply/:replyNo", majorBoardReplyController.deleteRereply)
+*/
 
 module.exports = router;
