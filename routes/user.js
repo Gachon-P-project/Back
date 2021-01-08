@@ -135,7 +135,6 @@ router.get('/nickname_chk/:nickname', (req, res) => {
     }
 })
 
-// push
 router.post('/push', (req, res) => {
     try{
         const major_code = req.body.major_code
