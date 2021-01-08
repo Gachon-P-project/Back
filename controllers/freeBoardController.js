@@ -20,23 +20,35 @@ exports.createBoard = (req, res) => {
     })
 }
 
-// // FREE BOARD READ - 자유게시판 글 조회
-// // boardflag에 맞는 게시글 조회
-// exports.readList = (req, res) => {
-//     let user_no = req.body.userNo;
-//     let board_flag = req.body.boardFlag;
+// FREE BOARD READ - 자유게시판 글 조회
+// boardflag에 맞는 게시글 조회
+exports.readList = (req, res) => {
+    let user_no = req.body.userNo;
+    let board_flag = req.body.boardFlag;
     
-//     freeBoardModel.readList(user_no, board_flag, (result) => {
+    freeBoardModel.readList(user_no, board_flag, (result) => {
+        if (result) {
+            console.log("free board select completed")
+            res.send(result)
+        }
+    })
+}
+
+// BOARD READ - 과목게시판 특정 단어로 글 조회
+// 클라이언트에서 과목명/특정값을 파라미터로 전달하면 해당하는 튜플을 전송한다.
+// exports.readSomeList = (req, res) => {
+//     let subject_name = req.params.subject;
+//     let professor_name = req.params.professor;
+//     let user_no = req.params.userNo;
+//     let post_word = req.params.word;
+    
+//     boardModel.readSomeList(user_no, subject_name, professor_name, post_word, (result) => {
 //         if (result) {
-//             console.log("free board select completed")
+//             console.log("board select completed")
 //             res.send(result)
 //         }
 //     })
 // }
-
-
-
-
 
 // FREE BOARD UPDATE - 자유게시판 내 선택한 글 수정     
 // 클라이언트에서 post_no을 파라미터로 전달하면 해당 튜블의 post_title, post_contents를 수정한다.
@@ -66,3 +78,17 @@ exports.deleteBoard = (req, res) => {
         }
     })
 }
+
+// MY BOARD READ - 과목게시판 내가 쓴 글 조회
+// router.get("/select/myBoard/:userNo", boardController.readMyBoardList)
+// 클라이언트에서 userNo을 파라미터로 전달하면 해당하는 튜플을 전송한다.
+// exports.readMyBoardList = (req, res) => {
+//     let user_no = req.params.userNo;
+    
+//     boardModel.readMyBoardList(user_no, (result) => {
+//         if (result) {
+//             console.log("my board select completed")
+//             res.send(result)
+//         }
+//     })
+// }
