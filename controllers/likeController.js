@@ -8,8 +8,9 @@ const likeModel = require('../models/likeModel');
 exports.createLike = (req, res) => {
     const post_no = req.params.postNo;
     const user_no = req.params.userNo;
+    const board_flag = req.params.boardFlag;
 
-    likeModel.createLike(post_no, user_no, (result) => {
+    likeModel.createLike(post_no, user_no, board_flag, (result) => {
         if (result) {
             console.log("like completed")
             res.send(result)
@@ -22,8 +23,9 @@ exports.createLike = (req, res) => {
 // 클라이언트에서 user_no를 파라미터로 전달한다.
 exports.readLike = (req, res) => {
     const post_no = req.params.postNo;
+    const board_flag = req.params.boardFlag;
 
-    likeModel.readLike(post_no, (result) => {
+    likeModel.readLike(post_no, board_flag, (result) => {
         if (result) {
             console.log("like read completed")
             res.send(result)

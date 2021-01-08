@@ -8,13 +8,13 @@ const majorBoardController = require('./../controllers/majorBoardController');
 
 // FREE BOARD CREATE - 자유게시판 새 글 작성
 router.post("/free/insert", freeBoardController.createBoard)
-/*
+
 // FREE BOARD CREATE - 자유게시판 전체 글 조회
-router.get("/free/select", freeBoardController.createBoard)
+router.get("/free/select", freeBoardController.readList)
 
 // SUBJECT BOARD READ - 자유게시판 특정 단어로 글 조회
-router.get("/free/select/:userNo/search/:word", freeBoardController.readSomeList)
-*/
+// router.get("/free/select/:userNo/search/:word", freeBoardController.readSomeList)
+
 
 // SUBJECT BOARD UPDATE - 자유게시판 내 선택한 글 수정
 router.put("/free/update/:postNo", freeBoardController.updateBoard)

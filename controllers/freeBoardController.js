@@ -23,15 +23,19 @@ exports.createBoard = (req, res) => {
 // FREE BOARD READ - 자유게시판 글 조회
 // boardflag에 맞는 게시글 조회
 exports.readList = (req, res) => {
-    let user_no = req.body.userNo;
-    let board_flag = req.body.boardFlag;
-    
-    freeBoardModel.readList(user_no, board_flag, (result) => {
-        if (result) {
-            console.log("free board select completed")
-            res.send(result)
-        }
-    })
+    let user_no = 201739423;
+    // let user_no = req.body.userNo;
+    let board_flag = 1;
+    // let board_flag = req.body.boardFlag;
+    console.log("여기까진 온다");
+    if (board_flag == 1) {
+        freeBoardModel.readList(user_no, (result) => {
+            if (result) {
+                console.log("free board select completed")
+                res.send(result)
+            }
+        })
+    }
 }
 
 // BOARD READ - 과목게시판 특정 단어로 글 조회
