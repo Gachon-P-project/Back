@@ -5,6 +5,22 @@ const freeBoardController = require('./../controllers/freeBoardController');
 const majorBoardController = require('./../controllers/majorBoardController');
 
 
+// SUBJECTBOARD CREATE - 과목게시판 새 글 작성
+router.post("/insert", boardController.createBoard)
+
+// SELECT SUBJECT BOARD - 과목게시판 전체 글 조회 
+router.get("/select/:subject/:professor/:userNo", boardController.readList)
+
+// SUBJECT BOARD READ - 과목게시판 특정 단어로 글 조회
+router.get("/select/:subject/:professor/:userNo/search/:word", boardController.readSomeList)
+
+// SUBJECT BOARD UPDATE - 과목게시판 내 선택한 글 수정
+router.put("/update/:id", boardController.updateBoard)
+
+// SUBJECT BOARD DELETE - 과목게시판 내 선택한 글 삭제
+router.delete("/delete/:id", boardController.deleteBoard)
+
+
 
 // FREE BOARD CREATE - 자유게시판 새 글 작성
 router.post("/free/insert", freeBoardController.createBoard)
@@ -39,22 +55,6 @@ router.put("/major/update/:id", majorBoardController.updateBoard)
 // SUBJECT BOARD DELETE - 학과게시판 내 선택한 글 삭제
 router.delete("/major/delete/:id", majorBoardController.deleteBoard)
 */
-
-
-// SUBJECTBOARD CREATE - 과목게시판 새 글 작성
-router.post("/insert", boardController.createBoard)
-
-// SELECT SUBJECT BOARD - 과목게시판 전체 글 조회 
-router.get("/select/:subject/:professor/:userNo", boardController.readList)
-
-// SUBJECT BOARD READ - 과목게시판 특정 단어로 글 조회
-router.get("/select/:subject/:professor/:userNo/search/:word", boardController.readSomeList)
-
-// SUBJECT BOARD UPDATE - 과목게시판 내 선택한 글 수정
-router.put("/update/:id", boardController.updateBoard)
-
-// SUBJECT BOARD DELETE - 과목게시판 내 선택한 글 삭제
-router.delete("/delete/:id", boardController.deleteBoard)
 
 
 
