@@ -1,1 +1,1 @@
-const boardModel = require('../models/boardModel');
+const boardModel = require('../models/boardsModel');

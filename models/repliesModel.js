@@ -4,13 +4,13 @@ const db = mysqlConObj.init();
 // mysqlConObj.open(db); // 정상 연결 확인
 
 
-// REPLY CREATE - 새 댓글 작성
+// 댓글 작성
 exports.createReply = (reply_contents, user_no, post_no, wrt_date, cb) => {
     const sql = "INSERT INTO REPLY (reply_contents, user_no, post_no, wrt_date, bundle_id) VALUES (?, ?, ?, ?, LAST_INSERT_ID()+1)";
 
     db.query(sql, [reply_contents, user_no, post_no, wrt_date], (err, results) => {
         if (err) {
-            console.log("insert err : ", err);
+            console.log("insert err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
         }
         else {
             cb(JSON.parse(JSON.stringify(results)));
@@ -18,13 +18,13 @@ exports.createReply = (reply_contents, user_no, post_no, wrt_date, cb) => {
     })
 }
 
-// REPLY UPDATE - 댓글 수정
+// 댓글 수정
 exports.updateReply = (reply_contents, reply_no, cb) => {
     const sql = "UPDATE REPLY SET reply_contents = ? where reply_no = ?";
 
     db.query(sql, [reply_no, reply_contents], (err, results) => {
         if (err) {
-            console.log("update err : ", err);
+            console.log("update err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
         }
         else {
             cb(JSON.parse(JSON.stringify(results)));
@@ -33,7 +33,7 @@ exports.updateReply = (reply_contents, reply_no, cb) => {
 }
 
 
-// REPLY DELETE - 댓글 삭제
+// 댓글 삭제
 exports.deleteReply = (bundleId, cb) => {
     const sql = "SELECT COUNT(*) AS bundle FROM REPLY WHERE bundle_id=?";
     const sqlDelete = "DELETE FROM REPLY WHERE reply_no = ?";
@@ -48,7 +48,7 @@ exports.deleteReply = (bundleId, cb) => {
             if (bundle[0].bundle == 1) {
                 db.query(sqlDelete, bundleId, (err, results) => {
                     if (err) {
-                        console.log("delete err : ", err);
+                        console.log("delete err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
                     }
                     else {
                         
@@ -58,7 +58,7 @@ exports.deleteReply = (bundleId, cb) => {
             } else {
                 db.query(sqlChange, bundleId, (err, results) => {
                     if (err) {
-                        console.log("change err : ", err);
+                        console.log("change err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
                     }
                     else {
                         cb(JSON.parse(JSON.stringify(results)));
@@ -71,12 +71,12 @@ exports.deleteReply = (bundleId, cb) => {
 
 
 
-// REPLY DELETE - 대댓글 삭제
+// 대댓글 삭제
 exports.deleteRereply = (reply_no, cb) => {
     const sql = "DELETE FROM REPLY WHERE reply_no = ?";
     db.query(sql, reply_no, (err, results) => {
         if (err) {
-            console.log("delete err : ", err);
+            console.log("delete err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
         }
         else {
             cb(JSON.parse(JSON.stringify(results)));
@@ -85,13 +85,13 @@ exports.deleteRereply = (reply_no, cb) => {
 }
 
 
-// REPLY READ - 해당 게시글의 댓글 보기
+// 전체 댓글 조회
 exports.readReply = (post_no, cb) => {
     const sql = "SELECT R.*, U.nickname FROM REPLY R LEFT OUTER JOIN USER U ON R.user_no = U.user_no WHERE post_no = ? ORDER BY bundle_id, reply_no;";
 
     db.query(sql, post_no, (err, results) => {
         if (err) {
-            console.log("read err : ", err);
+            console.log("read err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
         }
         else {
             cb(JSON.parse(JSON.stringify(results)));
@@ -113,13 +113,13 @@ exports.readReply = (post_no, cb) => {
 //     })
 // }
 
-// REREPLY CREATE - 대댓글 작성
+// 대댓글 작성
 exports.createReReply = (dataObj, cb) => {
     const sql = "INSERT INTO REPLY SET ? ";
 
     db.query(sql, dataObj, (err, results) => {
         if (err) {
-            console.log("insert err : ", err);
+            console.log("insert err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
         }
         else {
             cb(JSON.parse(JSON.stringify(results)));

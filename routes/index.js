@@ -2,21 +2,21 @@ const express = require('express');
 const router = express.Router({mergeParams: true});
 const dotenv = require('dotenv').config();
 
-const boardRoutes = require('./board')
-const userRoutes = require('./user')
-const replyRoutes = require('./reply')
-const noticeRoutes = require('./notice')
-const likeRoutes = require('./like')
-const tokenRoutes = require('./token')
-const scrapRoutes = require('./scrap')
+const boardsRoutes = require('./boards')
+const usersRoutes = require('./users')
+const repliesRoutes = require('./replies')
+const noticesRoutes = require('./notices')
+const likesRoutes = require('./likes')
+const tokensRoutes = require('./tokens')
+const scrapsRoutes = require('./scraps')
 
-router.use('/board', boardRoutes)
-router.use('/user', userRoutes)
-router.use('/reply', replyRoutes)
-router.use('/notice', noticeRoutes)
-router.use('/like', likeRoutes)
-router.use('/token', tokenRoutes)
-router.use('/scrap', scrapRoutes)
+router.use('/boards', boardsRoutes)
+router.use('/users', usersRoutes)
+router.use('/replies', repliesRoutes)
+router.use('/notices', noticesRoutes)
+router.use('/likes', likesRoutes)
+router.use('/tokens', tokensRoutes)
+router.use('/scraps', scrapsRoutes)
 
 
 module.exports = router;

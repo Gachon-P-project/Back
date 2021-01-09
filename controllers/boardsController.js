@@ -1,44 +1,57 @@
-const boardModel = require('../models/boardModel');
+const boardsModel = require('../models/boardsModel');
 
-// BOARD CREATE - 과목게시판 새 글 작성
+// 게시글 작성
 // 클라이언트는 body에 post_title, post_contents, reply_yn, major_name, subject_name, professor_name, user_no를 전달
 exports.createBoard = (req, res) => {
-    const dataObj = {
-        post_title: req.body.post_title,
-        post_contents: req.body.post_contents,
-        wrt_date: new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}),
-        reply_yn: req.body.reply_yn,
-        major_name: req.body.major_name,
-        subject_name: req.body.subject_name,
-        professor_name: req.body.professor_name,
-        user_no: req.body.user_no,
-        board_flag: 0
-    };
+    let dataObj;
+    if (req.query.reply_yn) {
+        dataObj = {
+            post_title: req.body.post_title,
+            post_contents: req.body.post_contents,
+            wrt_date: new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}),
+            reply_yn: 1,
+            major_name: req.body.major_name,
+            subject_name: req.body.subject_name,
+            professor_name: req.body.professor_name,
+            user_no: req.body.user_no
+        };
+    } else {
+        dataObj = {
+            post_title: req.body.post_title,
+            post_contents: req.body.post_contents,
+            wrt_date: new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}),
+            reply_yn: 0,
+            major_name: req.body.major_name,
+            subject_name: req.body.subject_name,
+            professor_name: req.body.professor_name,
+            user_no: req.body.user_no
+        };
+    }
     
-    boardModel.createBoard(dataObj, (result) => {
+    boardsModel.createBoard(dataObj, (result) => {
         if (result) {
-            console.log("board create completed")
+            console.log("boards create completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
             res.send(result)
         }
     })
 }
 
-// 과목게시판 전체 글 조회
+// 전체 게시글 조회
 // 클라이언트에서 과목명/교수명을 파라미터로 전달하면 해당하는 튜플을 전송
 exports.readList = (req, res) => {
     let subject_name = req.params.subject;
     let professor_name = req.params.professor;
     let user_no = req.params.userNo;
     
-    boardModel.readList(user_no, subject_name, professor_name, (result) => {
+    boardsModel.readList(user_no, subject_name, professor_name, (result) => {
         if (result) {
-            console.log("board select completed")
+            console.log("boards select completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
 }
 
-// BOARD READ - 과목게시판 특정 단어로 글 조회
+// 특정 게시글 조회
 // 클라이언트에서 과목명/특정값을 파라미터로 전달하면 해당하는 튜플을 전송한다.
 exports.readSomeList = (req, res) => {
     let subject_name = req.params.subject;
@@ -46,39 +59,39 @@ exports.readSomeList = (req, res) => {
     let user_no = req.params.userNo;
     let post_word = req.params.word;
     
-    boardModel.readSomeList(user_no, subject_name, professor_name, post_word, (result) => {
+    boardsModel.readSomeList(user_no, subject_name, professor_name, post_word, (result) => {
         if (result) {
-            console.log("board select completed")
+            console.log("board select completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
 }
 
 
-// BOARD UPDATE - 과목게시판 내 선택한 글 수정     
+// 게시글 수정
 // 클라이언트에서 post_no을 파라미터로 전달하면 해당 튜블의 post_title, post_contents를 수정한다.
 // 수정할 글 제목과 글 내용은 body를 통해 전달된다.
 exports.updateBoard = (req, res) => {
     let post_title = req.body.post_title;
     let post_contents = req.body.post_contents;
-    let post_no = req.params.id
+    let post_no = req.params.post_no
     
-    boardModel.updateBoard(post_title, post_contents, post_no, (result) => {
+    boardsModel.updateBoard(post_title, post_contents, post_no, (result) => {
         if (result) {
-            console.log("board update completed")
+            console.log("board update completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
 }
 
-// BOARD DELETE - 과목게시판 내 선택한 글 삭제
+// 게시글 삭제
 // 클라이언트에서 post_no을 전달하면 해당 튜플을 삭제한다.
 exports.deleteBoard = (req, res) => {
-    let post_no = req.params.id
+    let post_no = req.params.post_no
     
-    boardModel.deleteBoard(post_no, (result) => {
+    boardsModel.deleteBoard(post_no, (result) => {
         if (result) {
-            console.log("board delete completed")
+            console.log("board delete completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })

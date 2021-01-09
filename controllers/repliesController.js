@@ -1,24 +1,24 @@
-const replyModel = require('../models/replyModel');
+const repliesModel = require('../models/repliesModel');
 
 
-// REPLY CREATE - 새 댓글 작성
+// 댓글 작성
 // 클라이언트에서 post_no과 user_no를 파라미터로, 작성할 댓글 내용은 body를 통해 전달된다.
 // post_no과 user_id는 외래키로 지정되어 유효하지 않은 값이 전달되면 에러가 발생한다.
 exports.createReply = (req, res) => {
     let reply_contents = req.body.reply_contents;
-    let user_no = req.params.user;
-    let post_no = req.params.post;
+    let user_no = req.body.user_no;
+    let post_no = req.body.post_no;
     let wrt_date = new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"});
     
-    replyModel.createReply(reply_contents, user_no, post_no, wrt_date, (result) => {
+    repliesModel.createReply(reply_contents, user_no, post_no, wrt_date, (result) => {
         if (result) {
-            console.log("reply insert completed")
+            console.log("reply insert completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
 }
 
-// REREPLY CREATE - 대댓글 작성
+// 대댓글 작성
 // router.get("/insert/rereply/:userNo/:postNo/:replyNo", replyController.createReReply)
 // 클라이언트에서 user_no, post_no과 부모 댓글의 reply_no를 파라미터로 전달한다.
 // 작성할 대댓글 내용은 body를 통해 전달된다.
@@ -26,30 +26,31 @@ exports.createReply = (req, res) => {
 exports.createReReply = (req, res) => {
     const dataObj = {
         reply_contents: req.body.reply_contents,
-        user_no: req.params.userNo,
-        post_no: req.params.postNo,
+        user_no: req.body.user_no,
+        post_no: req.body.post_no,
         wrt_date: new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}),
         depth: 1,
-        bundle_id: req.params.replyNo 
+        bundle_id: req.body.reply_no 
     }
     
-    replyModel.createReReply(dataObj, (result) => {
+    repliesModel.createReReply(dataObj, (result) => {
         if (result) {
-            console.log("rereply insert completed")
+            console.log("rereply insert completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
 }
 
+// 전체 댓글 조회
 // router.get("/read/:post", replyController.readReply)
 // REPLY READ - 해당 게시글의 댓글 보기
 // 클라이언트에서 post_no을 파라미터로 전달하면 해당하는 튜플을 전송한다.
 exports.readReply = (req, res) => {
-    let post_no = req.params.post;
+    let post_no = req.params.post_no;
     
-    replyModel.readReply(post_no, (result) => {
+    repliesModel.readReply(post_no, (result) => {
         if (result) {
-            console.log("reply select completed")
+            console.log("reply select completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
@@ -88,28 +89,28 @@ exports.updateReReply = (req, res) => {
 }
 */
 
-// REPLY DELETE - 댓글 삭제
+// 댓글 삭제
 // 클라이언트에서 bundleId를 파라미터로 전달하면 해당 튜플의 을 삭제한다.
 //router.get("/delete/:bundleId", replyController.countBundle)
 exports.deleteReply = (req, res) => {
-    let bundleId = req.params.bundleId
+    let bundleId = req.body.bundle_id
     
-    replyModel.deleteReply(bundleId, (result) => {
+    repliesModel.deleteReply(bundleId, (result) => {
         if (result) {
-            console.log("reply delete completed")
+            console.log("reply delete completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
 }
 
-// REREPLY DELETE - 대댓글 삭제
+// 대댓글 삭제
 // 클라이언트에서 reply_no를 파라미터로 전달하면 해당 튜플의 을 삭제한다.
 exports.deleteRereply = (req, res) => {
-    let reply_no = req.params.replyNo;
+    let reply_no = req.body.reply_no;
 
-    replyModel.deleteRereply(reply_no, (result) => {
+    repliesModel.deleteRereply(reply_no, (result) => {
         if (result) {
-            console.log("rereply delete completed")
+            console.log("rereply delete completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
