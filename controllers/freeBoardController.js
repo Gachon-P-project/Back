@@ -1,42 +1,55 @@
 const freeBoardModel = require('../models/freeBoardModel');
 
-// FREE BOARD CREATE - 자유게시판 새 글 작성
-// 클라이언트는 body에 post_title, post_contents, reply_yn, user_no를 전달
+// 게시글 작성
+// 클라이언트는 body에 post_title, post_contents, reply_yn, major_name, subject_name, professor_name, user_no를 전달
 exports.createBoard = (req, res) => {
-    const dataObj = {
-        post_title: req.body.post_title,
-        post_contents: req.body.post_contents,
-        wrt_date: new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}),
-        reply_yn: req.body.reply_yn,
-        board_flag: 1,
-        user_no: req.body.user_no
-    };
-    
+    let dataObj;
+    if (req.query.reply_yn) {
+        dataObj = {
+            post_title: req.body.post_title,
+            post_contents: req.body.post_contents,
+            wrt_date: new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}),
+            reply_yn: 1,
+            board_flag: 1,
+            user_no: req.body.user_no
+        };
+    } else {
+        dataObj = {
+            post_title: req.body.post_title,
+            post_contents: req.body.post_contents,
+            wrt_date: new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}),
+            reply_yn: 0,
+            board_flag: 1,
+            user_no: req.body.user_no
+        };
+    }
+
     freeBoardModel.createBoard(dataObj, (result) => {
         if (result) {
-            console.log("free board create completed")
+            console.log("boards create completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
             res.send(result)
         }
     })
 }
 
-// FREE BOARD READ - 자유게시판 글 조회
-// boardflag에 맞는 게시글 조회 (0:자유게시판)
+// 전체 게시글 조회
+// 클라이언트에서 board_flag를 파라미터로 전달하면 해당하는 튜플을 전송
 exports.readList = (req, res) => {
     let board_flag = req.params.boardFlag;
     let user_no = req.params.userNo;
+
     if (board_flag == 1) {
         freeBoardModel.readList(board_flag, user_no, (result) => {
             if (result) {
-                console.log("free board select completed")
+                console.log("boards select completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
                 res.send(result)
             }
         })
     }
 }
 
-// FREE BOARD READ - 과목게시판 특정 단어로 글 조회
-// 클라이언트에서 과목명/특정값을 파라미터로 전달하면 해당하는 튜플을 전송한다.
+// 특정 게시글 조회
+// 클라이언트에서 board_flag/특정값을 파라미터로 전달하면 해당하는 튜플을 전송한다.
 exports.readSomeList = (req, res) => {
     let board_flag = req.params.boardFlag;
     let user_no = req.params.userNo;
@@ -44,13 +57,13 @@ exports.readSomeList = (req, res) => {
     
     freeBoardModel.readSomeList(board_flag, user_no, post_word, (result) => {
         if (result) {
-            console.log("board select completed")
+            console.log("board select completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
 }
 
-// FREE BOARD UPDATE - 자유게시판 내 선택한 글 수정     
+// 게시글 수정
 // 클라이언트에서 post_no을 파라미터로 전달하면 해당 튜블의 post_title, post_contents를 수정한다.
 // 수정할 글 제목과 글 내용은 body를 통해 전달된다.
 exports.updateBoard = (req, res) => {
@@ -60,13 +73,13 @@ exports.updateBoard = (req, res) => {
     
     freeBoardModel.updateBoard(post_title, post_contents, post_no, (result) => {
         if (result) {
-            console.log("board update completed")
+            console.log("board update completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
 }
 
-// FREE BOARD DELETE - 자유게시판 내 선택한 글 삭제
+// 게시글 삭제
 // 클라이언트에서 post_no을 전달하면 해당 튜플을 삭제한다.
 exports.deleteBoard = (req, res) => {
     let post_no = req.params.postNo;
@@ -79,16 +92,3 @@ exports.deleteBoard = (req, res) => {
     })
 }
 
-// MY BOARD READ - 과목게시판 내가 쓴 글 조회
-// router.get("/select/myBoard/:userNo", boardController.readMyBoardList)
-// 클라이언트에서 userNo을 파라미터로 전달하면 해당하는 튜플을 전송한다.
-// exports.readMyBoardList = (req, res) => {
-//     let user_no = req.params.userNo;
-    
-//     boardModel.readMyBoardList(user_no, (result) => {
-//         if (result) {
-//             console.log("my board select completed")
-//             res.send(result)
-//         }
-//     })
-// }
