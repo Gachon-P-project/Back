@@ -8,7 +8,7 @@ exports.createBoard = (req, res) => {
         post_contents: req.body.post_contents,
         wrt_date: new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}),
         reply_yn: req.body.reply_yn,
-        board_flag: 0,
+        board_flag: 1,
         user_no: req.body.user_no
     };
     
@@ -21,15 +21,12 @@ exports.createBoard = (req, res) => {
 }
 
 // FREE BOARD READ - 자유게시판 글 조회
-// boardflag에 맞는 게시글 조회
+// boardflag에 맞는 게시글 조회 (0:자유게시판)
 exports.readList = (req, res) => {
-    let user_no = 201739423;
-    // let user_no = req.body.userNo;
-    let board_flag = 1;
-    // let board_flag = req.body.boardFlag;
-    console.log("여기까진 온다");
+    let board_flag = req.params.boardFlag;
+    let user_no = req.params.userNo;
     if (board_flag == 1) {
-        freeBoardModel.readList(user_no, (result) => {
+        freeBoardModel.readList(board_flag, user_no, (result) => {
             if (result) {
                 console.log("free board select completed")
                 res.send(result)
@@ -38,21 +35,20 @@ exports.readList = (req, res) => {
     }
 }
 
-// BOARD READ - 과목게시판 특정 단어로 글 조회
+// FREE BOARD READ - 과목게시판 특정 단어로 글 조회
 // 클라이언트에서 과목명/특정값을 파라미터로 전달하면 해당하는 튜플을 전송한다.
-// exports.readSomeList = (req, res) => {
-//     let subject_name = req.params.subject;
-//     let professor_name = req.params.professor;
-//     let user_no = req.params.userNo;
-//     let post_word = req.params.word;
+exports.readSomeList = (req, res) => {
+    let board_flag = req.params.boardFlag;
+    let user_no = req.params.userNo;
+    let post_word = req.params.word;
     
-//     boardModel.readSomeList(user_no, subject_name, professor_name, post_word, (result) => {
-//         if (result) {
-//             console.log("board select completed")
-//             res.send(result)
-//         }
-//     })
-// }
+    freeBoardModel.readSomeList(board_flag, user_no, post_word, (result) => {
+        if (result) {
+            console.log("board select completed")
+            res.send(result)
+        }
+    })
+}
 
 // FREE BOARD UPDATE - 자유게시판 내 선택한 글 수정     
 // 클라이언트에서 post_no을 파라미터로 전달하면 해당 튜블의 post_title, post_contents를 수정한다.

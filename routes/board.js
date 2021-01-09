@@ -26,16 +26,15 @@ router.delete("/delete/:id", boardController.deleteBoard)
 router.post("/free/insert", freeBoardController.createBoard)
 
 // FREE BOARD CREATE - 자유게시판 전체 글 조회
-router.get("/free/select", freeBoardController.readList)
+router.get("/free/select/:boardFlag/:userNo", freeBoardController.readList)
 
-// SUBJECT BOARD READ - 자유게시판 특정 단어로 글 조회
-// router.get("/free/select/:userNo/search/:word", freeBoardController.readSomeList)
+// FREE BOARD READ - 자유게시판 특정 단어로 글 조회
+router.get("/free/select/:boardFlag/:userNo/search/:word", freeBoardController.readSomeList)
 
-
-// SUBJECT BOARD UPDATE - 자유게시판 내 선택한 글 수정
+// FREE BOARD UPDATE - 자유게시판 내 선택한 글 수정
 router.put("/free/update/:postNo", freeBoardController.updateBoard)
 
-// SUBJECT BOARD DELETE - 자유게시판 내 선택한 글 삭제
+// FREE BOARD DELETE - 자유게시판 내 선택한 글 삭제
 router.delete("/free/delete/:postNo", freeBoardController.deleteBoard)
 
 

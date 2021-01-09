@@ -11,7 +11,8 @@ exports.createBoard = (req, res) => {
         major_name: req.body.major_name,
         subject_name: req.body.subject_name,
         professor_name: req.body.professor_name,
-        user_no: req.body.user_no
+        user_no: req.body.user_no,
+        board_flag: 0
     };
     
     boardModel.createBoard(dataObj, (result) => {
