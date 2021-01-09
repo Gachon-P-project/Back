@@ -4,22 +4,20 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const mysqlConObj = require('../config/mysql');
 const db = mysqlConObj.init();
-const userController = require('./../controllers/userController')
+const usersController = require('../controllers/usersController')
 
 const getTimetable = async (url) => {
     const res = await axios.post(url);
     return res.data
 } 
 
-// USER CREATE - 새 유저 등록
-router.post("/add", userController.createUser)
+// 사용자 등록
+router.post("/", usersController.createUser)
 
-// 닉네임 수정
-router.put("/nickname/update/", userController.nicknameUpdateUser)
-
+// 사용자 확인 및 조회
 // 클라이언트에서 로그인한 id / pwd 가 가천대학교 학생으로 등록되어있는지 확인 후
 // DB에 등록된 사용자인지 확인한다.
-router.post("/info", async (req, res) => {
+router.post("/check", async (req, res) => {
     try {
         const getUser = await axios.post(process.env.smart_login_link, { 
             fsp_cmd : "login", 
@@ -70,9 +68,10 @@ router.post("/info", async (req, res) => {
     }
 })
 
+// 시간표 조회
 router.get('/timetable/:user_no/:year/:sem', (req, res) => {
-    
     const url = process.env.smart_main_link+"YEAR="+req.params.year+"&TERM_CD="+req.params.sem+"&STUDENT_NO="+req.params.user_no+"&GROUP_CD=CS&SQL_ID=mobile%2Faffairs%3ACLASS_TIME_TABLE_STUDENT_SQL_S01&fsp_action=AffairsAction&fsp_cmd=executeMapList&callback_page=%2Fmobile%2Fgachon%2Faffairs%2FAffClassTimeTableList.jsp"
+    
     getTimetable(url).then(html => {
         let $ = cheerio.load(html);
         let last = [];
@@ -105,13 +104,19 @@ router.get('/timetable/:user_no/:year/:sem', (req, res) => {
             })
             res.send(last);
         } catch(e) {
-            res.send(e)
+            res.send("시간표 조회 오류")
         }
     }) 
 })
 
-router.get('/nickname_chk/:nickname', (req, res) => {
+// 닉네임 수정
+router.put("/nickname", usersController.nicknameUpdateUser)
+
+
+// 닉네임 중복확인
+router.get('/nickname/check/:nickname', (req, res) => {
     const sql = "SELECT nickname FROM USER where nickname = ?;";
+
     try{
         try {
             db.query(sql, req.params.nickname, (err, results) => {
@@ -169,7 +174,7 @@ router.post('/push', (req, res) => {
 })
 
 const admin = require("firebase-admin");
-const serviceAccount = require("./../service_key.json");
+const serviceAccount = require("../service_key.json");
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
