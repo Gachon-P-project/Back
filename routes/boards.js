@@ -9,16 +9,16 @@ const majorBoardController = require('../controllers/majorBoardController');
 router.post("/subject", boardsController.createBoard) 
 
 // 전체 게시글 조회 
-router.get("/subject/:subject/:professor/:userNo", boardsController.readList)
+router.get("/subject/:subject/:professor/:user_no", boardsController.readList)
 
 // 특정 게시글 조회
-router.get("/subject/:subject/:professor/:userNo/:word", boardsController.readSomeList)
+router.get("/subject/:subject/:professor/:user_no/:word", boardsController.readSomeList)
 
 // 게시글 수정
-router.put("/subject/:post_no", boardsController.updateBoard)
+router.put("/subject", boardsController.updateBoard)
 
 // 게시글 삭제
-router.delete("/subject/:post_no", boardsController.deleteBoard)
+router.delete("/subject", boardsController.deleteBoard)
 
 
 

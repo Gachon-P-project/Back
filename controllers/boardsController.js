@@ -41,7 +41,7 @@ exports.createBoard = (req, res) => {
 exports.readList = (req, res) => {
     let subject_name = req.params.subject;
     let professor_name = req.params.professor;
-    let user_no = req.params.userNo;
+    let user_no = req.params.user_no;
     
     boardsModel.readList(user_no, subject_name, professor_name, (result) => {
         if (result) {
@@ -56,7 +56,7 @@ exports.readList = (req, res) => {
 exports.readSomeList = (req, res) => {
     let subject_name = req.params.subject;
     let professor_name = req.params.professor;
-    let user_no = req.params.userNo;
+    let user_no = req.params.user_no;
     let post_word = req.params.word;
     
     boardsModel.readSomeList(user_no, subject_name, professor_name, post_word, (result) => {
@@ -74,7 +74,7 @@ exports.readSomeList = (req, res) => {
 exports.updateBoard = (req, res) => {
     let post_title = req.body.post_title;
     let post_contents = req.body.post_contents;
-    let post_no = req.params.post_no
+    let post_no = req.body.post_no
     
     boardsModel.updateBoard(post_title, post_contents, post_no, (result) => {
         if (result) {
@@ -87,7 +87,7 @@ exports.updateBoard = (req, res) => {
 // 게시글 삭제
 // 클라이언트에서 post_no을 전달하면 해당 튜플을 삭제한다.
 exports.deleteBoard = (req, res) => {
-    let post_no = req.params.post_no
+    let post_no = req.body.post_no
     
     boardsModel.deleteBoard(post_no, (result) => {
         if (result) {
