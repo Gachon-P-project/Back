@@ -1,6 +1,6 @@
 const freeBoardReplyModel = require('../models/freeBoardReplyModel');
 
-// FREE BOARD REPLY CREATE - 새 댓글 작성
+// 댓글 작성
 // 클라이언트에서 post_no과 user_no를 파라미터로, 작성할 댓글 내용은 body를 통해 전달된다.
 // post_no과 user_id는 외래키로 지정되어 유효하지 않은 값이 전달되면 에러가 발생한다.
 exports.createReply = (req, res) => {
@@ -17,8 +17,8 @@ exports.createReply = (req, res) => {
     })
 }
 
-// /REREPLY CREATE - 대댓글 작성
-// router.get("/free/insert/rereply/:userNo/:postNo/:replyNo", replyController.createReReply)
+// 대댓글 작성
+// router.get("/insert/rereply/:userNo/:postNo/:replyNo", replyController.createReReply)
 // 클라이언트에서 user_no, post_no과 부모 댓글의 reply_no를 파라미터로 전달한다.
 // 작성할 대댓글 내용은 body를 통해 전달된다.
 // post_no과 user_id는 외래키로 지정되어 유효하지 않은 값이 전달되면 에러가 발생한다.
@@ -41,7 +41,8 @@ exports.createReReply = (req, res) => {
     })
 }
 
-// router.get("/free/read/:post", replyController.readReply)
+// 전체 댓글 조회
+// router.get("/read/:post", replyController.readReply)
 // REPLY READ - 해당 게시글의 댓글 보기
 // 클라이언트에서 post_no을 파라미터로 전달하면 해당하는 튜플을 전송한다.
 exports.readReply = (req, res) => {
@@ -55,9 +56,9 @@ exports.readReply = (req, res) => {
     })
 }
 
-// REPLY DELETE - 댓글 삭제
+// 댓글 삭제
 // 클라이언트에서 bundleId를 파라미터로 전달하면 해당 튜플의 을 삭제한다.
-//router.get("/free/delete/:bundleId", replyController.countBundle)
+//router.get("/delete/:bundleId", replyController.countBundle)
 exports.deleteReply = (req, res) => {
     let bundleId = req.body.bundle_id
     
@@ -69,7 +70,7 @@ exports.deleteReply = (req, res) => {
     })
 }
 
-// REREPLY DELETE - 대댓글 삭제
+// 대댓글 삭제
 // 클라이언트에서 reply_no를 파라미터로 전달하면 해당 튜플의 을 삭제한다.
 exports.deleteRereply = (req, res) => {
     let reply_no = req.body.reply_no;

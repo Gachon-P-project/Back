@@ -32,10 +32,10 @@ router.get("/free/:boardFlag/:userNo", freeBoardController.readList)
 router.get("/free/:boardFlag/:userNo/:word", freeBoardController.readSomeList)
 
 // 게시글 수정
-router.put("/free/:postNo", freeBoardController.updateBoard)
+router.put("/free", freeBoardController.updateBoard)
 
 // 게시글 삭제
-router.delete("/free/:postNo", freeBoardController.deleteBoard)
+router.delete("/free", freeBoardController.deleteBoard)
 
 
 /* 학과 게시판 */
@@ -49,10 +49,10 @@ router.get("/major/:boardFlag/:userNo", majorBoardController.readList)
 router.get("/major/:boardFlag/:userNo/:word", majorBoardController.readSomeList)
 
 // 게시글 수정
-router.put("/major/:postNo", majorBoardController.updateBoard)
+router.put("/major", majorBoardController.updateBoard)
 
 // 게시글 삭제
-router.delete("/major/:postNo", majorBoardController.deleteBoard)
+router.delete("/major", majorBoardController.deleteBoard)
 
 
 
@@ -62,6 +62,7 @@ router.get("/myBoard/list/:userNo", boardController.readMyBoardList)
 
 // MY REPLY READ - 내가 댓글쓴 글 조회
 // router.get("/myBoard/select/list/:userNo", boardController.readMyBoardList)
+
 
 
 

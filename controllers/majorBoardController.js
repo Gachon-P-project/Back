@@ -70,7 +70,7 @@ exports.readSomeList = (req, res) => {
 exports.updateBoard = (req, res) => {
     let post_title = req.body.post_title;
     let post_contents = req.body.post_contents;
-    let post_no = req.params.postNo;
+    let post_no = req.body.post_no;
     
     majorBoardModel.updateBoard(post_title, post_contents, post_no, (result) => {
         if (result) {
@@ -83,7 +83,7 @@ exports.updateBoard = (req, res) => {
 // 게시글 삭제
 // 클라이언트에서 post_no을 전달하면 해당 튜플을 삭제한다.
 exports.deleteBoard = (req, res) => {
-    let post_no = req.params.postNo;
+    let post_no = req.body.post_no;
     
     majorBoardModel.deleteBoard(post_no, (result) => {
         if (result) {
