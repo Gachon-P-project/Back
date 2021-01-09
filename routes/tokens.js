@@ -3,9 +3,10 @@ const router = express.Router();
 const mysqlConObj = require('../config/mysql');
 const db = mysqlConObj.init();
 
-router.post("/add", (req, res) => {
+// 토큰 추가
+router.post("/", (req, res) => {
     const token = req.body.token;
-    const user_no = req.body.number;
+    const user_no = req.body.user_no;
     const user_major = req.body.user_major;
     const reg_date = new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"});
 
@@ -14,7 +15,7 @@ router.post("/add", (req, res) => {
         if(err) {
             console.log(err);
         } else {
-            console.log("token added");
+            console.log("token added", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
             res.send(reulst);
         }
     })

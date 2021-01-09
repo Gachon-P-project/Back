@@ -19,7 +19,7 @@ exports.createLike = (post_no, user_no, board_flag, cb) => {
             if (like_cnt[0].like_cnt == 0) {
                 db.query(sqlInsert, [post_no, user_no, board_flag], (err, results) => {
                     if (err) {
-                        console.log("insert err : ", err);
+                        console.log("insert err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
                     }
                     else {
                         cb(JSON.parse(JSON.stringify(results)));
@@ -28,7 +28,7 @@ exports.createLike = (post_no, user_no, board_flag, cb) => {
             } else {
                 db.query(sqlDelete, [post_no, user_no, board_flag], (err, results) => {
                     if (err) {
-                        console.log("delete err : ", err);
+                        console.log("delete err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
                     }
                     else {
                         cb(JSON.parse(JSON.stringify(results)));
