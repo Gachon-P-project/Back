@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const replyController = require('./../controllers/replyController')
 const freeBoardReplyController = require('./../controllers/freeBoardReplyController')
-// const majorBoardReplyController = require('./../controllers/majorBoardReplyController')
+const majorBoardReplyController = require('./../controllers/majorBoardReplyController')
 
 // REPLY CREATE - 새 댓글 작성
 router.post("/insert/:user/:post", replyController.createReply)
@@ -46,7 +46,7 @@ router.delete("/free/delete/:bundleId", freeBoardReplyController.deleteReply)
 router.delete("/free/delete/rereply/:replyNo", freeBoardReplyController.deleteRereply)
 
 
-/*
+
 // MAJORBOARD REPLY CREATE - 과목게시판 새 댓글 작성
 router.post("/major/insert/:user/:post", majorBoardReplyController.createReply)
 
@@ -61,6 +61,6 @@ router.delete("/major/delete/:bundleId", majorBoardReplyController.deleteReply)
 
 // MAJORBOARD REREPLY DELETE - 과목게시판 대댓글 삭제
 router.delete("/major/delete/rereply/:replyNo", majorBoardReplyController.deleteRereply)
-*/
+
 
 module.exports = router;

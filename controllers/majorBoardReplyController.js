@@ -1,4 +1,4 @@
-const freeBoardReplyModel = require('../models/freeBoardReplyModel');
+const majorBoardReplyModel = require('../models/majorBoardReplyModel');
 
 // FREE BOARD REPLY CREATE - 새 댓글 작성
 // 클라이언트에서 post_no과 user_no를 파라미터로, 작성할 댓글 내용은 body를 통해 전달된다.
@@ -9,7 +9,7 @@ exports.createReply = (req, res) => {
     let post_no = req.params.post;
     let wrt_date = new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"});
     
-    freeBoardReplyModel.createReply(reply_contents, user_no, post_no, wrt_date, (result) => {
+    majorBoardReplyModel.createReply(reply_contents, user_no, post_no, wrt_date, (result) => {
         if (result) {
             console.log("reply insert completed")
             res.send(result)
@@ -18,8 +18,6 @@ exports.createReply = (req, res) => {
 }
 
 // /REREPLY CREATE - 대댓글 작성
-
-
 // router.get("/free/insert/rereply/:userNo/:postNo/:replyNo", replyController.createReReply)
 // 클라이언트에서 user_no, post_no과 부모 댓글의 reply_no를 파라미터로 전달한다.
 // 작성할 대댓글 내용은 body를 통해 전달된다.
@@ -32,10 +30,10 @@ exports.createReReply = (req, res) => {
         wrt_date: new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}),
         depth: 1,
         bundle_id: req.params.replyNo,
-        board_flag: 1
+        board_flag: 2
     }
     
-    freeBoardReplyModel.createReReply(dataObj, (result) => {
+    majorBoardReplyModel.createReReply(dataObj, (result) => {
         if (result) {
             console.log("rereply insert completed")
             res.send(result)
@@ -49,7 +47,7 @@ exports.createReReply = (req, res) => {
 exports.readReply = (req, res) => {
     let post_no = req.params.post;
     
-    freeBoardReplyModel.readReply(post_no, (result) => {
+    majorBoardReplyModel.readReply(post_no, (result) => {
         if (result) {
             console.log("reply select completed")
             res.send(result)
@@ -63,7 +61,7 @@ exports.readReply = (req, res) => {
 exports.deleteReply = (req, res) => {
     let bundleId = req.params.bundleId
     
-    freeBoardReplyModel.deleteReply(bundleId, (result) => {
+    majorBoardReplyModel.deleteReply(bundleId, (result) => {
         if (result) {
             console.log("reply delete completed")
             res.send(result)
@@ -76,7 +74,7 @@ exports.deleteReply = (req, res) => {
 exports.deleteRereply = (req, res) => {
     let reply_no = req.params.replyNo;
 
-    freeBoardReplyModel.deleteRereply(reply_no, (result) => {
+    majorBoardReplyModel.deleteRereply(reply_no, (result) => {
         if (result) {
             console.log("rereply delete completed")
             res.send(result)

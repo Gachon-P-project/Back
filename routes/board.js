@@ -38,22 +38,22 @@ router.put("/free/update/:postNo", freeBoardController.updateBoard)
 router.delete("/free/delete/:postNo", freeBoardController.deleteBoard)
 
 
-/*
+
 // MAJOR BOARD CREATE - 학과게시판 새 글 작성
 router.post("/major/insert", majorBoardController.createBoard)
 
 // MAJOR BOARD CREATE - 학과게시판 전체 글 조회
-router.get("/major/select/:major", majorBoardController.createBoard)
+router.get("/major/select/:boardFlag/:userNo", majorBoardController.readList)
 
 // SUBJECT BOARD READ - 학과게시판 특정 단어로 글 조회
-router.get("/major/select/:major/:userNo/search/:word", majorBoardController.readSomeList)
+router.get("/major/select/:boardFlag/:userNo/search/:word", majorBoardController.readSomeList)
 
 // SUBJECT BOARD UPDATE - 학과게시판 내 선택한 글 수정
-router.put("/major/update/:id", majorBoardController.updateBoard)
+router.put("/major/update/:postNo", majorBoardController.updateBoard)
 
 // SUBJECT BOARD DELETE - 학과게시판 내 선택한 글 삭제
-router.delete("/major/delete/:id", majorBoardController.deleteBoard)
-*/
+router.delete("/major/delete/:postNo", majorBoardController.deleteBoard)
+
 
 
 
