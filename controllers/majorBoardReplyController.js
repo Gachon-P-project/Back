@@ -25,8 +25,8 @@ exports.createReply = (req, res) => {
 exports.createReReply = (req, res) => {
     const dataObj = {
         reply_contents: req.body.reply_contents,
-        user_no: req.body.userNo,
-        post_no: req.body.postNo,
+        user_no: req.body.user_no,
+        post_no: req.body.post_no,
         wrt_date: new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}),
         depth: 1,
         bundle_id: req.body.reply_no,
