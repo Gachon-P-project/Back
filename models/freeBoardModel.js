@@ -37,7 +37,7 @@ exports.readList = (board_flag, user_no, cb) => {
 // 특정 게시글 조회
 // 클라이언트에서 board_flag/특정값을 파라미터로 전달하면 해당하는 튜플을 전송한다.
 exports.readSomeList = (board_flag, user_no, post_word, cb) => {
-    const sql ="select b.*, (select nickname from USER where user_no = b.user_no) as nickname, (select count(*) from FREEREPLY where post_no=b.post_no) as reply_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no and board_flag = ?) as like_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no and user_no=? and board_flag=1) as like_user from FREEBOARD b WHERE board_flag = " + db.escape(board_flag) + " AND (post_contents LIKE "+ db.escape('%'+post_word+'%')+" OR post_title LIKE "+ db.escape('%'+post_word+'%')+")";
+    const sql ="select b.*, (select nickname from USER where user_no = b.user_no) as nickname, (select count(*) from FREEREPLY where post_no=b.post_no) as reply_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no and board_flag = ?) as like_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no and user_no=? and board_flag=1) as like_user from FREEBOARD b WHERE board_flag = " + db.escape(board_flag) + " AND (post_contents LIKE "+ db.escape('%'+post_word+'%')+" OR post_title LIKE "+ db.escape('%'+post_word+'%')+") order by post_no desc";
 
     db.query(sql, [board_flag, user_no], (err, results) => {
         if (err) {
