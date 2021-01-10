@@ -57,10 +57,10 @@ exports.updateBoard = (post_title, post_contents, post_no, cb) => {
 
     db.query(sql, [post_title, post_contents, post_no], (err, results) => {
         if (err) {
-            console.log("update err : ", err);
+            console.log("update err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
         }
         else {
-            console.log("update err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
+            cb(JSON.parse(JSON.stringify(results)));
         }
     })
 }
@@ -72,10 +72,10 @@ exports.deleteBoard = (post_no, cb) => {
 
     db.query(sql, post_no, (err, results) => {
         if (err) {
-            console.log("delete err : ", err);
+            console.log("delete err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
         }
         else {
-            console.log("delete err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
+            cb(JSON.parse(JSON.stringify(results)));
         }
     })
 }

@@ -86,7 +86,7 @@ exports.deleteBoard = (req, res) => {
     
     freeBoardModel.deleteBoard(post_no, (result) => {
         if (result) {
-            console.log("board delete completed")
+            console.log("board delete completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
