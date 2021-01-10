@@ -8,8 +8,9 @@ const likesModel = require('../models/likesModel');
 exports.createLike = (req, res) => {
     const post_no = req.body.post_no;
     const user_no = req.body.user_no;
+    const board_flag = req.body.board_flag;
 
-    likesModel.createLike(post_no, user_no, (result) => {
+    likesModel.createLike(post_no, user_no, board_flag, (result) => {
         if (result) {
             console.log("like/unlike completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
