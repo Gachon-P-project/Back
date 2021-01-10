@@ -15,10 +15,10 @@ router.post("/subject/reply", repliesController.createReReply)
 router.get("/subject/:post_no", repliesController.readReply)
 
 // 댓글 삭제
-router.delete("/subject", repliesController.deleteReply)
+router.delete("/subject/:bundle_id", repliesController.deleteReply)
 
 // 대댓글 삭제
-router.delete("/subject/reply", repliesController.deleteRereply)
+router.delete("/subject/reply/:reply_no", repliesController.deleteRereply)
 
 // REPLY UPDATE - 댓글 수정 (불가)
 // router.put("/update/:id", replyController.updateReply)
@@ -41,10 +41,10 @@ router.post("/free/rereply", freeBoardReplyController.createReReply)
 router.get("/free/:postNo", freeBoardReplyController.readReply)
 
 // 댓글 삭제
-router.delete("/free", freeBoardReplyController.deleteReply)
+router.delete("/free/:bundle_id", freeBoardReplyController.deleteReply)
 
 // 대댓글 삭제
-router.delete("/free/rereply", freeBoardReplyController.deleteRereply)
+router.delete("/free/rereply/:reply_no", freeBoardReplyController.deleteRereply)
 
 
 /* 학과게시판 */
@@ -58,10 +58,10 @@ router.post("/major/rereply", majorBoardReplyController.createReReply)
 router.get("/major/:postNo", majorBoardReplyController.readReply)
 
 // 댓글 삭제
-router.delete("/major", majorBoardReplyController.deleteReply)
+router.delete("/major/:bundle_id", majorBoardReplyController.deleteReply)
 
 // 대댓글 삭제
-router.delete("/major/rereply", majorBoardReplyController.deleteRereply)
+router.delete("/major/rereply/:reply_no", majorBoardReplyController.deleteRereply)
 
 
 

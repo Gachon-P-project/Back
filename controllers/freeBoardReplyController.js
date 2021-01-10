@@ -60,7 +60,7 @@ exports.readReply = (req, res) => {
 // 클라이언트에서 bundleId를 파라미터로 전달하면 해당 튜플의 을 삭제한다.
 //router.get("/delete/:bundleId", replyController.countBundle)
 exports.deleteReply = (req, res) => {
-    let bundleId = req.body.bundle_id
+    let bundleId = req.params.bundle_id
     
     freeBoardReplyModel.deleteReply(bundleId, (result) => {
         if (result) {
@@ -73,7 +73,7 @@ exports.deleteReply = (req, res) => {
 // 대댓글 삭제
 // 클라이언트에서 reply_no를 파라미터로 전달하면 해당 튜플의 을 삭제한다.
 exports.deleteRereply = (req, res) => {
-    let reply_no = req.body.reply_no;
+    let reply_no = req.params.reply_no;
 
     freeBoardReplyModel.deleteRereply(reply_no, (result) => {
         if (result) {
