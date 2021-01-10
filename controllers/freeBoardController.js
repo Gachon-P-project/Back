@@ -82,7 +82,7 @@ exports.updateBoard = (req, res) => {
 // 게시글 삭제
 // 클라이언트에서 post_no을 전달하면 해당 튜플을 삭제한다.
 exports.deleteBoard = (req, res) => {
-    let post_no = req.body.post_no;
+    let post_no = req.params.post_no;
     
     freeBoardModel.deleteBoard(post_no, (result) => {
         if (result) {

@@ -18,7 +18,7 @@ router.get("/subject/:subject/:professor/:user_no/:word", boardsController.readS
 router.put("/subject", boardsController.updateBoard)
 
 // 게시글 삭제
-router.delete("/subject", boardsController.deleteBoard)
+router.delete("/subject/:post_no", boardsController.deleteBoard)
 
 
 /* 자유 게시판 */
@@ -35,7 +35,7 @@ router.get("/free/:boardFlag/:userNo/:word", freeBoardController.readSomeList)
 router.put("/free", freeBoardController.updateBoard)
 
 // 게시글 삭제
-router.delete("/free", freeBoardController.deleteBoard)
+router.delete("/free/:post_no", freeBoardController.deleteBoard)
 
 
 /* 학과 게시판 */
@@ -52,7 +52,7 @@ router.get("/major/:boardFlag/:userNo/:word", majorBoardController.readSomeList)
 router.put("/major", majorBoardController.updateBoard)
 
 // 게시글 삭제
-router.delete("/major", majorBoardController.deleteBoard)
+router.delete("/major/:post_no", majorBoardController.deleteBoard)
 
 
 
