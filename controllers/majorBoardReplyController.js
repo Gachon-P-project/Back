@@ -1,4 +1,4 @@
-const freeBoardReplyModel = require('../models/freeBoardReplyModel');
+const majorBoardReplyModel = require('../models/majorBoardReplyModel');
 
 // 댓글 작성
 // 클라이언트에서 post_no과 user_no를 파라미터로, 작성할 댓글 내용은 body를 통해 전달된다.
@@ -9,7 +9,7 @@ exports.createReply = (req, res) => {
     let post_no = req.body.post_no;
     let wrt_date = new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"});
     
-    freeBoardReplyModel.createReply(reply_contents, user_no, post_no, wrt_date, (result) => {
+    majorBoardReplyModel.createReply(reply_contents, user_no, post_no, wrt_date, (result) => {
         if (result) {
             console.log("reply insert completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
@@ -25,15 +25,15 @@ exports.createReply = (req, res) => {
 exports.createReReply = (req, res) => {
     const dataObj = {
         reply_contents: req.body.reply_contents,
-        user_no: req.body.user_no,
-        post_no: req.body.post_no,
+        user_no: req.body.userNo,
+        post_no: req.body.postNo,
         wrt_date: new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}),
         depth: 1,
         bundle_id: req.body.reply_no,
-        board_flag: 1
+        board_flag: 2
     }
     
-    freeBoardReplyModel.createReReply(dataObj, (result) => {
+    majorBoardReplyModel.createReReply(dataObj, (result) => {
         if (result) {
             console.log("rereply insert completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
@@ -46,11 +46,11 @@ exports.createReReply = (req, res) => {
 // REPLY READ - 해당 게시글의 댓글 보기
 // 클라이언트에서 post_no을 파라미터로 전달하면 해당하는 튜플을 전송한다.
 exports.readReply = (req, res) => {
-    let post_no = req.params.postNo;
+    let post_no = req.params.post;
     
-    freeBoardReplyModel.readReply(post_no, (result) => {
+    majorBoardReplyModel.readReply(post_no, (result) => {
         if (result) {
-            console.log("reply select completed")
+            console.log("reply select completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
@@ -62,9 +62,9 @@ exports.readReply = (req, res) => {
 exports.deleteReply = (req, res) => {
     let bundleId = req.body.bundle_id
     
-    freeBoardReplyModel.deleteReply(bundleId, (result) => {
+    majorBoardReplyModel.deleteReply(bundleId, (result) => {
         if (result) {
-            console.log("reply delete completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
+            console.log("reply delete completed")
             res.send(result)
         }
     })
@@ -75,7 +75,7 @@ exports.deleteReply = (req, res) => {
 exports.deleteRereply = (req, res) => {
     let reply_no = req.body.reply_no;
 
-    freeBoardReplyModel.deleteRereply(reply_no, (result) => {
+    majorBoardReplyModel.deleteRereply(reply_no, (result) => {
         if (result) {
             console.log("rereply delete completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
