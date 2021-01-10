@@ -74,7 +74,6 @@ exports.deleteRereply = (reply_no, cb) => {
 // 전체 댓글 조회
 exports.readReply = (post_no, cb) => {
     const sql = "SELECT R.*, U.nickname FROM MAJORREPLY R LEFT OUTER JOIN USER U ON R.user_no = U.user_no WHERE post_no = ? ORDER BY bundle_id, reply_no;";
-    const sql = "SELECT R.*, U.nickname FROM FREEREPLY R LEFT OUTER JOIN USER U ON R.user_no = U.user_no WHERE post_no = ? ORDER BY bundle_id, reply_no;";
 
     db.query(sql, post_no, (err, results) => {
         if (err) {
