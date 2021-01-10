@@ -58,7 +58,7 @@ router.delete("/major", majorBoardController.deleteBoard)
 
 
 // 내가 쓴 글 조회
-router.get("/myBoard/list/:userNo", boardController.readMyBoardList)
+router.get("/myBoard/list/:userNo", boardsController.readMyBoardList)
 
 // MY REPLY READ - 내가 댓글쓴 글 조회
 // router.get("/myBoard/select/list/:userNo", boardController.readMyBoardList)
