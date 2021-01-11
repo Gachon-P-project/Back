@@ -38,7 +38,7 @@ router.post("/free", freeBoardReplyController.createReply)
 router.post("/free/rereply", freeBoardReplyController.createReReply)
 
 // 전체 댓글 조회
-router.get("/free/:postNo", freeBoardReplyController.readReply)
+router.get("/free/:post_no", freeBoardReplyController.readReply)
 
 // 댓글 삭제
 router.delete("/free/:bundle_id", freeBoardReplyController.deleteReply)
