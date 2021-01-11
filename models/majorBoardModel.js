@@ -5,15 +5,23 @@ const db = mysqlConObj.init();
 
 // 게시글 작성
 // 클라이언트는 body에 post_title, post_contents, reply_yn, major_name, subject_name, professor_name, user_no를 전달
-exports.createBoard = (dataObj, cb) => {
-    const sql = "INSERT INTO MAJORBOARD SET ? ";
-
-    db.query(sql, dataObj, (err, results) => {
+exports.createReply = (reply_contents, user_no, post_no, wrt_date, cb) => {
+    const sql = "INSERT INTO MAJORREPLY (reply_contents, user_no, post_no, wrt_date) VALUES (?, ?, ?, ?)";
+    const sqlLastInsert = "UPDATE MAJORREPLY SET bundle_id = LAST_INSERT_ID() WHERE reply_no = LAST_INSERT_ID()"
+    db.query(sql, [reply_contents, user_no, post_no, wrt_date], (err, results) => {
         if (err) {
-            console.log("create err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
+            console.log("insert err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
         }
         else {
-            cb(JSON.parse(JSON.stringify(results)));
+            db.query(sqlLastInsert, (err, results) => {
+                if (err) {
+                    console.log("lastInsert err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
+                }
+                else {
+                    
+                    cb(JSON.parse(JSON.stringify(results)));
+                }
+            })
         }
     })
 }

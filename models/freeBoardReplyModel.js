@@ -6,14 +6,22 @@ const db = mysqlConObj.init();
 
 // 댓글 작성
 exports.createReply = (reply_contents, user_no, post_no, wrt_date, cb) => {
-    const sql = "INSERT INTO FREEREPLY (board_flag, reply_contents, user_no, post_no, wrt_date, bundle_id) VALUES (1, ?, ?, ?, ?, LAST_INSERT_ID()+1)";
-
+    const sql = "INSERT INTO FREEREPLY (reply_contents, user_no, post_no, wrt_date) VALUES (?, ?, ?, ?)";
+    const sqlLastInsert = "UPDATE FREEREPLY SET bundle_id = LAST_INSERT_ID() WHERE reply_no = LAST_INSERT_ID()"
     db.query(sql, [reply_contents, user_no, post_no, wrt_date], (err, results) => {
         if (err) {
-            console.log("update err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
+            console.log("insert err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
         }
         else {
-            cb(JSON.parse(JSON.stringify(results)));
+            db.query(sqlLastInsert, (err, results) => {
+                if (err) {
+                    console.log("lastInsert err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
+                }
+                else {
+                    
+                    cb(JSON.parse(JSON.stringify(results)));
+                }
+            })
         }
     })
 }
