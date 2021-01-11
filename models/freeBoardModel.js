@@ -22,7 +22,7 @@ exports.createBoard = (dataObj, cb) => {
 // 클라이언트에서 board_flag를 파라미터로 전달하면 해당하는 튜플을 전송
 exports.readList = (board_flag, user_no, cb) => {
     // 게시글 목록에 댓글 개수, 좋아요 개수 출력 
-    const sql = "select b.*, (select nickname from USER where user_no = b.user_no) as nickname, (select count(*) from FREEREPLY where post_no=b.post_no) as reply_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no and board_flag = ?) as like_cnt, (select count(*) from LIKEBOARD where user_no=? and post_no=b.post_no and board_flag=1) as like_user from FREEBOARD b order by post_no desc";
+    const sql = "select b.*, (select nickname from USER where user_no = b.user_no) as nickname, (select count(*) from FREEREPLY where post_no=b.post_no) as reply_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no and board_flag = ?) as like_cnt, (select count(*) from LIKEBOARD where user_no=? and post_no=b.post_no and board_flag=1) as like_user from FREEBOARD b order by post_no desc;";
 
     db.query(sql, [board_flag, user_no], (err, results) => {
         if (err) {
