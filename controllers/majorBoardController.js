@@ -39,8 +39,9 @@ exports.createBoard = (req, res) => {
 exports.readList = (req, res) => {
     let board_flag = req.params.boardFlag;
     let user_no = req.params.userNo;
+    let major = req.params.major
     if (board_flag == 2) {
-        majorBoardModel.readList(board_flag, user_no, (result) => {
+        majorBoardModel.readList(board_flag, user_no, major, (result) => {
             if (result) {
                 console.log("boards select completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
                 res.send(result)
@@ -55,8 +56,10 @@ exports.readSomeList = (req, res) => {
     let board_flag = req.params.boardFlag;
     let user_no = req.params.userNo;
     let post_word = req.params.word;
+    let major = req.params.major;
+
     
-    majorBoardModel.readSomeList(board_flag, user_no, post_word, (result) => {
+    majorBoardModel.readSomeList(board_flag, user_no, major, post_word, (result) => {
         if (result) {
             console.log("board select completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)

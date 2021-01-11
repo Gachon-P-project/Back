@@ -43,10 +43,10 @@ router.delete("/free/:post_no", freeBoardController.deleteBoard)
 router.post("/major", majorBoardController.createBoard)
 
 // 전체 게시글 조회
-router.get("/major/:boardFlag/:userNo", majorBoardController.readList)
+router.get("/major/:boardFlag/:userNo/:major", majorBoardController.readList)
 
 // 특정 게시글 조회
-router.get("/major/:boardFlag/:userNo/:word", majorBoardController.readSomeList)
+router.get("/major/:boardFlag/:userNo/:major/:word", majorBoardController.readSomeList)
 
 // 게시글 수정
 router.put("/major", majorBoardController.updateBoard)
