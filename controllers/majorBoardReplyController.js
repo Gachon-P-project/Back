@@ -46,7 +46,7 @@ exports.createReReply = (req, res) => {
 // REPLY READ - 해당 게시글의 댓글 보기
 // 클라이언트에서 post_no을 파라미터로 전달하면 해당하는 튜플을 전송한다.
 exports.readReply = (req, res) => {
-    let post_no = req.params.postNo;
+    let post_no = req.params.post_no;
     
     majorBoardReplyModel.readReply(post_no, (result) => {
         if (result) {

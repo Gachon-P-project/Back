@@ -54,7 +54,7 @@ router.post("/major", majorBoardReplyController.createReply)
 router.post("/major/reply", majorBoardReplyController.createReReply)
 
 // 전체 댓글 조회
-router.get("/major/:postNo", majorBoardReplyController.readReply)
+router.get("/major/:post_no", majorBoardReplyController.readReply)
 
 // 댓글 삭제
 router.delete("/major/:bundle_id", majorBoardReplyController.deleteReply)

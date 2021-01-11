@@ -37,8 +37,8 @@ exports.createBoard = (req, res) => {
 // 전체 게시글 조회
 // 클라이언트에서 board_flag를 파라미터로 전달하면 해당하는 튜플을 전송
 exports.readList = (req, res) => {
-    let board_flag = req.params.boardFlag;
-    let user_no = req.params.userNo;
+    let board_flag = req.params.board_flag;
+    let user_no = req.params.user_no;
     let major = req.params.major
     if (board_flag == 2) {
         majorBoardModel.readList(board_flag, user_no, major, (result) => {
@@ -53,7 +53,7 @@ exports.readList = (req, res) => {
 // 특정 게시글 조회
 // 클라이언트에서 board_flag/특정값을 파라미터로 전달하면 해당하는 튜플을 전송한다.
 exports.readSomeList = (req, res) => {
-    let board_flag = req.params.boardFlag;
+    let board_flag = req.params.board_flag;
     let user_no = req.params.userNo;
     let post_word = req.params.word;
     let major = req.params.major;
