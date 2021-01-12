@@ -26,6 +26,11 @@
 - 본인의 학과에 해당하는 게시판을 이용 할 수 있습니다.
 
 ## [ Preview ]
+**가천대학교 학과 공지사항, 수업 알림 기능을 제공합니다.<br>
+수강중인 수업 게시판과 학과 게시판 등 커뮤니티를 이용할 수 있습니다.**</br>
+<br>
+<img src='https://user-images.githubusercontent.com/53803882/104345341-91115700-5541-11eb-9a8f-026c791db8f5.png' width='200px'/>
+<img src='https://user-images.githubusercontent.com/53803882/104345332-8eaefd00-5541-11eb-9a78-1d29dfc66b53.png' width='200px'/>
 <img src='https://user-images.githubusercontent.com/53803882/104344730-e26d1680-5540-11eb-9211-56b26fc2b46f.png' width='200px'/>
 <img src='https://user-images.githubusercontent.com/53803882/104344826-fca6f480-5540-11eb-83ca-d73b136f1017.png' width='200px'/>
 <img src='https://user-images.githubusercontent.com/53803882/104344879-0892b680-5541-11eb-8f02-1a098c25ebc0.png' width='200px'/>
