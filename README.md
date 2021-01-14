@@ -44,6 +44,6 @@
 #### Server
 - API Server : Node.js(express)
 - Hosting : AWS EC2
-- Database : AWS RDS
+- Database : AWS RDS(Maria)
 - Process Manager : pm2
 - Reverse Proxy : NginX
