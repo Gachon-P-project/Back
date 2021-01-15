@@ -1,14 +1,14 @@
 ---
-name: development
-about: development template
-title: "[개발] 기능명"
-labels: development
+name: bug
+about: bug template
+title: "[오류] 버그명"
+labels: bug
 assignees: ''
 
 ---
 
-## 기능명
-> 기능 설명
+## 버그명
+> 버그 설명
 
 ## 참여자
 - 참여자 1
