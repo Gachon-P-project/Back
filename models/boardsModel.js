@@ -21,9 +21,9 @@ exports.createBoard = (dataObj, cb) => {
 
 // 전체 게시글 조회 
 // 클라이언트에서 사용자학번, 과목명, 교수명을 파라미터로 전달하면 해당하는 튜플을 전송
-exports.readList = (user_no, subject_name, professor_name, cb) => {
+exports.readList = (user_no, subject_name, professor_name, page_num, cb) => {
     // 게시글 목록에 댓글 개수, 좋아요 개수 출력 
-    const sql = "select b.*, (select nickname from USER where user_no = b.user_no) as nickname, (select count(*) from REPLY where post_no=b.post_no) as reply_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no and board_flag = 0) as like_cnt, (select count(*) from LIKEBOARD where user_no=? and post_no=b.post_no and board_flag = 0) as like_user from BOARD b where b.subject_name=? and b.professor_name=? order by post_no desc";
+    const sql = "select b.*, (select nickname from USER where user_no = b.user_no) as nickname, (select count(*) from REPLY where post_no=b.post_no) as reply_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no and board_flag = 0) as like_cnt, (select count(*) from LIKEBOARD where user_no=? and post_no=b.post_no and board_flag = 0) as like_user from BOARD b where b.subject_name=? and b.professor_name=? order by post_no desc limit "+page_num+", 10";
 
     db.query(sql, [user_no, subject_name, professor_name], (err, results) => {
         if (err) {
@@ -37,8 +37,8 @@ exports.readList = (user_no, subject_name, professor_name, cb) => {
 
 // 특정 게시글 조회
 // 클라이언트에서 과목명/특정값을 파라미터로 전달하면 해당하는 튜플을 전송한다.
-exports.readSomeList = (user_no, subject_name, professor_name, post_word, cb) => {
-    const sql ="select b.*, (select nickname from USER where user_no = b.user_no) as nickname, (select count(*) from REPLY where post_no=b.post_no) as reply_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no and board_flag = 0) as like_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no and user_no=? and board_flag = 0) as like_user from BOARD b WHERE subject_name = ? AND professor_name = ? AND (post_contents LIKE "+ db.escape('%'+post_word+'%')+" OR post_title LIKE "+ db.escape('%'+post_word+'%')+") order by post_no desc";
+exports.readSomeList = (user_no, subject_name, professor_name, post_word, page_num, cb) => {
+    const sql ="select b.*, (select nickname from USER where user_no = b.user_no) as nickname, (select count(*) from REPLY where post_no=b.post_no) as reply_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no and board_flag = 0) as like_cnt, (select count(*) from LIKEBOARD where post_no=b.post_no and user_no=? and board_flag = 0) as like_user from BOARD b WHERE subject_name = ? AND professor_name = ? AND (post_contents LIKE "+ db.escape('%'+post_word+'%')+" OR post_title LIKE "+ db.escape('%'+post_word+'%')+") order by post_no desc limit "+page_num+", 10";
 
     db.query(sql, [user_no, subject_name, professor_name], (err, results) => {
         if (err) {

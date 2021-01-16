@@ -26,7 +26,7 @@ exports.createBoard = (req, res) => {
 
     freeBoardModel.createBoard(dataObj, (result) => {
         if (result) {
-            console.log("boards create completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
+            console.log("free board create completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
             res.send(result)
         }
     })
@@ -37,11 +37,15 @@ exports.createBoard = (req, res) => {
 exports.readList = (req, res) => {
     let board_flag = req.params.boardFlag;
     let user_no = req.params.userNo;
+    let page_num = req.params.page_num;
+    if (page_num >= 1) {
+        page_num *= 10;
+    }
 
     if (board_flag == 1) {
-        freeBoardModel.readList(board_flag, user_no, (result) => {
+        freeBoardModel.readList(board_flag, user_no, page_num, (result) => {
             if (result) {
-                console.log("boards select completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
+                console.log("free board select completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
                 res.send(result)
             }
         })
@@ -54,10 +58,15 @@ exports.readSomeList = (req, res) => {
     let board_flag = req.params.boardFlag;
     let user_no = req.params.userNo;
     let post_word = req.params.word;
+    let page_num = req.params.page_num;
+    if (page_num >= 1) {
+        page_num *= 10;
+    }
+
     
-    freeBoardModel.readSomeList(board_flag, user_no, post_word, (result) => {
+    freeBoardModel.readSomeList(board_flag, user_no, post_word, page_num, (result) => {
         if (result) {
-            console.log("board select completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
+            console.log("free board select completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
@@ -73,7 +82,7 @@ exports.updateBoard = (req, res) => {
     
     freeBoardModel.updateBoard(post_title, post_contents, post_no, (result) => {
         if (result) {
-            console.log("board update completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
+            console.log("free board update completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
@@ -86,7 +95,7 @@ exports.deleteBoard = (req, res) => {
     
     freeBoardModel.deleteBoard(post_no, (result) => {
         if (result) {
-            console.log("board delete completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
+            console.log("free board delete completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
