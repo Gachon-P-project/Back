@@ -64,6 +64,7 @@ router.post("/check", async (req, res) => {
         }
 
     } catch (e) {
+        console.log(req.body.id, "사용자 확인 및 조회 오류", e);
         res.send("ID/PW를 확인하세요.")
     }
 })
