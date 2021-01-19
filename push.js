@@ -13,7 +13,7 @@ const postPush = async (major_code, cur_recent_title, cur_recent_num) => {
       num: cur_recent_num
     }
 
-    const res = await axios.post(process.env.push_url+"/user/push/", dataObj);
+    const res = await axios.post(process.env.push_url+"/users/push/", dataObj);
   } catch (e) {
     console.log("postPush error", e);
   }
