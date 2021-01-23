@@ -9,10 +9,10 @@ const majorBoardController = require('../controllers/majorBoardController');
 router.post("/subject", boardsController.createBoard) 
 
 // 전체 게시글 조회 
-router.get("/subject/:subject/:professor/:user_no", boardsController.readList)
+router.get("/subject/:subject/:professor/:user_no/:page_num", boardsController.readList)
 
 // 특정 게시글 조회
-router.get("/subject/:subject/:professor/:user_no/:word", boardsController.readSomeList)
+router.get("/subject/:subject/:professor/:user_no/:word/:page_num", boardsController.readSomeList)
 
 // 게시글 수정
 router.put("/subject", boardsController.updateBoard)
@@ -26,10 +26,10 @@ router.delete("/subject/:post_no", boardsController.deleteBoard)
 router.post("/free", freeBoardController.createBoard)
 
 // 전체 게시글 조회 
-router.get("/free/:boardFlag/:userNo", freeBoardController.readList)
+router.get("/free/:boardFlag/:userNo/:page_num", freeBoardController.readList)
 
 // 특정 게시글 조회
-router.get("/free/:boardFlag/:userNo/:word", freeBoardController.readSomeList)
+router.get("/free/:boardFlag/:userNo/:word/:page_num", freeBoardController.readSomeList)
 
 // 게시글 수정
 router.put("/free", freeBoardController.updateBoard)
@@ -43,10 +43,10 @@ router.delete("/free/:post_no", freeBoardController.deleteBoard)
 router.post("/major", majorBoardController.createBoard)
 
 // 전체 게시글 조회
-router.get("/major/:board_flag/:user_no/:major", majorBoardController.readList)
+router.get("/major/:board_flag/:user_no/:major/:page_num", majorBoardController.readList)
 
 // 특정 게시글 조회
-router.get("/major/:board_flag/:user_no/:major/:word", majorBoardController.readSomeList)
+router.get("/major/:board_flag/:user_no/:major/:word/:page_num", majorBoardController.readSomeList)
 
 // 게시글 수정
 router.put("/major", majorBoardController.updateBoard)

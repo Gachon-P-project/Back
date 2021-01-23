@@ -30,7 +30,7 @@ exports.createBoard = (req, res) => {
     
     boardsModel.createBoard(dataObj, (result) => {
         if (result) {
-            console.log("boards create completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
+            console.log(dataObj.subject_name, "boards create completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
             res.send(result)
         }
     })
@@ -42,10 +42,14 @@ exports.readList = (req, res) => {
     let subject_name = req.params.subject;
     let professor_name = req.params.professor;
     let user_no = req.params.user_no;
+    let page_num = req.params.page_num;
+    if (page_num >= 1) {
+        page_num *= 10;
+    }
     
-    boardsModel.readList(user_no, subject_name, professor_name, (result) => {
+    boardsModel.readList(user_no, subject_name, professor_name, page_num, (result) => {
         if (result) {
-            console.log("boards select completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
+            console.log(subject_name, "boards select completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
@@ -58,10 +62,14 @@ exports.readSomeList = (req, res) => {
     let professor_name = req.params.professor;
     let user_no = req.params.user_no;
     let post_word = req.params.word;
+    let page_num = req.params.page_num;
+    if (page_num >= 1) {
+        page_num *= 10;
+    }
     
-    boardsModel.readSomeList(user_no, subject_name, professor_name, post_word, (result) => {
+    boardsModel.readSomeList(user_no, subject_name, professor_name, post_word, page_num, (result) => {
         if (result) {
-            console.log("board select completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
+            console.log(subject_name, "board select completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
@@ -78,7 +86,7 @@ exports.updateBoard = (req, res) => {
     
     boardsModel.updateBoard(post_title, post_contents, post_no, (result) => {
         if (result) {
-            console.log("board update completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
+            console.log(post_no, "board update completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
@@ -91,7 +99,7 @@ exports.deleteBoard = (req, res) => {
     
     boardsModel.deleteBoard(post_no, (result) => {
         if (result) {
-            console.log("board delete completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
+            console.log(post_no, "board delete completed", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
             res.send(result)
         }
     })
