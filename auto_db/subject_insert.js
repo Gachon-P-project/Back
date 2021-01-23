@@ -13,7 +13,7 @@
 const axios = require('axios');
 const mysql = require('mysql');
 const dotenv = require('dotenv').config({ path: './../.env' });
-
+const cheerio = require('cheerio')
 // DB 연결
 const mysqlConObj = require('../config/mysql');
 const db = mysqlConObj.init();
@@ -171,6 +171,24 @@ const major = [
     },
 ]
 
+const getSubjectDetail = async(url, callback) => {
+    try {
+        const res = await axios.get(url)
+        const html = res.data;
+        let $ = cheerio.load(html);
+    
+        $('table:nth-of-type(1)').each((index, data) => {
+            var online_url = $($(data).find('tr').eq(6)).find('td').text();
+            console.log("getSubjectDetail :", online_url)
+            // return online_url;
+            callback(online_url)
+        })
+    } catch(e) {
+        console.log("get url error :", e);
+    }
+}
+
+// var aa = 0
 for(i=0; i<=12; i++) {
     
     // console.log(i, subject[i].name);
@@ -183,24 +201,117 @@ for(i=0; i<=12; i++) {
 
         console.log(p_maj_cd, major_names);
 
+        year = 2020
+        hakgi = 20
+
         const url = "http://sg.gachon.ac.kr/main?attribute=timeTableJson&lang=ko&year=2020&hakgi=20&menu=1&p_isu_cd=1&p_univ_cd=CS0000&p_maj_cd="+p_maj_cd+"&p_cor_cd=&p_gwamok_nm=%EA%B3%BC%EB%AA%A9%EB%AA%85%EC%9D%84%202%EC%9E%90%EB%A6%AC%20%EC%9D%B4%EC%83%81%20%EC%9E%85%EB%A0%A5%ED%95%98%EC%84%B8%EC%9A%94.&p_p_hakgi=&p_group_cd=&lang=ko&initYn=Y&fake=Sat%20Dec%2005%202020%2002:14:34%20GMT+0900%20(%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD%20%ED%91%9C%EC%A4%80%EC%8B%9C)&_search=false&nd=1607102074769&rows=-1&page=1&sidx=&sord=asc"
         getData(url)
         .then(result => {
             result.data.rows.map(data => {
+                // aa+=1
+                // p_subject_cd = data.subject_cd
+                // p_member_no = data.member_no
+                // const webex_url = "http://sg.gachon.ac.kr/main?attribute=lectPlan&year="+year+"&hakgi="+hakgi+"&p_subject_cd="+p_subject_cd+"&p_member_no="+p_member_no+"&lang=ko"
+                // getSubjectDetail(webex_url, (get_url) => {
+                //     // console.log("in getURLs code :", subject_code, "\nurl :", url)
+                //     if(url != '') {
+                //         // online_urls.push({
+                //         //     "subject_code": subject_code,
+                //         //     "subject_url": url
+                //         // });
+                //         dataObject.push({
+                //             "subject_code": data.subject_cd,
+                //             "subject_name": data.subject_nm_kor,
+                //             "major_names": major_names,
+                //             "subject_member_code" : data.member_no,
+                //             "subject_url": get_url
+                //         })
+                //     } else {
+                //         dataObject.push({
+                //             "subject_code": data.subject_cd,
+                //             "subject_name": data.subject_nm_kor,
+                //             "major_names": major_names,
+                //             "subject_member_code" : data.member_no
+                //         })
+                //     }
+                // })
+
                 dataObject.push({
                     "subject_code": data.subject_cd,
                     "subject_name": data.subject_nm_kor,
-                    "major_names": major_names
+                    "major_names": major_names,
+                    "subject_member_code" : data.member_no
                 })
+
+                // const datas = {
+                //     "subject_code": data.subject_cd,
+                //     "subject_name": data.subject_nm_kor,
+                //     "major_names": major_names,
+                //     "subject_member_code" : data.member_no
+                // }
+                // console.log(i, j, aa, datas)
+                // return datas
             })
+
 
             const sql = "INSERT INTO SUBJECT SET ?"
             dataObject.map(data => {
-                db.query(sql, data, (err, result) => {
+            db.query(sql, data, (err, result) => {
                     if(err) console.log("insert err : ", err);
                     else console.log("insert result : ", result);
                 })
             })
+
+            // 수업별 교수 코드 업데이트
+            // const sql = "UPDATE SUBJECT SET subject_member_code=? WHERE subject_code=?"
+            // dataObject.map(data => {
+            //     db.query(sql, (data.subject_member_code, data.subject_code), (err, result) => {
+            //         if(err) console.log("insert err : ", err);
+            //         else console.log("insert result : ", result);
+            //     })
+            // })
+
         })
+        // .then(async result => {
+        //     try {
+        //         p_subject_cd = result.subject_code
+        //         p_member_no = result.subject_member_code
+        //         const webex_url = "http://sg.gachon.ac.kr/main?attribute=lectPlan&year="+year+"&hakgi="+hakgi+"&p_subject_cd="+p_subject_cd+"&p_member_no="+p_member_no+"&lang=ko"
+        //         await getSubjectDetail(webex_url, (get_url) => {
+        //             // console.log("in getURLs code :", subject_code, "\nurl :", url)
+        //             if(url != '') {
+        //                 // online_urls.push({
+        //                 //     "subject_code": subject_code,
+        //                 //     "subject_url": url
+        //                 // });
+        //                 dataObject.push({
+        //                     "subject_code": data.subject_cd,
+        //                     "subject_name": data.subject_nm_kor,
+        //                     "major_names": major_names,
+        //                     "subject_member_code" : data.member_no,
+        //                     "subject_url": get_url
+        //                 })
+        //             } else {
+        //                 dataObject.push({
+        //                     "subject_code": data.subject_cd,
+        //                     "subject_name": data.subject_nm_kor,
+        //                     "major_names": major_names,
+        //                     "subject_member_code" : data.member_no
+        //                 })
+        //             }
+        //         })
+        //     } catch(e) {
+        //         console.loge
+        //     }
+        // })
+        // .then( () => {
+        //     const sql = "INSERT INTO SUBJECT SET ?"
+        //     dataObject.map(data => {
+        //     db.query(sql, data, (err, result) => {
+        //             if(err) console.log("insert err : ", err);
+        //             else console.log("insert result : ", result);
+        //         })
+        //     })
+        // })
     }
 }
