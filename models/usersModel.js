@@ -31,3 +31,22 @@ exports.nicknameUpdateUser = (nickname, user_no, cb) => {
         }
     })
 }
+
+// 수업 강의 url 조회
+exports.readSubjectUrl = (subject, professor, cb) => {
+    const sql = "SELECT DISTINCT subject_url FROM SUBJECT as s WHERE s.subject_name LIKE ? and s.subject_member_code IN (SELECT professor_code FROM PROFESSOR WHERE professor_name=?)";
+
+    let url = ''
+    db.query(sql, [subject+'%', professor], async (err, results) => {
+        if(err) {
+            console.log("select subject url err :", err, new Date().toLocaleDateString("ko-KR", {timeZone: "Asia/Seoul"}));
+        } else {
+            try {
+                url = JSON.parse(JSON.stringify(results))[0].subject_url;
+                cb(url)
+            }catch(e) {
+                console.log(e)
+            }
+        }
+    })
+}

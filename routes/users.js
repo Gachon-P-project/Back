@@ -105,9 +105,13 @@ router.get('/timetable/:user_no/:year/:sem', (req, res) => {
             res.send(last);
         } catch(e) {
             res.send("시간표 조회 오류")
+            console.log("ERROR IN SELECT TIMETABLE:", e)
         }
     }) 
 })
+
+// 수업 url 조회
+router.post('/subject-url', usersController.getSubjcetUrlUser)
 
 // 닉네임 수정
 router.put("/nickname", usersController.nicknameUpdateUser)

@@ -30,3 +30,30 @@ exports.nicknameUpdateUser = (req, res) => {
         }
     })
 }
+
+// 수업 URL 조회
+exports.getSubjcetUrlUser = (req, res) => {
+    let data = req.body.data;
+    let size = Object.keys(data).length;
+    let rst_data = [];
+
+    for(let i = 0 ; i < size ; i++) {
+        let subject = data[i].subject;
+        let professor = data[i].professor;
+
+        usersModel.readSubjectUrl(subject, professor, (result) => {
+            if (result) {
+                console.log("subject url selected", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}))
+                rst_data.push({
+                    subject : subject,
+                    professor : professor,
+                    url : result
+                })
+                if(i == size -1) {
+                    res.send(rst_data)
+                }
+            }
+        })
+    }
+
+}
