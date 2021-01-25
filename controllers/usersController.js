@@ -33,7 +33,7 @@ exports.nicknameUpdateUser = (req, res) => {
 
 // 수업 URL 조회
 exports.getSubjcetUrlUser = (req, res) => {
-    let data = req.body.data;
+    let data = req.body
     let size = Object.keys(data).length;
     let rst_data = [];
 
