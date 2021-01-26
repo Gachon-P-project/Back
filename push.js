@@ -104,7 +104,7 @@ db.query(sql, async (err, results) => {
                     const sql3 = "UPDATE RECENT SET recent_title=?, recent_num=? WHERE major_code=?;"
                     db.query(sql3, [cur_recent_title, cur_recent_num, boardType_seq], (err, res) => {
                       if(err) {
-                        console.log(e);
+                        console.log(err);
                       } else {
                         console.log("UPDATE RECENT", boardType_seq);
                       }
