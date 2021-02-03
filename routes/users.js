@@ -33,12 +33,12 @@ router.post("/check", async (req, res) => {
             user_no : getUser.data.ds_output.userUniqNo,
             user_id : getUser.data.ds_output.userId,
             user_name : getUser.data.ds_output.userNm,
-            // user_major : getUser.data.ds_output.clubList[0].clubNm,
+            user_major : getUser.data.ds_output.clubList[0].clubNm,
         }
 
         // 학과명 확인
-        major_code_uv = getUser.data.ds_output.affiCd;
-        const major_sql = "SELECT * FROM MAJOR WHERE major_code_uv = ?;"
+        // major_code_uv = getUser.data.ds_output.affiCd;
+        // const major_sql = "SELECT * FROM MAJOR WHERE major_code_uv = ?;"
 
         // 닉네임 확인
         const nickname_sql = "SELECT * FROM USER WHERE user_id = ?";
