@@ -80,6 +80,9 @@ db.query(sql, async (err, results) => {
     }
     else {
       for (const element of results) {
+        if (element.major_code == '0') {
+          continue;
+        }
         let boardType_seq = element.major_code;
 
         const url = process.env.notice_link+"boardType_seq="+boardType_seq
