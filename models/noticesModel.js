@@ -7,7 +7,35 @@ const db = mysqlConObj.init();
 exports.getNotice = (major, callback) => {
     const sql = "SELECT notice_url FROM NOTICE_APART WHERE notice_major=?"
 
-    db.query(sql, major, (err, results) => {
+    let input_major = ""
+    switch(major) {
+        case "소프트웨어":
+            input_major = "소프트웨어학과"
+        case "AI":
+            input_major = "AI학과"
+            break;
+        case "자유전공":
+            input_major = "자유전공"
+            break;
+        case "글로벌경영학트랙":
+            input_major = "글로벌경영학트랙"
+            break;
+        case "첨단의료기기":
+            input_major = "첨단의료기기학과"
+            break;
+        case "게임":
+        case "게임·영상학과":
+            input_major = "게임·영상학과"
+            break;
+        case "디스플레이":
+            input_major = "디스플레이학과"
+            break;
+        case "미래자동차":
+            input_major = "미래자동차학과"
+            break;
+        
+    }
+    db.query(sql, input_major, (err, results) => {
         if (err) {
             console.log("select err : ", err, new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
         }

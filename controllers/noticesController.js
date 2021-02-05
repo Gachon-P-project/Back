@@ -241,21 +241,24 @@ const getNoticeApart = (major, pageNum, callback) => {
     noticesModel.getNotice(major, result => {
         let notice_url = ''
         switch(major) {
-            case "소프트웨어학과":
+            case "소프트웨어":
             case "AI":
-                notice_url = result[0].notice_url + "&page=" + (pageNum + 1)
+                notice_url = result[0].notice_url + "&page=" + String(Number(pageNum) + 1)
+                console.log(notice_url)
                 break;
             case "자유전공":
-                notice_url = result[0].notice_url + "/?page=" + (pageNum + 1)
+                notice_url = result[0].notice_url + "/?page=" + String(Number(pageNum) + 1)
                 break;
             case "글로벌경영학트랙":
+                notice_url = result[0].notice_url + "?&page=" + String(Number(pageNum) + 1)
                 break;
-            case "첨단의료기기학과":
-            case "게임영상학과":
-            case "디스플레이학과":
-            case "미래자동차학과":
+            case "첨단의료기기":
+            case "게임":
+            case "게임·영상학과":
+            case "디스플레이":
+            case "미래자동차":
+                notice_url = result[0].notice_url + "?pageNum=" + pageNum
                 break;
-            
         }
         getNoticeApartList(major, notice_url, pageNum, (result) => {
             callback(result)
@@ -267,21 +270,24 @@ const getNoticeSearchListApart = (major, word, pageNum, callback) => {
     noticesModel.getNotice(major, result => {
         let notice_url = ''
         switch(major) {
-            case "소프트웨어학과":
+            case "소프트웨어":
             case "AI":
-                notice_url = result[0].notice_url + "&page=" + (pageNum + 1) + "&s1=title&s2=" + word
+                notice_url = result[0].notice_url + "&page=" + String(Number(pageNum) + 1) + "&s1=title&s2=" + word
                 break;
             case "자유전공":
-                notice_url = result[0].notice_url + "/?page=" + (pageNum + 1) + "&keyfield=all&keyword=" + word
+                notice_url = result[0].notice_url + "/?page=" + String(Number(pageNum) + 1) + "&keyfield=all&keyword=" + word
                 break;
             case "글로벌경영학트랙":
+                notice_url = result[0].notice_url + "?&page=" + String(Number(pageNum) + 1) + "&keyfield=all&keyword=" + word
                 break;
-            case "첨단의료기기학과":
-            case "게임영상학과":
-            case "디스플레이학과":
-            case "미래자동차학과":
+            case "첨단의료기기":
+            case "게임":
+            case "게임·영상학과":
+            case "디스플레이":
+            case "미래자동차":
+                // 홈페이지 자체 검색 기능 X
+                notice_url = result[0].notice_url + "?pageNum=" + pageNum
                 break;
-            
         }
         getNoticeApartList(major, notice_url, pageNum, (result) => {
             callback(result)
@@ -306,7 +312,7 @@ const getNoticeApartList = async (major, url, pageNum, callback) => {
     const page = new Array();
 
     switch(major) {
-        case "소프트웨어학과":
+        case "소프트웨어":
         case "AI":
             try {
                 $('.cms-content table tbody tr').each((index, data) => {
@@ -315,9 +321,7 @@ const getNoticeApartList = async (major, url, pageNum, callback) => {
                         /*
                             0 : 번호 => [공지]면 length 1, 아니면 0
                             1 : 제목
-                            2 : 작성자(학과)
-                            3 : 작성일
-                            4 : 조회수
+                            2 : 작성일
                         */
                         if(i == 0) {
                             if($(element).children().length == 1 ) {
@@ -344,9 +348,10 @@ const getNoticeApartList = async (major, url, pageNum, callback) => {
                                 "board_no" : board_no,
                                 "title" : title,
                                 "file" : file,
-                                "date" : date
+                                "date" : date,
+                                "view" : "-1"
                             }
-                            if(pageNum != 1 && num == 0){
+                            if(pageNum != 0 && num == 0){
                                 // 첫 페이지 다음부터는 [공지] 태그의 글은 response하지 않는다.
                             } else {
                                 page.push(dataObj)
@@ -354,7 +359,6 @@ const getNoticeApartList = async (major, url, pageNum, callback) => {
                         }
                     })
                 });
-
             } catch(e) {
                 console.log("getNoticeApartList Error in Controller:", e)
             }
@@ -371,7 +375,6 @@ const getNoticeApartList = async (major, url, pageNum, callback) => {
                             3 : 작성일
                             4 : 조회수
                         */
-                        // if(pageNum == 1){
                         if(i == 0) {
                             if($(element).children().length == 1 ) {
                                 num = 0; // [공지] 태그가 붙어있으면 0으로 저장
@@ -379,19 +382,9 @@ const getNoticeApartList = async (major, url, pageNum, callback) => {
                                 num = $(element).text().trim()
                             }
                         }
-                        // } else {
-                        //     if(i == 0) {
-                        //         if($(element).children().length == 1 ) {
-                        //             num = 0; // [공지] 태그가 붙어있으면 0으로 저장
-                        //         } else {
-                        //             num = $(element).text().trim()
-                        //         }
-                        //     }
-                        // }
-            
+
                         if(i == 1) {
                             title = $(element).text().trim()
-        
                             // board_url
                             const tag_a = $(element).children().attr("href")
                             const start_num = tag_a.indexOf('uid=')+4
@@ -418,7 +411,7 @@ const getNoticeApartList = async (major, url, pageNum, callback) => {
                                 "date" : date,
                                 "view" : view
                             }
-                            if(pageNum != 1 && num == 0){
+                            if(pageNum != 0 && num == 0){
                                 // 첫 페이지 다음부터는 [공지] 태그의 글은 response하지 않는다.
                             } else {
                                 page.push(dataObj)
@@ -433,17 +426,123 @@ const getNoticeApartList = async (major, url, pageNum, callback) => {
             break;
         case "글로벌경영학트랙":
             try {
+                $('#container .sub_cont .sub_box .gall_cont table tbody tr').each((index, data) => {
+                    const td = $(data).find('td');
+                    td.each((i, element) => {
+                        // console.log($(element).text())
+                        /*
+                            0 : 번호 => [공지]면 length 1, 아니면 0
+                            1 : 제목
+                            2 : 작성일
+                            3 : 조회수
+                        */
+                        if(i == 0) {
+                            if($(element).text().trim() == "공지" ) {
+                                num = 0; // [공지] 태그가 붙어있으면 0으로 저장
+                            } else {
+                                num = $(element).text().trim()
+                            }
+                        }
+            
+                        if(i == 1) {
+                            title = $(element).text().trim()
+                            // board_url
+                            const tag_a = $(element).children().attr("href")
+                            const start_num = tag_a.indexOf('uid=')+4
+                            const end_num = tag_a.indexOf('&page')
+                            board_no = tag_a.substring(start_num, end_num)
+                            file = 0
+                        }
+        
+                        if(i == 2) {
+                            date = $(element).text().trim();
+                        }
 
+                        if(i == 3) {
+                            view = $(element).text().trim();
+                            const dataObj = {
+                                "num" : num,
+                                "board_no" : board_no,
+                                "title" : title,
+                                "file" : file,
+                                "date" : date,
+                                "view" : view
+                            }
+                            if(pageNum != 0 && num == 0){
+                                // 첫 페이지 다음부터는 [공지] 태그의 글은 response하지 않는다.
+                            } else {
+                                page.push(dataObj)
+                            }
+                        }
+                    })
+                });
             } catch(e) {
                 console.log("getNoticeApartList Error in Controller:", e)
             }
             break;
-        case "첨단의료기기학과":
-        case "게임영상학과":
-        case "디스플레이학과":
-        case "미래자동차학과":
+        case "첨단의료기기":
+        case "게임":
+        case "게임·영상학과":
+        case "디스플레이":
+        case "미래자동차":
             try {
+                $('.container .boardlist tbody tr').each((index, data) => {
+                    const td = $(data).find('td');
+                    td.each((i, element) => {
+                        /*
+                            0 : 번호 => [공지]면 length 1, 아니면 0
+                            1 : 제목
+                            2 : 작성자(학과)
+                            3 : 작성일
+                            4 : 조회수
+                        */
+                        if(i == 0) {
+                            if($(element).children().length == 1 ) {
+                                num = 0; // [공지] 태그가 붙어있으면 0으로 저장
+                            } else {
+                                num = $(element).text().trim()
+                            }
+                        }
 
+                        if(i == 1) {
+                            title = $(element).text().trim()
+                            // board_url
+                            const tag_a = $(element).children().attr("href")
+                            const start_num = tag_a.indexOf('board_no=')+8
+                            const end_num = tag_a.indexOf('&approve')
+                            board_no = tag_a.substring(start_num, end_num)
+                        }
+        
+                        if(i == 3) {
+                            if($(element).children().attr("class") == "file") {
+                                file = 1
+                            } else {
+                                file = 0
+                            }
+                        }
+                        if(i == 4) {
+                            date = $(element).text().trim();
+                        }
+        
+                        if(i == 5) {
+                            view = $(element).text().trim();
+                            const dataObj = {
+                                "num" : num,
+                                "board_no" : board_no,
+                                "title" : title,
+                                "file" : file,
+                                "date" : date,
+                                "view" : view
+                            }
+                            if(pageNum != 0 && num == 0){
+                                // 첫 페이지 다음부터는 [공지] 태그의 글은 response하지 않는다.
+                            } else {
+                                page.push(dataObj)
+                            }
+                            
+                        }
+                    })
+                });
             } catch(e) {
                 console.log("getNoticeApartList Error in Controller:", e)
             }
@@ -452,12 +551,10 @@ const getNoticeApartList = async (major, url, pageNum, callback) => {
     callback(page)
 }
 
-
-
 const getNoticePostingApart = (major, board_no, callback) => {
     noticesModel.getNotice(major, async result => {
         switch(major) {
-            case "소프트웨어학과":
+            case "소프트웨어":
             case "AI":
                 try {
                     url = result[0].notice_url + "&idx=" + board_no;
@@ -466,6 +563,7 @@ const getNoticePostingApart = (major, board_no, callback) => {
                     const html = res.data;
                     let $ = cheerio.load(html);
 
+                    // 이미지 
                     $('.cms-content .list-memo').find('img').each((index, elem) => {
                         var original_url = url.substring(0, url.indexOf("?"));
 
@@ -484,6 +582,7 @@ const getNoticePostingApart = (major, board_no, callback) => {
                         }
                         $(elem).attr("src", processed_url+imgurl)
                     })
+                    // 첨부파일 
                     $('.cms-content .list-memo').find('.attach a').each((index, elem) => {
                         href = base_url+$(elem).attr("href")
                         $(elem).attr("href", href)
@@ -509,7 +608,9 @@ const getNoticePostingApart = (major, board_no, callback) => {
                     const html = res.data;
                     let $ = cheerio.load(html);
 
-                    $('.freebox tbody').find('img').each((index, elem) => {
+                    // 이미지 
+                    $('.free_box .free_topTable tbody tr').find('img').each((index, elem) => {
+                        // console.log(elem.html())
                         var original_url = url.substring(0, url.indexOf("?"));
 
                         if(original_url.slice(-1) == '/')
@@ -519,20 +620,35 @@ const getNoticePostingApart = (major, board_no, callback) => {
                         processed_url = original_url;
 
                         while(imgurl.substr(0, 2) == "..") {
-                            var divider = processed_url.split("/");
-                            var processed_url = processed_url.substring(0, processed_url.indexOf(divider[divider.length - 1]));
+                            divider = processed_url.split("/");
+                            var processed_url = processed_url.substring(0, processed_url.indexOf(divider[divider.length - 1]) - 1);
+                            console.log(processed_url)
                             imgurl = imgurl.substring(3)
-                            if (processed_url.slice(-3) == "kr/")
+                            if (processed_url.slice(-4) == ".kr/")
                                 break;
                         }
+                        console.log(processed_url+imgurl)
                         $(elem).attr("src", processed_url+imgurl)
                     })
-                    $('.cms-content .list-memo').find('.attach a').each((index, elem) => {
-                        href = base_url+$(elem).attr("href")
-                        $(elem).attr("href", href)
+                    // 첨부파일
+                    $('.free_box .free_topTable tbody tr').find('a').each((index, elem) => {
+                        divider = $(elem).attr("href").indexOf('?')
+                        if($(elem).attr('href').substring(0, divider) == "filedown"){
+                            href = base_url + '/notice/' + $(elem).attr("href")
+                            href.replace("&amp;", "&")
+                            $(elem).attr("href", href)
+                        }
                     })
 
-                    const data = sanitizeHtml($('.cms-content .list-memo').html(), {
+                    // 등록일, 조회수 제외
+                    var tmp = [];
+                    $('.free_box .free_topTable tbody tr').each((index, elem) => {
+                        if(index != 0 ){
+                            tmp.push($(elem))
+                        }
+                    });
+                    tmp = "<table>" + tmp.join("\n") + "</table>"
+                    const data = sanitizeHtml($(tmp).html(), {
                         allowedTags: false,
                         allowedAttributes: false,
                         parser: {
@@ -545,11 +661,117 @@ const getNoticePostingApart = (major, board_no, callback) => {
                 }
                 break;
             case "글로벌경영학트랙":
+                try {
+                    url = result[0].notice_url.slice(0, -5) + "_view?uid=" + board_no;
+                    console.log(url)
+                    let base_url = url.substring(0, url.indexOf("kr")+2)
+                    const res = await axios.get(url);
+                    const html = res.data;
+                    let $ = cheerio.load(html);
+
+                    // 이미지 
+                    $('#container .sub_cont .sub_box table tbody').find('img').each((index, elem) => {
+                        // console.log(elem.html())
+                        var original_url = url.substring(0, url.indexOf("?"));
+
+                        if(original_url.slice(-1) == '/')
+                            original_url = original_url.substring(0, original_url.length-1);
+
+                        imgurl = $(elem).attr("src")
+                        processed_url = original_url;
+
+                        console.log(imgurl)
+                        if(imgurl.substr(0, 4) != "http" && imgurl.substr(0, 4) != "data"){
+                            while(imgurl.substr(0, 2) == "..") {
+                                divider = processed_url.split("/");
+                                var processed_url = processed_url.substring(0, processed_url.indexOf(divider[divider.length - 1]) - 1);
+                                imgurl = imgurl.substring(3)
+                                if (processed_url.slice(-4) == ".kr/")
+                                    break;
+                            }
+                            console.log(processed_url+imgurl)
+                            $(elem).attr("src", processed_url+imgurl)
+                        }
+                    })
+                    // 첨부파일
+                    $('#container .sub_cont .sub_box table tbody').find('a').each((index, elem) => {
+                        divider = $(elem).attr("href").indexOf('?')
+                        if($(elem).attr('href').substring(0, divider) == "filedown"){
+                            href = base_url + '/global/community/' + $(elem).attr("href")
+                            href.replace("&amp;", "&")
+                            $(elem).attr("href", href)
+                        }
+                    })
+
+                    // 등록일, 조회수 제외
+                    var tmp = [];
+                    $('#container .sub_cont .sub_box table tbody tr').each((index, elem) => {
+                        if(index >= 2 && index < $('#container .sub_cont .sub_box table tbody tr').length -2 ){
+                            tmp.push($(elem))
+                        }
+                    });
+                    tmp = "<table>" + tmp.join("\n") + "</table>"
+                    const data = sanitizeHtml($(tmp).html(), {
+                        allowedTags: false,
+                        allowedAttributes: false,
+                        parser: {
+                            decodeEntities: true
+                        }
+                    });
+                    callback(data)
+                } catch (e) {
+                    console.log(e)
+                }
                 break;
-            case "첨단의료기기학과":
-            case "게임영상학과":
-            case "디스플레이학과":
-            case "미래자동차학과":
+            case "첨단의료기기":
+            case "게임":
+            case "게임·영상학과":
+            case "디스플레이":
+            case "미래자동차":
+                try {
+                    url = result[0].notice_url + "?mode=view&board_no=" + board_no;
+                    let base_url = url.substring(0, url.indexOf("kr")+2)
+                    const res = await axios.get(url);
+                    const html = res.data;
+                    let $ = cheerio.load(html);
+
+                    // 이미지 
+                    $('.container .boardview table tbody').find('img').each((index, elem) => {
+                        imgurl = $(elem).attr("src")
+
+                        $(elem).attr("src", base_url+imgurl)
+
+                    })
+                    // 첨부파일
+                    $('.container .boardview table tbody').find('a').each((index, elem) => {
+                        var file_url = $(elem).attr("href")
+                        if (file_url != null && file_url.substr(0, 7) == "/board/") {
+                            href = base_url + $(elem).attr("href")
+                            href.replace("&amp;", "&")
+                            $(elem).attr("href", href)
+                        }
+                    })
+
+                    // 제목, 작성자, 등록일, 조회수 제외
+                    var tmp = [];
+                    $('.container .boardview table tbody tr').each((index, elem) => {
+                        if(index >= 3) {
+                            tmp.push($(elem))
+                        }
+                    });
+                    tmp = "<table>" + tmp.join("\n") + "</table>"
+                    const data = sanitizeHtml($(tmp).html(), {
+                        allowedTags: false,
+                        allowedAttributes: false,
+                        parser: {
+                            decodeEntities: true
+                        }
+                    });
+                    callback(data)
+                } catch (e) {
+                    console.log(e)
+                }
+
                 break;
             
         }
