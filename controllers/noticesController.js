@@ -222,9 +222,42 @@ const getClickedPosting = async (url) => {
     const res = await axios.get(url);
     const html = res.data;
     let $ = cheerio.load(html);
+    let base_url = url.substring(0, url.indexOf("kr")+2)
     
     try {
-        const data = sanitizeHtml($('.boardview > table ').html(), {
+        
+        // 이미지 
+        $('.boardview > table tbody').find('img').each((index, elem) => {
+            imgurl = $(elem).attr("src")
+            
+            if (imgurl != null && (imgurl.substr(0, 7) == "/board/" || imgurl.substr(0, 8) == "/images/")) {
+                href = imgurl + $(elem).attr("href")
+                href.replace("&amp;", "&")
+                $(elem).attr("src", base_url+imgurl)
+            }
+
+        })
+        // 첨부파일
+        $('.boardview > table tbody').find('a').each((index, elem) => {
+            var file_url = $(elem).attr("href")
+            if (file_url != null && file_url.substr(0, 7) == "/board/") {
+                href = base_url + $(elem).attr("href")
+                href.replace("&amp;", "&")
+                $(elem).attr("href", href)
+            }
+        })
+
+        var result = [];
+        $('.boardview > table tbody tr').each((index, elem) => {
+            if(index == 4 || index == 5){
+                result.push($(elem))
+            }
+        });
+        result = "<table>" + result.join("\n") + "</table>"
+
+
+
+        const data = sanitizeHtml($(result).html(), {
             allowedTags: false,
             allowedAttributes: false,
             parser: {
@@ -610,7 +643,6 @@ const getNoticePostingApart = (major, board_no, callback) => {
 
                     // 이미지 
                     $('.free_box .free_topTable tbody tr').find('img').each((index, elem) => {
-                        // console.log(elem.html())
                         var original_url = url.substring(0, url.indexOf("?"));
 
                         if(original_url.slice(-1) == '/')
@@ -631,9 +663,9 @@ const getNoticePostingApart = (major, board_no, callback) => {
                         $(elem).attr("src", processed_url+imgurl)
                     })
                     // 첨부파일
-                    $('.free_box .free_topTable tbody tr').find('a').each((index, elem) => {
-                        divider = $(elem).attr("href").indexOf('?')
-                        if($(elem).attr('href').substring(0, divider) == "filedown"){
+                    $('.free_box .free_topTable tbody tr .free_file').find('a').each((index, elem) => {
+                        // divider = $(elem).attr("href").indexOf('?')
+                        if($(elem).attr('href').substring(0, 4) != "http"){
                             href = base_url + '/notice/' + $(elem).attr("href")
                             href.replace("&amp;", "&")
                             $(elem).attr("href", href)
