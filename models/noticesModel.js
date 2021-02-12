@@ -33,6 +33,18 @@ exports.getNotice = (major, callback) => {
         case "미래자동차":
             input_major = "미래자동차학과"
             break;
+        case "의예과(M)":
+            input_major = "의예과(M)"
+            break;
+        case "의학과(M)":
+            input_major = "의학과(M)"
+            break;
+        case "약학과(M)":
+            input_major = "약학과(M)"
+            break;
+        case "의용생체공학과(M)":
+            input_major = "의용생체공학과(M)"
+            break;
         
     }
     db.query(sql, input_major, (err, results) => {

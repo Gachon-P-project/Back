@@ -10,7 +10,7 @@ router.get("/list/:page_num/:major", (req, res) => {
     const pageNum = req.params.page_num;
     const major = req.params.major;
 
-    const major_apart = ["소프트웨어", "자유전공", "글로벌경영학트랙", "AI", "첨단의료기기학과", "게임·영상학과", "게임", "디스플레이", "미래자동차"]
+    const major_apart = ["소프트웨어", "자유전공", "글로벌경영학트랙", "AI", "첨단의료기기학과", "게임·영상학과", "게임", "디스플레이", "미래자동차", "의학과(M)", "의예과(M)", "약학과(M)", "의용생체공학과(M)"]
     isAparted = false
     for (var ma in major_apart) {
         if (major.includes(major_apart[ma])) {
@@ -48,7 +48,7 @@ router.get("/list/:page_num/:major/:search", (req, res) => {
     const major = req.params.major;
     const search = req.params.search;
 
-    const major_apart = ["소프트웨어", "자유전공", "글로벌경영학트랙", "AI", "첨단의료기기학과", "게임·영상학과", "게임", "디스플레이", "미래자동차"]
+    const major_apart = ["소프트웨어", "자유전공", "글로벌경영학트랙", "AI", "첨단의료기기학과", "게임·영상학과", "게임", "디스플레이", "미래자동차", "의학과(M)", "의예과(M)", "약학과(M)", "의용생체공학과(M)"]
     isAparted = false
     for (var ma in major_apart) {
         if (major.includes(major_apart[ma])) {
@@ -91,7 +91,7 @@ router.get("/posting/:major/:board_no", (req, res) => {
     const major = req.params.major;
     const board_no = req.params.board_no;
 
-    const major_apart = ["소프트웨어", "자유전공", "글로벌경영학트랙", "AI", "첨단의료기기학과", "게임·영상학과", "게임", "디스플레이", "미래자동차"]
+    const major_apart = ["소프트웨어", "자유전공", "글로벌경영학트랙", "AI", "첨단의료기기학과", "게임·영상학과", "게임", "디스플레이", "미래자동차", "의학과(M)", "의예과(M)", "약학과(M)", "의용생체공학과(M)"]
     isAparted = false
     for (var ma in major_apart) {
         if (major.includes(major_apart[ma])) {
