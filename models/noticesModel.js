@@ -9,8 +9,12 @@ exports.getNotice = (major, callback) => {
 
     let input_major = ""
     switch(major) {
+        case "가천대학교":
+            input_major = "가천대학교"
+            break;
         case "소프트웨어":
             input_major = "소프트웨어학과"
+            break;
         case "AI":
             input_major = "AI학과"
             break;

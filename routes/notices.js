@@ -10,7 +10,7 @@ router.get("/list/:page_num/:major", (req, res) => {
     const pageNum = req.params.page_num;
     const major = req.params.major;
 
-    const major_apart = ["소프트웨어", "자유전공", "글로벌경영학트랙", "AI", "첨단의료기기학과", "게임·영상학과", "게임", "디스플레이", "미래자동차", "의학과(M)", "의예과(M)", "약학과(M)", "의용생체공학과(M)"]
+    const major_apart = ["가천대학교", "소프트웨어", "자유전공", "글로벌경영학트랙", "AI", "첨단의료기기학과", "게임·영상학과", "게임", "디스플레이", "미래자동차", "의학과(M)", "의예과(M)", "약학과(M)", "의용생체공학과(M)"]
     isAparted = false
     for (var ma in major_apart) {
         if (major.includes(major_apart[ma])) {
@@ -48,7 +48,7 @@ router.get("/list/:page_num/:major/:search", (req, res) => {
     const major = req.params.major;
     const search = req.params.search;
 
-    const major_apart = ["소프트웨어", "자유전공", "글로벌경영학트랙", "AI", "첨단의료기기학과", "게임·영상학과", "게임", "디스플레이", "미래자동차", "의학과(M)", "의예과(M)", "약학과(M)", "의용생체공학과(M)"]
+    const major_apart = ["가천대학교", "소프트웨어", "자유전공", "글로벌경영학트랙", "AI", "첨단의료기기학과", "게임·영상학과", "게임", "디스플레이", "미래자동차", "의학과(M)", "의예과(M)", "약학과(M)", "의용생체공학과(M)"]
     isAparted = false
     for (var ma in major_apart) {
         if (major.includes(major_apart[ma])) {
@@ -91,7 +91,7 @@ router.get("/posting/:major/:board_no", (req, res) => {
     const major = req.params.major;
     const board_no = req.params.board_no;
 
-    const major_apart = ["소프트웨어", "자유전공", "글로벌경영학트랙", "AI", "첨단의료기기학과", "게임·영상학과", "게임", "디스플레이", "미래자동차", "의학과(M)", "의예과(M)", "약학과(M)", "의용생체공학과(M)"]
+    const major_apart = ["가천대학교", "소프트웨어", "자유전공", "글로벌경영학트랙", "AI", "첨단의료기기학과", "게임·영상학과", "게임", "디스플레이", "미래자동차", "의학과(M)", "의예과(M)", "약학과(M)", "의용생체공학과(M)"]
     isAparted = false
     for (var ma in major_apart) {
         if (major.includes(major_apart[ma])) {
@@ -130,23 +130,38 @@ router.get("/posting/:major/:board_no", (req, res) => {
 router.get("/posting/url/:major/:board_no", (req, res) => {
     const sql = "SELECT major_code FROM MAJOR WHERE major_name = ?"
     const major = req.params.major;
+    const board_no = req.params.board_no;
 
-    db.query(sql, major, (err, result) => {
-        if(err) {
-            console.log("select err : ", err);
+    const major_apart = ["가천대학교", "소프트웨어", "자유전공", "글로벌경영학트랙", "AI", "첨단의료기기학과", "게임·영상학과", "게임", "디스플레이", "미래자동차", "의학과(M)", "의예과(M)", "약학과(M)", "의용생체공학과(M)"]
+    isAparted = false
+    for (var ma in major_apart) {
+        if (major.includes(major_apart[ma])) {
+            isAparted = true
+            noticesController.getNoticeUrlApart(major_apart[ma], board_no, result => {
+                console.log("notice clicked post - url :", major, "/", board_no, "/", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
+                res.send(result)
+            })
         }
-        else {
-            console.log("notice clicked post - url");
-            try {
-                const boardType_seq = result[0].major_code;
-                const url = process.env.notice_link+"mode=view&boardType_seq="+String(boardType_seq)+"&board_no="+req.params.board_no+"&approve=&secret=&answer=&branch=&searchopt=&searchword=&pageSize=10&pageNum=0"
-                
-                res.send(url);
-            } catch (e) {
-                res.send("잘못된 입력값", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
-            } 
-        }
-    })
+    }
+
+    if(!isAparted){
+        db.query(sql, major, (err, result) => {
+            if(err) {
+                console.log("select err : ", err);
+            }
+            else {
+                console.log("notice clicked post - url");
+                try {
+                    const boardType_seq = result[0].major_code;
+                    const url = process.env.notice_link+"mode=view&boardType_seq="+String(boardType_seq)+"&board_no="+board_no+"&approve=&secret=&answer=&branch=&searchopt=&searchword=&pageSize=10&pageNum=0"
+                    
+                    res.send(url);
+                } catch (e) {
+                    res.send("잘못된 입력값", new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}));
+                } 
+            }
+        })
+}
 })
 
 module.exports = router;

@@ -31,98 +31,54 @@ const getNoticeList = async (url, pageNum) =>  {
                     4 : 작성일
                     5 : 조회수
                 */
-                if(pageNum == 0){
-                    if(i == 0) {
-                        if($(element).children().length == 1 ) {
-                            num = 0; // [공지] 태그가 붙어있으면 0으로 저장
-                        } else {
-                            num = $(element).text().trim()
-                        }
-                    }
-    
-                    if(i == 1) {
-                        title = $(element).text().trim()
-    
-                        // 실제 board_no 추출
-                        const tag_a = $(element).children().attr("href")
-                        const start_num = tag_a.indexOf('board_no')+9
-                        const end_num = tag_a.indexOf('approve')-1
-                        board_no = tag_a.substring(start_num, end_num)
-                    }
-    
-                    if(i == 3) {
-                        if($(element).children().length == 1) {
-                            file = 1;
-                        } else {
-                            file = 0;
-                        }
-                    }
-    
-                    if(i == 4) {
-                        date = $(element).text().trim();
-                    }
-    
-                    if(i == 5) {
-                        view = $(element).text().trim();
-                        const dataObj = {
-                            "num" : num,
-                            "board_no" : board_no,
-                            "title" : title,
-                            "file" : file,
-                            "date" : date,
-                            "view" : view
-                        }
-                        page.push(dataObj)
-                    }
-                } else {
-                    if(i == 0) {
-                        if($(element).children().length == 1 ) {
-                            num = 0; // [공지] 태그가 붙어있으면 0으로 저장
-                        } else {
-                            num = $(element).text().trim()
-                        }
-                    }
-    
-                    if(i == 1) {
-                        title = $(element).text().trim()
-    
-                        // 실제 board_no 추출
-                        const tag_a = $(element).children().attr("href")
-                        const start_num = tag_a.indexOf('board_no')+9
-                        const end_num = tag_a.indexOf('approve')-1
-                        board_no = tag_a.substring(start_num, end_num)
-                    }
-    
-                    if(i == 3) {
-                        if($(element).children().length == 1) {
-                            file = 1;
-                        } else {
-                            file = 0;
-                        }
-                    }
-    
-                    if(i == 4) {
-                        date = $(element).text().trim();
-                    }
-    
-                    if(i == 5) {
-                        view = $(element).text().trim();
-                        const dataObj = {
-                            "num" : num,
-                            "board_no" : board_no,
-                            "title" : title,
-                            "file" : file,
-                            "date" : date,
-                            "view" : view
-                        }
-                        if(num == 0){
-                            // 첫 페이지 다음부터는 [공지] 태그의 글은 response하지 않는다.
-                        } else {
-                            page.push(dataObj)
-                        }
-                        
+                if(i == 0) {
+                    if($(element).children().length == 1 ) {
+                        num = 0; // [공지] 태그가 붙어있으면 0으로 저장
+                    } else {
+                        num = $(element).text().trim()
                     }
                 }
+
+                if(i == 1) {
+                    title = $(element).text().trim()
+
+                    // 실제 board_no 추출
+                    const tag_a = $(element).children().attr("href")
+                    const start_num = tag_a.indexOf('board_no')+9
+                    const end_num = tag_a.indexOf('approve')-1
+                    board_no = tag_a.substring(start_num, end_num)
+                }
+
+                if(i == 3) {
+                    if($(element).children().length == 1) {
+                        file = 1;
+                    } else {
+                        file = 0;
+                    }
+                }
+
+                if(i == 4) {
+                    date = $(element).text().trim();
+                }
+
+                if(i == 5) {
+                    view = $(element).text().trim();
+                    const dataObj = {
+                        "num" : num,
+                        "board_no" : board_no,
+                        "title" : title,
+                        "file" : file,
+                        "date" : date,
+                        "view" : view
+                    }
+                    if(pageNum != 0 && num == 0){
+                        // 첫 페이지 다음부터는 [공지] 태그의 글은 response하지 않는다.
+                    } else {
+                        page.push(dataObj)
+                    }
+                    
+                }
+                // }
                 
             })
         })
@@ -231,7 +187,7 @@ const getClickedPosting = async (url) => {
         $('.boardview > table tbody').find('img').each((index, elem) => {
             imgurl = $(elem).attr("src")
             
-            if (imgurl != null && (imgurl.substr(0, 7) == "/board/" || imgurl.substr(0, 8) == "/images/")) {
+            if (imgurl != null && (imgurl.substr(0, 7) == "/board/" || imgurl.substr(0, 8) == "/images/" || imgurl.substr(0, 7) == "/Files/")) {
                 href = imgurl + $(elem).attr("href")
                 href.replace("&amp;", "&")
                 $(elem).attr("src", base_url+imgurl)
@@ -275,10 +231,11 @@ const getNoticeApart = (major, pageNum, callback) => {
     noticesModel.getNotice(major, result => {
         let notice_url = ''
         switch(major) {
+            case "가천대학교":
+                notice_url = result[0].notice_url + "&pageNum=" + pageNum
             case "소프트웨어":
             case "AI":
                 notice_url = result[0].notice_url + "&page=" + String(Number(pageNum) + 1)
-                console.log(notice_url)
                 break;
             case "자유전공":
                 notice_url = result[0].notice_url + "/?page=" + String(Number(pageNum) + 1)
@@ -296,7 +253,6 @@ const getNoticeApart = (major, pageNum, callback) => {
             case "의학과(M)":
             case "의예과(M)":
                 notice_url = result[0].notice_url + "?code=student&page=" + String(Number(pageNum) + 1)
-                console.log(notice_url)
                 break;
             case "약학과(M)": 
                 notice_url = result[0].notice_url + "?board_code=sub4_1&page=" + String(Number(pageNum) + 1)
@@ -315,15 +271,18 @@ const getNoticeSearchListApart = (major, word, pageNum, callback) => {
     noticesModel.getNotice(major, result => {
         let notice_url = ''
         switch(major) {
+            case "가천대학교":
+                notice_url = result[0].notice_url + "&pageNum=" + pageNum + "&searchopt=title&searchword=" + word;
+                break;
             case "소프트웨어":
             case "AI":
-                notice_url = result[0].notice_url + "&page=" + String(Number(pageNum) + 1) + "&s1=title&s2=" + word
+                notice_url = result[0].notice_url + "&page=" + String(Number(pageNum) + 1) + "&s1=title&s2=" + word;
                 break;
             case "자유전공":
-                notice_url = result[0].notice_url + "/?page=" + String(Number(pageNum) + 1) + "&keyfield=all&keyword=" + word
+                notice_url = result[0].notice_url + "/?page=" + String(Number(pageNum) + 1) + "&keyfield=all&keyword=" + word;
                 break;
             case "글로벌경영학트랙":
-                notice_url = result[0].notice_url + "?&page=" + String(Number(pageNum) + 1) + "&keyfield=all&keyword=" + word
+                notice_url = result[0].notice_url + "?&page=" + String(Number(pageNum) + 1) + "&keyfield=all&keyword=" + word;
                 break;
             case "첨단의료기기":
             case "게임":
@@ -331,22 +290,61 @@ const getNoticeSearchListApart = (major, word, pageNum, callback) => {
             case "디스플레이":
             case "미래자동차":
                 // 홈페이지 자체 검색 기능 X
-                notice_url = result[0].notice_url + "?pageNum=" + pageNum
+                notice_url = result[0].notice_url + "?pageNum=" + pageNum;
                 break;
             case "의학과(M)":
             case "의예과(M)":
-                notice_url = result[0].notice_url + "?code=student&page=" + String(Number(pageNum) + 1) + "&keyfield=all&key=" + word
+                notice_url = result[0].notice_url + "?code=student&page=" + String(Number(pageNum) + 1) + "&keyfield=all&key=" + word;
                 break;
             case "약학과(M)": 
-                notice_url = result[0].notice_url + "&page=" + String(Number(pageNum) + 1) + "&search_key=" + word
+                notice_url = result[0].notice_url + "&page=" + String(Number(pageNum) + 1) + "&search_key=" + word;
                 break;
             case "의용생체공학과(M)":
-                notice_url = result[0].notice_url + "&page=" + String(Number(pageNum) + 1) + "stx=" + word
+                notice_url = result[0].notice_url + "&page=" + String(Number(pageNum) + 1) + "stx=" + word;
                 break;
         }
         getNoticeApartList(major, notice_url, pageNum, (result) => {
             callback(result)
         })
+    })
+}
+const getNoticeUrlApart = (major, board_no, callback) => {
+    noticesModel.getNotice(major, result => {
+        let notice_url = ''
+        switch(major) {
+            case "가천대학교":
+                notice_url = result[0].notice_url + "&mode=view&board_no=" + board_no;
+                break;
+            case "소프트웨어":
+            case "AI":
+                notice_url = result[0].notice_url + "&idx=" + board_no;
+                break;
+            case "자유전공":
+                notice_url = result[0].notice_url + "_view?uid=" + board_no;
+                break;
+            case "글로벌경영학트랙":
+                notice_url = result[0].notice_url.slice(0, -5) + "_view?uid=" + board_no;
+                break;
+            case "첨단의료기기":
+            case "게임":
+            case "게임·영상학과":
+            case "디스플레이":
+            case "미래자동차":
+                // 홈페이지 자체 검색 기능 X
+                notice_url = result[0].notice_url + "?mode=view&board_no=" + board_no;
+                break;
+            case "의학과(M)":
+            case "의예과(M)":
+                notice_url = result[0].notice_url.split("-")[0] + "-view.php?code=student&body=view&number=" + board_no;
+                break;
+            case "약학과(M)": 
+                notice_url = result[0].notice_url.slice(0, -8) + "read.htm?list_mode=board&board_code=sub4_1&idx=" + board_no;
+                break;
+            case "의용생체공학과(M)":
+                notice_url = result[0].notice_url + "&wr_id=" + board_no;
+                break;
+        }
+        callback(notice_url)
     })
 }
 
@@ -367,6 +365,73 @@ const getNoticeApartList = async (major, url, pageNum, callback) => {
     const page = new Array();
 
     switch(major) {
+        case "가천대학교":
+            try {
+                $('.boardlist table tbody tr').each((index, data) => {
+                    const td = $(data).find('td');
+                    td.each((i, element)=>{
+                        /*
+                            0 : 번호 => [공지]면 length 1, 아니면 0
+                            1 : 제목
+                            3 : 첨부파일 이미지 => 없으면 length 0, 있으면 1
+                            4 : 작성일
+                            5 : 조회수
+                        */
+                        if(i == 0) {
+                            if($(element).children().length == 1 ) {
+                                num = 0; // [공지] 태그가 붙어있으면 0으로 저장
+                            } else {
+                                num = $(element).text().trim()
+                            }
+                        }
+
+                        if(i == 1) {
+                            title = $(element).text().trim()
+
+                            // 실제 board_no 추출
+                            const tag_a = $(element).children().attr("href")
+                            const start_num = tag_a.indexOf('board_no')+9
+                            const end_num = tag_a.indexOf('approve')-1
+                            board_no = tag_a.substring(start_num, end_num)
+                        }
+
+                        if(i == 2) {
+                            if($(element).children().length == 1) {
+                                file = 1;
+                            } else {
+                                file = 0;
+                            }
+                        }
+
+                        if(i == 3) {
+                            date = $(element).text().trim();
+                        }
+
+                        if(i == 4) {
+                            view = $(element).text().trim();
+                            const dataObj = {
+                                "num" : num,
+                                "board_no" : board_no,
+                                "title" : title,
+                                "file" : file,
+                                "date" : date,
+                                "view" : view
+                            }
+                            if(pageNum != 0 && num == 0){
+                                // 첫 페이지 다음부터는 [공지] 태그의 글은 response하지 않는다.
+                            } else {
+                                page.push(dataObj)
+                            }
+                            
+                        }
+                        // }
+                        
+                    })
+                })
+            } catch(e) {
+                console.log("getNoticeApartList Error in Controller:", e)
+            }
+            break;
         case "소프트웨어":
         case "AI":
             try {
@@ -800,6 +865,15 @@ const getNoticeApartList = async (major, url, pageNum, callback) => {
 const getNoticePostingApart = (major, board_no, callback) => {
     noticesModel.getNotice(major, async result => {
         switch(major) {
+            case "가천대학교":
+                try {
+                    url = result[0].notice_url + "&mode=view&board_no=" + board_no;
+                    data = await getClickedPosting(url)
+                    callback(data)
+                } catch(e) {
+                    console.log("getNoticePostingApart Error in Controller:", e)
+                }
+                break;
             case "소프트웨어":
             case "AI":
                 try {
@@ -1139,3 +1213,4 @@ module.exports.getClickedPosting = getClickedPosting;
 module.exports.getNoticeApart = getNoticeApart;
 module.exports.getNoticePostingApart = getNoticePostingApart;
 module.exports.getNoticeSearchListApart = getNoticeSearchListApart;
+module.exports.getNoticeUrlApart = getNoticeUrlApart;
