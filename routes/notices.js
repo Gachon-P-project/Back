@@ -82,7 +82,6 @@ router.get("/list/:page_num/:major/:search", (req, res) => {
             }
         })
     }
-    
 })
 
 // 공지사항 게시글 선택
@@ -123,7 +122,6 @@ router.get("/posting/:major/:board_no", (req, res) => {
             }
         })
     }
-    
 })
 
 // 공지사항 게시글 선택_URL

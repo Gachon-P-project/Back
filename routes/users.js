@@ -36,34 +36,71 @@ router.post("/check", async (req, res) => {
             user_major : getUser.data.ds_output.clubList[0].clubNm,
         }
 
-        const sql = "SELECT * FROM USER WHERE user_id = ?";
+        // 학과명 확인
+        // major_code_uv = getUser.data.ds_output.affiCd;
+        // const major_sql = "SELECT * FROM MAJOR WHERE major_code_uv = ?;"
 
-        try {
-            db.query(sql, req.body.id, (err, results) => {
-                if (err) {
-                    res.send(err);
+        // 닉네임 확인
+        const nickname_sql = "SELECT * FROM USER WHERE user_id = ?";
+
+        db.query(nickname_sql, req.body.id, (err, results) => {
+            if (err) {
+                res.send(err);
+            } else {
+                if (results.length == 0){
+                    // 등록되지 않은 사용자 - nickname 없음
+                    res.json({
+                        code: 204,
+                        data: userInfo
+                    })
                 } else {
-                    if (results.length == 0){
-                        // 등록되지 않은 사용자 - nickname 없음
-                        res.json({
-                            code: 204,
-                            data: userInfo
-                        })
-                    } else {
-                        // 등록된 사용자 - nickname 추가하여 전송
-                        userInfo.nickname = results[0].nickname;
-                        res.json({
-                            code: 200,
-                            data: userInfo
-                        })
-                    }
+                    // 등록된 사용자 - nickname 추가하여 전송
+                    userInfo.nickname = results[0].nickname;
+                    res.json({
+                        code: 200,
+                        data: userInfo
+                    })
                 }
-            })
-        } catch (e) {
-            res.send("DB 연결 오류")
-        }
+            }
+        })
+        // try {
+        //     db.query(major_sql, major_code_uv, (err, result) => {
+        //         if (err) {
+        //             res.send(err);
+        //         } else {
+        //             userInfo.major_name = result[0].major_name;
 
+        //             // 닉네임 확인
+        //             const nickname_sql = "SELECT * FROM USER WHERE user_id = ?";
+
+        //             db.query(nickname_sql, req.body.id, (err, results) => {
+        //                 if (err) {
+        //                     res.send(err);
+        //                 } else {
+        //                     if (results.length == 0){
+        //                         // 등록되지 않은 사용자 - nickname 없음
+        //                         res.json({
+        //                             code: 204,
+        //                             data: userInfo
+        //                         })
+        //                     } else {
+        //                         // 등록된 사용자 - nickname 추가하여 전송
+        //                         userInfo.nickname = results[0].nickname;
+        //                         res.json({
+        //                             code: 200,
+        //                             data: userInfo
+        //                         })
+        //                     }
+        //                 }
+        //             })
+        //         }
+                
+        //     })
+        // } catch (e) {
+        //     res.send("DB 연결 오류")
+        // }
     } catch (e) {
+        console.log(req.body.id, "사용자 확인 및 조회 오류", e);
         res.send("ID/PW를 확인하세요.")
     }
 })
