@@ -33,8 +33,8 @@
 <img src='https://user-images.githubusercontent.com/53803882/104344871-06c8f300-5541-11eb-8975-74a21c763af9.png' width='200px'/>
 <img src='https://user-images.githubusercontent.com/53803882/104344874-07fa2000-5541-11eb-9f49-2654c533aa93.png' width='200px'/>
 
-## [ Flow Chart ]
-(입력)
+## [ System Architecture ]
+<img width="1034" alt="iShot2021-02-06 16 06 34" src="https://user-images.githubusercontent.com/53803882/107111731-a4d88080-6895-11eb-96d3-9e131a9d16d1.png">
 
 ## [ Develop Environment ]
 #### FrontEnd
@@ -45,5 +45,6 @@
 - API Server : Node.js(express)
 - Hosting : AWS EC2
 - Database : AWS RDS(Maria)
-- Process Manager : pm2
+- Container : Docker
+- CI/CD : Jenkins
 - Reverse Proxy : NginX
