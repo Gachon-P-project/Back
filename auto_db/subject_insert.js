@@ -218,13 +218,16 @@ for(i=0; i<=14; i++) {
         let major_names = eval(major[i].name+j)[1]
         let p_cor_cd = eval(major[i].name+j)[2]
         let p_isu_cd = 1
-        if (i == 14) {
+        let year = "2021"
+        let hakgi = "10"
+        if (i == 14) {      // 가천리버럴아츠칼리지
             p_isu_cd = 2
         }
 
         console.log(p_maj_cd, major_names);
 
-        const url = "http://sg.gachon.ac.kr/main?attribute=timeTableJson&lang=ko&year=2020&hakgi=20&menu=1&p_isu_cd="+p_isu_cd+"&p_univ_cd=CS0000&p_maj_cd="+p_maj_cd+"&p_cor_cd="+p_cor_cd+"&p_gwamok_nm=%EA%B3%BC%EB%AA%A9%EB%AA%85%EC%9D%84%202%EC%9E%90%EB%A6%AC%20%EC%9D%B4%EC%83%81%20%EC%9E%85%EB%A0%A5%ED%95%98%EC%84%B8%EC%9A%94.&p_p_hakgi=&p_group_cd=&lang=ko&initYn=Y&fake=Sat%20Dec%2005%202020%2002:14:34%20GMT+0900%20(%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD%20%ED%91%9C%EC%A4%80%EC%8B%9C)&_search=false&nd=1607102074769&rows=-1&page=1&sidx=&sord=asc"
+        // const url = "http://sg.gachon.ac.kr/main?attribute=timeTableJson&lang=ko&year=2020&hakgi=20&menu=1&p_isu_cd="+p_isu_cd+"&p_univ_cd=CS0000&p_maj_cd="+p_maj_cd+"&p_cor_cd="+p_cor_cd+"&p_gwamok_nm=%EA%B3%BC%EB%AA%A9%EB%AA%85%EC%9D%84%202%EC%9E%90%EB%A6%AC%20%EC%9D%B4%EC%83%81%20%EC%9E%85%EB%A0%A5%ED%95%98%EC%84%B8%EC%9A%94.&p_p_hakgi=&p_group_cd=&lang=ko&initYn=Y&fake=Sat%20Dec%2005%202020%2002:14:34%20GMT+0900%20(%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD%20%ED%91%9C%EC%A4%80%EC%8B%9C)&_search=false&nd=1607102074769&rows=-1&page=1&sidx=&sord=asc"
+        const url = "http://sg.gachon.ac.kr/main?attribute=timeTableJson&lang=ko&year="+year+"&hakgi="+hakgi+"&menu=1&p_isu_cd="+p_isu_cd+"&p_univ_cd=CJ0000&p_maj_cd="+p_maj_cd+"&p_cor_cd="+p_cor_cd+"&p_p_hakgi=&p_group_cd=&lang=ko&initYn=Y&_search=false&nd=1616666339151&rows=-1&page=1&sidx=&sord=asc"
         getData(url)
         .then(result => {
             result.data.rows.map(data => {

@@ -1,8 +1,7 @@
-import { request, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { NoticeApart } from '../entities/NoticeApart';
 import { Major } from '../entities/Major';
 import { getRepository, getConnection } from 'typeorm';
-import { User } from '../entities/User';
 import { isAccessor } from 'typescript';
 import cheerio from 'cheerio';
 import sanitizeHtml from 'sanitize-html';
