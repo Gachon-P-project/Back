@@ -1,0 +1,7 @@
+version: "3.3"
+
+services:
+  node:
+    build: .
+    ports:
+      - 17394:17394
